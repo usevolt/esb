@@ -1,0 +1,15 @@
+## MSB Design Specifications
+
+### Power outputs with current detection
+* Heater, 15 A, PWM
+* Oil cooler, 15 A, Digital
+* Control system, 15 A, Digital
+* 
+
+### Inputs
+* Oil temperature (PT100)
+* Motor temperature (PT100)
+* Fuel level (Resistance)
+* Oil level (Resistance)
+
+

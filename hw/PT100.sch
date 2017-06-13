@@ -1,0 +1,129 @@
+EESchema Schematic File Version 2
+LIBS:msb-rescue
+LIBS:kemet
+LIBS:multicomp
+LIBS:usevolt
+LIBS:wurth_elektronik_LED
+LIBS:power
+LIBS:elt21300_kicad
+LIBS:msb-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 15 16
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Text HLabel 6300 3250 0    60   Input ~ 0
+SENSE+
+Text HLabel 6300 4100 0    60   Input ~ 0
+SENSE-
+Text HLabel 7650 3700 2    60   Output ~ 0
+VOUT
+$Comp
+L 10K R1501
+U 1 1 58C98806
+P 6500 3050
+AR Path="/58C97F3A/58C98806" Ref="R1501"  Part="1" 
+AR Path="/58CA60CA/58C98806" Ref="R1601"  Part="1" 
+F 0 "R1601" V 6508 3108 45  0000 L CNN
+F 1 "10K" V 6592 3108 45  0000 L CNN
+F 2 "multicomp:0603" H 6530 3200 20  0001 C CNN
+F 3 "http://www.farnell.com/datasheets/1788326.pdf?_ga=1.214208087.1948984246.1460023966" H 6469 3089 60  0001 C CNN
+F 4 "9330399" H 6869 3489 60  0001 C CNN "1st Source Part Number"
+F 5 "Farnell" H 6769 3389 60  0001 C CNN "1st Source"
+F 6 "MC0063W0603110K" H 6669 3289 60  0001 C CNN "Manufacturer Part Number"
+F 7 "MULTICOMP" H 6569 3189 60  0001 C CNN "Manufacturer"
+	1    6500 3050
+	0    1    1    0   
+$EndComp
+$Comp
+L +3V3 #PWR1501
+U 1 1 58C98CB1
+P 6500 2850
+AR Path="/58C97F3A/58C98CB1" Ref="#PWR1501"  Part="1" 
+AR Path="/58CA60CA/58C98CB1" Ref="#PWR1601"  Part="1" 
+F 0 "#PWR1601" H 6500 2700 50  0001 C CNN
+F 1 "+3V3" H 6515 3023 50  0000 C CNN
+F 2 "" H 6500 2850 50  0000 C CNN
+F 3 "" H 6500 2850 50  0000 C CNN
+	1    6500 2850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6500 2850 6500 2950
+Wire Wire Line
+	6500 3250 6300 3250
+$Comp
+L ZXCT1086 U1501
+U 1 1 58C999D0
+P 6900 3650
+AR Path="/58C97F3A/58C999D0" Ref="U1501"  Part="1" 
+AR Path="/58CA60CA/58C999D0" Ref="U1601"  Part="1" 
+F 0 "U1601" H 6875 3937 60  0000 C CNN
+F 1 "ZXCT1086" H 6875 3831 60  0000 C CNN
+F 2 "usevolt:SOT-25" H 6550 4100 60  0001 C CNN
+F 3 "http://www.farnell.com/datasheets/1383709.pdf?_ga=1.188141032.1948984246.1460023966" H 7300 3975 60  0001 C CNN
+F 4 "1904029" H 7300 4200 60  0001 C CNN "1st Source Part Number"
+F 5 "Digikey" H 7400 4300 60  0001 C CNN "2nd Source"
+F 6 "DIODES INC" H 7000 3900 60  0001 C CNN "Manufacturer"
+F 7 "Farnell" H 7200 4100 60  0001 C CNN "1st Source"
+F 8 "ZXCT1086E5TA" H 7100 4000 60  0001 C CNN "Manufacturer Part Number"
+F 9 "ZXCT1086E5TACT-ND" H 7500 4400 60  0001 C CNN "2nd Source Part Number"
+	1    6900 3650
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	6650 3600 6500 3600
+Wire Wire Line
+	6500 3600 6500 3250
+Wire Wire Line
+	6650 3800 6500 3800
+Wire Wire Line
+	6500 3800 6500 4100
+Wire Wire Line
+	6500 4100 6300 4100
+$Comp
+L GND #PWR1503
+U 1 1 58C99E8C
+P 7350 4000
+AR Path="/58C97F3A/58C99E8C" Ref="#PWR1503"  Part="1" 
+AR Path="/58CA60CA/58C99E8C" Ref="#PWR1603"  Part="1" 
+F 0 "#PWR1603" H 7350 3750 50  0001 C CNN
+F 1 "GND" H 7355 3827 50  0000 C CNN
+F 2 "" H 7350 4000 50  0000 C CNN
+F 3 "" H 7350 4000 50  0000 C CNN
+	1    7350 4000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7350 4000 7350 3800
+Wire Wire Line
+	7350 3800 7200 3800
+$Comp
+L +3V3 #PWR1502
+U 1 1 58C99EAF
+P 7350 3400
+AR Path="/58C97F3A/58C99EAF" Ref="#PWR1502"  Part="1" 
+AR Path="/58CA60CA/58C99EAF" Ref="#PWR1602"  Part="1" 
+F 0 "#PWR1602" H 7350 3250 50  0001 C CNN
+F 1 "+3V3" H 7365 3573 50  0000 C CNN
+F 2 "" H 7350 3400 50  0000 C CNN
+F 3 "" H 7350 3400 50  0000 C CNN
+	1    7350 3400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7350 3400 7350 3600
+Wire Wire Line
+	7350 3600 7200 3600
+Wire Wire Line
+	7650 3700 7200 3700
+$EndSCHEMATC

@@ -1,0 +1,127 @@
+EESchema Schematic File Version 2
+LIBS:msb-rescue
+LIBS:kemet
+LIBS:multicomp
+LIBS:usevolt
+LIBS:wurth_elektronik_LED
+LIBS:power
+LIBS:elt21300_kicad
+LIBS:msb-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 4 16
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L 1K R?
+U 1 1 58998C01
+P 3800 3000
+AR Path="/58998C01" Ref="R?"  Part="1" 
+AR Path="/58997FA7/58998C01" Ref="R402"  Part="1" 
+F 0 "R402" H 3850 3184 45  0000 C CNN
+F 1 "1K" H 3850 3100 45  0000 C CNN
+F 2 "multicomp:0603" H 3830 3150 20  0001 C CNN
+F 3 "" H 3769 3039 60  0001 C CNN
+F 4 "9330380" H 4169 3439 60  0001 C CNN "1st Source Part Number"
+F 5 "Farnell" H 4069 3339 60  0001 C CNN "1st Source"
+F 6 "MC0063W060311K" H 3969 3239 60  0001 C CNN "Manufacturer Part Number"
+F 7 "MULTICOMP" H 3869 3139 60  0001 C CNN "Manufacturer"
+	1    3800 3000
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR402
+U 1 1 58998C09
+P 4300 3400
+F 0 "#PWR402" H 4300 3150 50  0001 C CNN
+F 1 "GND" H 4305 3227 50  0000 C CNN
+F 2 "" H 4300 3400 50  0000 C CNN
+F 3 "" H 4300 3400 50  0000 C CNN
+	1    4300 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR403
+U 1 1 58998C1A
+P 5000 3400
+F 0 "#PWR403" H 5000 3150 50  0001 C CNN
+F 1 "GND" H 5005 3227 50  0000 C CNN
+F 2 "" H 5000 3400 50  0000 C CNN
+F 3 "" H 5000 3400 50  0000 C CNN
+	1    5000 3400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4000 3000 4400 3000
+Wire Wire Line
+	4300 3400 4300 3300
+Wire Wire Line
+	4300 3300 4400 3300
+Wire Wire Line
+	3300 3000 3700 3000
+Wire Wire Line
+	5000 3400 5000 3300
+Wire Wire Line
+	5000 3300 4900 3300
+Wire Wire Line
+	4900 3000 5950 3000
+Text HLabel 5950 3000 2    60   Output ~ 0
+VOUT
+Text HLabel 3300 3000 0    60   Input ~ 0
+VIN
+$Comp
+L 10K R401
+U 1 1 58CCF70C
+P 3600 3150
+F 0 "R401" V 3608 3208 45  0000 L CNN
+F 1 "10K" V 3692 3208 45  0000 L CNN
+F 2 "multicomp:0603" H 3630 3300 20  0001 C CNN
+F 3 "http://www.farnell.com/datasheets/1788326.pdf?_ga=1.214208087.1948984246.1460023966" H 3569 3189 60  0001 C CNN
+F 4 "9330399" H 3969 3589 60  0001 C CNN "1st Source Part Number"
+F 5 "Farnell" H 3869 3489 60  0001 C CNN "1st Source"
+F 6 "MC0063W0603110K" H 3769 3389 60  0001 C CNN "Manufacturer Part Number"
+F 7 "MULTICOMP" H 3669 3289 60  0001 C CNN "Manufacturer"
+	1    3600 3150
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR401
+U 1 1 58CCF754
+P 3600 3450
+F 0 "#PWR401" H 3600 3200 50  0001 C CNN
+F 1 "GND" H 3605 3277 50  0000 C CNN
+F 2 "" H 3600 3450 50  0000 C CNN
+F 3 "" H 3600 3450 50  0000 C CNN
+	1    3600 3450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3600 3450 3600 3350
+Wire Wire Line
+	3600 3050 3600 3000
+Connection ~ 3600 3000
+$Comp
+L OPTOCOUPLER_HCPL-181-000E CP401
+U 1 1 58D075D8
+P 4600 3100
+F 0 "CP401" H 4650 3437 60  0000 C CNN
+F 1 "OPTOCOUPLER_HCPL-181-000E" H 4650 3331 60  0000 C CNN
+F 2 "usevolt:HCPL-181-000E" H 4600 3300 60  0001 C CNN
+F 3 "http://www.farnell.com/datasheets/317140.pdf?_ga=1.164840831.1561825231.1484148445" H 4600 3300 60  0001 C CNN
+F 4 "1244525" H 5000 3700 60  0001 C CNN "1st Source Part Number"
+F 5 "BROADCOM LIMITED" H 4700 3400 60  0001 C CNN "Manufacturer"
+F 6 "Farnell" H 4900 3600 60  0001 C CNN "1st Source"
+F 7 "HCPL-181-000E" H 4800 3500 60  0001 C CNN "Manufacturer Part Number"
+	1    4600 3100
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC
