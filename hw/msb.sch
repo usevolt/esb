@@ -12,7 +12,7 @@ EELAYER END
 $Descr A3 16535 11693
 encoding utf-8
 Sheet 1 16
-Title "MSB version 7"
+Title "ESB version 1"
 Date "2017-02-02"
 Rev "2"
 Comp "Usewood Forest Tec Oy"
