@@ -1,17 +1,16 @@
 EESchema Schematic File Version 2
-LIBS:msb-rescue
 LIBS:kemet
 LIBS:multicomp
 LIBS:usevolt
 LIBS:wurth_elektronik_LED
 LIBS:power
 LIBS:elt21300_kicad
-LIBS:msb-cache
+LIBS:esb-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 16
+Sheet 2 17
 Title "Power supply"
 Date "2016-08-20"
 Rev "1"
@@ -39,10 +38,10 @@ F 7 "Multicomp" H 2720 3970 60  0001 C CNN "Manufacturer"
 	1    0    0    -1  
 $EndComp
 $Comp
-L DIODE_TVS_SMBJ33A-TRDO-214AA D203
+L DIODE_TVS_SMBJ33A-TRDO-214AA D202
 U 1 1 57B820C1
 P 2800 4050
-F 0 "D203" V 2892 3982 45  0000 R CNN
+F 0 "D202" V 2892 3982 45  0000 R CNN
 F 1 "DIODE_TVS_SMBJ33A-TRDO-214AA" V 2750 4750 45  0000 R CNN
 F 2 "usevolt:DO-214AA" H 2830 4200 20  0001 C CNN
 F 3 "http://www.littelfuse.com/~/media/electronics/datasheets/tvs_diodes/littelfuse_tvs_diode_smbj_datasheet.pdf.pdf" H 2910 4060 60  0001 C CNN
@@ -101,10 +100,10 @@ F 7 "KEMET" H 5804 4059 60  0001 C CNN "Manufacturer"
 	1    0    0    -1  
 $EndComp
 $Comp
-L DIODE_RS07J-GS18 D204
+L DIODE_RS07J-GS18 D203
 U 1 1 57B82329
 P 6200 3950
-F 0 "D204" V 6150 3852 45  0000 R CNN
+F 0 "D203" V 6150 3852 45  0000 R CNN
 F 1 "DIODE_RS07J-GS18" H 6220 3890 45  0001 L BNN
 F 2 "usevolt:DO219AB" H 6230 4100 20  0001 C CNN
 F 3 "http://www.vishay.com/docs/85742/rs07b.pdf" H 6220 3970 60  0001 C CNN
@@ -149,40 +148,6 @@ F 7 "KEMET" H 8604 4059 60  0001 C CNN "Manufacturer"
 	1    8600 3950
 	0    1    1    0   
 $EndComp
-$Comp
-L 470 R205
-U 1 1 57B82ADF
-P 8850 3850
-F 0 "R205" V 8858 3908 45  0000 L CNN
-F 1 "470" V 8942 3908 45  0000 L CNN
-F 2 "multicomp:0603" H 8880 4000 20  0001 C CNN
-F 3 "" H 8819 3889 60  0001 C CNN
-F 4 "9331239" H 9219 4289 60  0001 C CNN "1st Source Part Number"
-F 5 "Farnell" H 9119 4189 60  0001 C CNN "1st Source"
-F 6 "MC0063W06031470R" H 9019 4089 60  0001 C CNN "Manufacturer Part Number"
-F 7 "MULTICOMP" H 8919 3989 60  0001 C CNN "Manufacturer"
-	1    8850 3850
-	0    1    1    0   
-$EndComp
-$Comp
-L WL-SMCW-150060BS75000-B D205
-U 1 1 57B82B6E
-P 8850 4200
-F 0 "D205" V 8850 4132 45  0000 R CNN
-F 1 "WL-SMCW-150060BS75000-B" H 9050 4300 45  0001 L BNN
-F 2 "wurth_LEDS:0603" H 8880 4350 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/1911343.pdf?_ga=1.259491274.1948984246.1460023966" H 8650 4400 60  0001 C CNN
-F 4 "150060BS75000" H 9059 4403 60  0001 C CNN "Manufacturer Part Number"
-F 5 "2322069" H 9259 4603 60  0001 C CNN "1st Source Part Number"
-F 6 "Farnell" H 9159 4503 60  0001 C CNN "1st Source"
-F 7 "WURTH ELEKTRONIK" H 8959 4303 60  0001 C CNN "Manufacturer"
-	1    8850 4200
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	8850 4100 8850 4050
-Wire Wire Line
-	2700 4300 8850 4300
 Wire Wire Line
 	8000 4300 8000 4250
 Wire Wire Line
@@ -207,9 +172,6 @@ Connection ~ 2800 3850
 Connection ~ 3400 3850
 Wire Wire Line
 	8600 4150 8600 4300
-Connection ~ 8600 4300
-Wire Wire Line
-	8850 3750 8600 3750
 Wire Wire Line
 	8600 3600 8600 3850
 Wire Wire Line
@@ -252,7 +214,6 @@ F 3 "" H 8600 3600 50  0000 C CNN
 	1    8600 3600
 	1    0    0    -1  
 $EndComp
-Connection ~ 8600 3750
 Wire Wire Line
 	1350 3850 1700 3850
 Wire Wire Line
@@ -398,23 +359,6 @@ Text HLabel 1350 2500 0    60   Input ~ 0
 VBATIN
 Text HLabel 2650 2500 2    60   Output ~ 0
 VBATOUT
-$Comp
-L DIODE_RS07J-GS18 D202
-U 1 1 5896E2A2
-P 1900 3850
-F 0 "D202" H 1850 3990 45  0000 C CNN
-F 1 "DIODE_RS07J-GS18" H 1920 3790 45  0001 L BNN
-F 2 "usevolt:DO219AB" H 1930 4000 20  0001 C CNN
-F 3 "http://www.vishay.com/docs/85742/rs07b.pdf" H 1920 3870 60  0001 C CNN
-F 4 "1864882" H 2520 4470 60  0001 C CNN "2nd Source Part Number"
-F 5 "Digi-Key" H 2220 4170 60  0001 C CNN "1st Source"
-F 6 "Farnell" H 2420 4370 60  0001 C CNN "2nd Source"
-F 7 "RS07J-GS18" H 2120 4070 60  0001 C CNN "Manufacturer Part Number"
-F 8 "RS07J-GS18-ND" H 2320 4270 60  0001 C CNN "1st Source Part Number"
-F 9 "Vishay Semiconductor Diodes Division" H 2020 3970 60  0001 C CNN "Manufacturer"
-	1    1900 3850
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	2000 3850 2300 3850
 $Comp
@@ -523,30 +467,23 @@ Text HLabel 2650 2850 2    60   Output ~ 0
 VBATSENSE
 Wire Wire Line
 	1350 2500 2650 2500
-Text HLabel 1350 2950 0    60   Input ~ 0
-EBER_VIN
+Wire Wire Line
+	8600 4300 2700 4300
 $Comp
 L DIODE_RS07J-GS18 D201
-U 1 1 58B8EE35
-P 1700 2950
-F 0 "D201" H 1650 3090 45  0000 C CNN
-F 1 "DIODE_RS07J-GS18" H 1720 2890 45  0001 L BNN
-F 2 "usevolt:DO219AB" H 1730 3100 20  0001 C CNN
-F 3 "http://www.vishay.com/docs/85742/rs07b.pdf" H 1720 2970 60  0001 C CNN
-F 4 "1864882" H 2320 3570 60  0001 C CNN "2nd Source Part Number"
-F 5 "Digi-Key" H 2020 3270 60  0001 C CNN "1st Source"
-F 6 "Farnell" H 2220 3470 60  0001 C CNN "2nd Source"
-F 7 "RS07J-GS18" H 1920 3170 60  0001 C CNN "Manufacturer Part Number"
-F 8 "RS07J-GS18-ND" H 2120 3370 60  0001 C CNN "1st Source Part Number"
-F 9 "Vishay Semiconductor Diodes Division" H 1820 3070 60  0001 C CNN "Manufacturer"
-	1    1700 2950
+U 1 1 5896E2A2
+P 1900 3850
+F 0 "D201" H 1850 3990 45  0000 C CNN
+F 1 "DIODE_RS07J-GS18" H 1920 3790 45  0001 L BNN
+F 2 "usevolt:DO219AB" H 1930 4000 20  0001 C CNN
+F 3 "http://www.vishay.com/docs/85742/rs07b.pdf" H 1920 3870 60  0001 C CNN
+F 4 "1864882" H 2520 4470 60  0001 C CNN "2nd Source Part Number"
+F 5 "Digi-Key" H 2220 4170 60  0001 C CNN "1st Source"
+F 6 "Farnell" H 2420 4370 60  0001 C CNN "2nd Source"
+F 7 "RS07J-GS18" H 2120 4070 60  0001 C CNN "Manufacturer Part Number"
+F 8 "RS07J-GS18-ND" H 2320 4270 60  0001 C CNN "1st Source Part Number"
+F 9 "Vishay Semiconductor Diodes Division" H 2020 3970 60  0001 C CNN "Manufacturer"
+	1    1900 3850
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	1350 2950 1500 2950
-Wire Wire Line
-	1800 2950 2100 2950
-Wire Wire Line
-	2100 2950 2100 3850
-Connection ~ 2100 3850
 $EndSCHEMATC

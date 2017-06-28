@@ -49,5 +49,5 @@ release/./hal/uv_hal/src/uv_rtos.o: hal/uv_hal/src/uv_rtos.c \
  hal/uv_hal/inc/canopen/canopen_emcy.h \
  hal/uv_hal/inc/canopen/canopen_obj_dict.h hal/uv_hal/inc/uv_lcd.h \
  hal/uv_hal/inc/uv_spi.h hal/uv_hal/inc/uv_pwm.h \
- hal/lpc_chip_15xx/inc/sct_pwm_15xx.h hal/uv_hal/inc/uv_eeprom.h \
- hal/uv_hal/inc/uv_emc.h hal/uv_hal/inc/uv_rtc.h hal/uv_hal/inc/uv_adc.h
+ hal/uv_hal/inc/uv_eeprom.h hal/uv_hal/inc/uv_emc.h \
+ hal/uv_hal/inc/uv_rtc.h hal/uv_hal/inc/uv_adc.h

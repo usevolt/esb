@@ -31,4 +31,4 @@ release/./hal/uv_hal/src/uv_pwm.o: hal/uv_hal/src/uv_pwm.c \
  hal/lpc_chip_15xx/inc/i2c_common_15xx.h \
  hal/lpc_chip_15xx/inc/i2cs_15xx.h hal/lpc_chip_15xx/inc/gpio_15xx.h \
  hal/uv_hal/inc/uv_gpio_lpc1549.h hal/uv_hal/inc/uv_utilities.h \
- hal/lpc_chip_15xx/inc/sct_pwm_15xx.h
+ hal/lpc_chip_15xx/inc/sct_pwm_15xx.h hal/uv_hal/inc/uv_gpio.h

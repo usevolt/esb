@@ -32,11 +32,16 @@
 #define CONFIG_UV_BOOTLOADER			1
 
 
-#define CONFIG_PWM						0
+#define CONFIG_PWM						1
 #define CONFIG_PWM0						1
+#define CONFIG_PWM0_FREQ				10000
 #define CONFIG_PWM0_0					1
 #define CONFIG_PWM0_0_IO				P0_0
-#define CONFIG_PWM0_FREQ				10000
+#define CONFIG_PWM0_4					1
+#define CONFIG_PWM0_4_IO				0
+
+#define CONFIG_PWM1						0
+#define CONFIG_PWM1_FREQ				10000
 
 
 #define CONFIG_UART0					0

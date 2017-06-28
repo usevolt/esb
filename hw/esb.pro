@@ -1,4 +1,4 @@
-update=ke 17. toukokuuta 2017 11.48.41
+update=ma 26. kesäkuuta 2017 20.30.33
 version=1
 last_client=kicad
 [pcbnew]
@@ -39,11 +39,10 @@ ERC_TestSimilarLabels=1
 version=1
 LibDir=/home/usevolt/uv/kicad/libs
 [eeschema/libraries]
-LibName1=msb-rescue
-LibName2=/home/usevolt/uv/kicad/libs/kemet
-LibName3=/home/usevolt/uv/kicad/libs/multicomp
-LibName4=/home/usevolt/uv/kicad/libs/usevolt
-LibName5=/home/usevolt/uv/kicad/libs/wurth_elektronik_LED
-LibName6=/home/usevolt/uv/kicad/libs/power
-LibName7=/home/usevolt/tty/mikrokontrollerit/harj_tyo/elt21300_kicad
+LibName1=/home/usevolt/uv/kicad/libs/kemet
+LibName2=/home/usevolt/uv/kicad/libs/multicomp
+LibName3=/home/usevolt/uv/kicad/libs/usevolt
+LibName4=/home/usevolt/uv/kicad/libs/wurth_elektronik_LED
+LibName5=/home/usevolt/uv/kicad/libs/power
+LibName6=/home/usevolt/tty/mikrokontrollerit/harj_tyo/elt21300_kicad
 

@@ -49,6 +49,8 @@ void init(dev_st* me) {
 	uv_hysteresis_init(&this->fuel_level_err, FUEL_LEVEL_ERR_VALUE,
 			FUEL_LEVEL_HYSTERESIS, true);
 
+	uv_delay_init(ECHO_DELAY_MS, &this->echo_delay);
+
 
 	//init terminal and pass application terminal commands array as a parameter
 	uv_terminal_init(terminal_commands, commands_size());
@@ -56,6 +58,7 @@ void init(dev_st* me) {
 	// load non-volatile data
 	if (uv_memory_load()) {
 		// initialize default settings
+		this->echo = false;
 
 		uv_memory_save();
 	}
@@ -107,6 +110,12 @@ void step(void* me) {
 		uv_moving_aver_step(&this->fuel_level, adc_get_level(FUEL_LEVEL_AIN));
 		uv_hysteresis_step(&this->fuel_level_warn, uv_moving_aver_get_val(&this->fuel_level));
 		uv_hysteresis_step(&this->fuel_level_err, uv_moving_aver_get_val(&this->fuel_level));
+
+		if (this->echo && uv_delay(step_ms, &this->echo_delay)) {
+			uv_delay_init(ECHO_DELAY_MS, &this->echo_delay);
+			// echo status ouput to stdout
+			stat_callb(this, CMD_ECHO, 0, NULL);
+		}
 
 		// terminal step function
 		uv_terminal_step();

@@ -31,8 +31,6 @@ int obj_dict_len() {
 
 
 
-void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv);
-
 const uv_command_st terminal_commands[] = {
 		{
 				.id = CMD_STAT,
@@ -40,6 +38,13 @@ const uv_command_st terminal_commands[] = {
 				.instructions = "Displays the system status information.\n"
 						"Usage: stat",
 				.callback = &stat_callb
+		},
+		{
+				.id = CMD_ECHO,
+				.str = "echo",
+				.instructions = "Continuously echoes status to stdout.\n"
+						"Usage: echo <1/0>",
+				.callback = &echo_callb
 		}
 };
 
@@ -74,6 +79,12 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 			uv_hysteresis_get_output(&this->fuel_level_err));
 }
 
+void echo_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv) {
+	if (args && argv[0].type == ARG_INTEGER) {
+		this->echo = argv[0].number;
+	}
+	printf("echo: %u\n", this->echo);
+}
 
 
 

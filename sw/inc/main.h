@@ -41,6 +41,7 @@
 #define FUEL_LEVEL_HYSTERESIS		5
 #define FUEL_LEVEL_AVG_COUNT		100
 
+#define ECHO_DELAY_MS				100
 
 
 
@@ -61,7 +62,11 @@ typedef struct _dev_st {
 	uv_hysteresis_st fuel_level_warn;
 	uv_hysteresis_st fuel_level_err;
 
+	int echo_delay;
+
 	uv_data_start_t data_start;
+
+	bool echo;
 
 	/// @brief: CANopen object dictionary structure
 	struct objdict {
