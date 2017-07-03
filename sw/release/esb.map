@@ -5971,7 +5971,6 @@ Discarded input sections
  .bss           0x00000000        0x0 release/./hal/uv_hal/src/uv_pwm.o
  .text.uv_pwm_set
                 0x00000000        0x4 release/./hal/uv_hal/src/uv_pwm.o
- .debug_macro   0x00000000      0x88c release/./hal/uv_hal/src/uv_pwm.o
  .debug_macro   0x00000000      0x2a4 release/./hal/uv_hal/src/uv_pwm.o
  .debug_macro   0x00000000       0x52 release/./hal/uv_hal/src/uv_pwm.o
  .debug_macro   0x00000000       0x1f release/./hal/uv_hal/src/uv_pwm.o
@@ -14312,7 +14311,7 @@ OUTPUT(esb.axf elf32-littlearm)
  .debug_ranges  0x00000d60       0x28 release/./src/messages.o
  .debug_ranges  0x00000d88       0x38 release/./src/main.o
 
-.debug_macro    0x00000000     0xd791
+.debug_macro    0x00000000     0xe01d
  .debug_macro   0x00000000      0x37d release/./hal/uv_hal/freertos/portable/GCC/ARM_CM3/port.o
  .debug_macro   0x0000037d      0x174 release/./hal/uv_hal/freertos/portable/GCC/ARM_CM3/port.o
  .debug_macro   0x000004f1       0x22 release/./hal/uv_hal/freertos/portable/GCC/ARM_CM3/port.o
@@ -14434,36 +14433,37 @@ OUTPUT(esb.axf elf32-littlearm)
  .debug_macro   0x00007805      0x27b release/./hal/uv_hal/src/cr_startup_lpc15xx.o
  .debug_macro   0x00007a80       0x7b release/./hal/uv_hal/src/cr_startup_lpc15xx.o
  .debug_macro   0x00007afb      0x42c release/./hal/uv_hal/src/uv_pwm.o
- .debug_macro   0x00007f27       0x2c release/./hal/uv_hal/src/uv_pwm.o
- .debug_macro   0x00007f53      0x564 release/./hal/uv_hal/src/uv_terminal.o
- .debug_macro   0x000084b7       0x58 release/./hal/uv_hal/src/uv_terminal.o
- .debug_macro   0x0000850f      0x540 release/./hal/uv_hal/src/uv_stdout.o
- .debug_macro   0x00008a4f      0x41f release/./hal/uv_hal/src/uv_filters.o
- .debug_macro   0x00008e6e      0x4d8 release/./hal/uv_hal/src/canopen/canopen_obj_dict.o
- .debug_macro   0x00009346       0x2f release/./hal/uv_hal/src/canopen/canopen_obj_dict.o
- .debug_macro   0x00009375       0x52 release/./hal/uv_hal/src/canopen/canopen_obj_dict.o
- .debug_macro   0x000093c7      0x4b1 release/./hal/uv_hal/src/canopen/canopen_heartbeat.o
- .debug_macro   0x00009878      0x593 release/./hal/uv_hal/src/canopen/canopen_sdo.o
- .debug_macro   0x00009e0b      0x4d9 release/./hal/uv_hal/src/canopen/canopen_nmt.o
- .debug_macro   0x0000a2e4      0x53a release/./hal/uv_hal/src/canopen/canopen_pdo.o
- .debug_macro   0x0000a81e       0x10 release/./hal/uv_hal/src/canopen/canopen_pdo.o
- .debug_macro   0x0000a82e      0x454 release/./hal/uv_hal/src/uv_utilities.o
- .debug_macro   0x0000ac82       0x4c release/./hal/uv_hal/src/uv_utilities.o
- .debug_macro   0x0000acce      0x352 release/./hal/uv_hal/src/printf.o
- .debug_macro   0x0000b020       0xac release/./hal/uv_hal/src/printf.o
- .debug_macro   0x0000b0cc      0x27d release/./hal/uv_hal/src/uv_reset.o
- .debug_macro   0x0000b349      0x5ae release/./hal/uv_hal/src/uv_memory.o
- .debug_macro   0x0000b8f7      0x269 release/./hal/lpc_chip_15xx/src/gpio_15xx.o
- .debug_macro   0x0000bb60      0x269 release/./hal/lpc_chip_15xx/src/sct_15xx.o
- .debug_macro   0x0000bdc9      0x269 release/./hal/lpc_chip_15xx/src/sct_pwm_15xx.o
- .debug_macro   0x0000c032      0x269 release/./hal/lpc_chip_15xx/src/chip_15xx.o
- .debug_macro   0x0000c29b      0x275 release/./hal/lpc_chip_15xx/src/swm_15xx.o
- .debug_macro   0x0000c510      0x269 release/./hal/lpc_chip_15xx/src/adc_15xx.o
- .debug_macro   0x0000c779      0x269 release/./hal/lpc_chip_15xx/src/clock_15xx.o
- .debug_macro   0x0000c9e2      0x281 release/./hal/lpc_chip_15xx/src/sysctl_15xx.o
- .debug_macro   0x0000cc63      0x4fc release/./src/messages.o
- .debug_macro   0x0000d15f      0x592 release/./src/main.o
- .debug_macro   0x0000d6f1       0xa0 release/./src/main.o
+ .debug_macro   0x00007f27      0x88c release/./hal/uv_hal/src/uv_pwm.o
+ .debug_macro   0x000087b3       0x2c release/./hal/uv_hal/src/uv_pwm.o
+ .debug_macro   0x000087df      0x564 release/./hal/uv_hal/src/uv_terminal.o
+ .debug_macro   0x00008d43       0x58 release/./hal/uv_hal/src/uv_terminal.o
+ .debug_macro   0x00008d9b      0x540 release/./hal/uv_hal/src/uv_stdout.o
+ .debug_macro   0x000092db      0x41f release/./hal/uv_hal/src/uv_filters.o
+ .debug_macro   0x000096fa      0x4d8 release/./hal/uv_hal/src/canopen/canopen_obj_dict.o
+ .debug_macro   0x00009bd2       0x2f release/./hal/uv_hal/src/canopen/canopen_obj_dict.o
+ .debug_macro   0x00009c01       0x52 release/./hal/uv_hal/src/canopen/canopen_obj_dict.o
+ .debug_macro   0x00009c53      0x4b1 release/./hal/uv_hal/src/canopen/canopen_heartbeat.o
+ .debug_macro   0x0000a104      0x593 release/./hal/uv_hal/src/canopen/canopen_sdo.o
+ .debug_macro   0x0000a697      0x4d9 release/./hal/uv_hal/src/canopen/canopen_nmt.o
+ .debug_macro   0x0000ab70      0x53a release/./hal/uv_hal/src/canopen/canopen_pdo.o
+ .debug_macro   0x0000b0aa       0x10 release/./hal/uv_hal/src/canopen/canopen_pdo.o
+ .debug_macro   0x0000b0ba      0x454 release/./hal/uv_hal/src/uv_utilities.o
+ .debug_macro   0x0000b50e       0x4c release/./hal/uv_hal/src/uv_utilities.o
+ .debug_macro   0x0000b55a      0x352 release/./hal/uv_hal/src/printf.o
+ .debug_macro   0x0000b8ac       0xac release/./hal/uv_hal/src/printf.o
+ .debug_macro   0x0000b958      0x27d release/./hal/uv_hal/src/uv_reset.o
+ .debug_macro   0x0000bbd5      0x5ae release/./hal/uv_hal/src/uv_memory.o
+ .debug_macro   0x0000c183      0x269 release/./hal/lpc_chip_15xx/src/gpio_15xx.o
+ .debug_macro   0x0000c3ec      0x269 release/./hal/lpc_chip_15xx/src/sct_15xx.o
+ .debug_macro   0x0000c655      0x269 release/./hal/lpc_chip_15xx/src/sct_pwm_15xx.o
+ .debug_macro   0x0000c8be      0x269 release/./hal/lpc_chip_15xx/src/chip_15xx.o
+ .debug_macro   0x0000cb27      0x275 release/./hal/lpc_chip_15xx/src/swm_15xx.o
+ .debug_macro   0x0000cd9c      0x269 release/./hal/lpc_chip_15xx/src/adc_15xx.o
+ .debug_macro   0x0000d005      0x269 release/./hal/lpc_chip_15xx/src/clock_15xx.o
+ .debug_macro   0x0000d26e      0x281 release/./hal/lpc_chip_15xx/src/sysctl_15xx.o
+ .debug_macro   0x0000d4ef      0x4fc release/./src/messages.o
+ .debug_macro   0x0000d9eb      0x592 release/./src/main.o
+ .debug_macro   0x0000df7d       0xa0 release/./src/main.o
 
 .debug_line     0x00000000    0x10f8e
  .debug_line    0x00000000      0x6bf release/./hal/uv_hal/freertos/portable/GCC/ARM_CM3/port.o
@@ -14502,7 +14502,7 @@ OUTPUT(esb.axf elf32-littlearm)
  .debug_line    0x0000fdc5      0x809 release/./src/messages.o
  .debug_line    0x000105ce      0x9c0 release/./src/main.o
 
-.debug_str      0x00000000    0x23ecf
+.debug_str      0x00000000    0x23ef0
  .debug_str     0x00000000    0x13620 release/./hal/uv_hal/freertos/portable/GCC/ARM_CM3/port.o
                               0x13894 (size before relaxing)
  .debug_str     0x00013620     0x4623 release/./hal/uv_hal/freertos/tasks.o
@@ -14527,51 +14527,51 @@ OUTPUT(esb.axf elf32-littlearm)
                               0x1a6b2 (size before relaxing)
  .debug_str     0x0001fcb6      0x1cb release/./hal/uv_hal/src/cr_startup_lpc15xx.o
                                0xf92a (size before relaxing)
- .debug_str     0x0001fe81      0x2a9 release/./hal/uv_hal/src/uv_pwm.o
+ .debug_str     0x0001fe81      0x2ca release/./hal/uv_hal/src/uv_pwm.o
                               0x1606f (size before relaxing)
- .debug_str     0x0002012a      0x240 release/./hal/uv_hal/src/uv_terminal.o
+ .debug_str     0x0002014b      0x240 release/./hal/uv_hal/src/uv_terminal.o
                               0x1aba2 (size before relaxing)
- .debug_str     0x0002036a       0xd0 release/./hal/uv_hal/src/uv_stdout.o
+ .debug_str     0x0002038b       0xd0 release/./hal/uv_hal/src/uv_stdout.o
                               0x1ab3f (size before relaxing)
- .debug_str     0x0002043a       0xdb release/./hal/uv_hal/src/uv_filters.o
+ .debug_str     0x0002045b       0xdb release/./hal/uv_hal/src/uv_filters.o
                               0x15407 (size before relaxing)
- .debug_str     0x00020515      0x8c3 release/./hal/uv_hal/src/canopen/canopen_obj_dict.o
+ .debug_str     0x00020536      0x8c3 release/./hal/uv_hal/src/canopen/canopen_obj_dict.o
                               0x1660c (size before relaxing)
- .debug_str     0x00020dd8       0x4e release/./hal/uv_hal/src/canopen/canopen_heartbeat.o
+ .debug_str     0x00020df9       0x4e release/./hal/uv_hal/src/canopen/canopen_heartbeat.o
                               0x16038 (size before relaxing)
- .debug_str     0x00020e26      0x666 release/./hal/uv_hal/src/canopen/canopen_sdo.o
+ .debug_str     0x00020e47      0x666 release/./hal/uv_hal/src/canopen/canopen_sdo.o
                               0x1b3d3 (size before relaxing)
- .debug_str     0x0002148c       0x9e release/./hal/uv_hal/src/canopen/canopen_nmt.o
+ .debug_str     0x000214ad       0x9e release/./hal/uv_hal/src/canopen/canopen_nmt.o
                               0x160f2 (size before relaxing)
- .debug_str     0x0002152a      0x744 release/./hal/uv_hal/src/canopen/canopen_pdo.o
+ .debug_str     0x0002154b      0x744 release/./hal/uv_hal/src/canopen/canopen_pdo.o
                               0x16a06 (size before relaxing)
- .debug_str     0x00021c6e      0x103 release/./hal/uv_hal/src/uv_utilities.o
+ .debug_str     0x00021c8f      0x103 release/./hal/uv_hal/src/uv_utilities.o
                               0x15dc0 (size before relaxing)
- .debug_str     0x00021d71      0x50b release/./hal/uv_hal/src/printf.o
+ .debug_str     0x00021d92      0x50b release/./hal/uv_hal/src/printf.o
                               0x1261b (size before relaxing)
- .debug_str     0x0002227c       0x90 release/./hal/uv_hal/src/uv_reset.o
+ .debug_str     0x0002229d       0x90 release/./hal/uv_hal/src/uv_reset.o
                                0xf615 (size before relaxing)
- .debug_str     0x0002230c      0x509 release/./hal/uv_hal/src/uv_memory.o
+ .debug_str     0x0002232d      0x509 release/./hal/uv_hal/src/uv_memory.o
                               0x1b0b0 (size before relaxing)
- .debug_str     0x00022815      0x137 release/./hal/lpc_chip_15xx/src/gpio_15xx.o
+ .debug_str     0x00022836      0x137 release/./hal/lpc_chip_15xx/src/gpio_15xx.o
                                0xfb4c (size before relaxing)
- .debug_str     0x0002294c       0xa6 release/./hal/lpc_chip_15xx/src/sct_15xx.o
+ .debug_str     0x0002296d       0xa6 release/./hal/lpc_chip_15xx/src/sct_15xx.o
                                0xfc82 (size before relaxing)
- .debug_str     0x000229f2       0x80 release/./hal/lpc_chip_15xx/src/sct_pwm_15xx.o
+ .debug_str     0x00022a13       0x80 release/./hal/lpc_chip_15xx/src/sct_pwm_15xx.o
                                0xf848 (size before relaxing)
- .debug_str     0x00022a72      0x43f release/./hal/lpc_chip_15xx/src/chip_15xx.o
+ .debug_str     0x00022a93      0x43f release/./hal/lpc_chip_15xx/src/chip_15xx.o
                               0x100b3 (size before relaxing)
- .debug_str     0x00022eb1      0x116 release/./hal/lpc_chip_15xx/src/swm_15xx.o
+ .debug_str     0x00022ed2      0x116 release/./hal/lpc_chip_15xx/src/swm_15xx.o
                                0xfff8 (size before relaxing)
- .debug_str     0x00022fc7      0x1b3 release/./hal/lpc_chip_15xx/src/adc_15xx.o
+ .debug_str     0x00022fe8      0x1b3 release/./hal/lpc_chip_15xx/src/adc_15xx.o
                                0xfcf5 (size before relaxing)
- .debug_str     0x0002317a      0x836 release/./hal/lpc_chip_15xx/src/clock_15xx.o
+ .debug_str     0x0002319b      0x836 release/./hal/lpc_chip_15xx/src/clock_15xx.o
                               0x10431 (size before relaxing)
- .debug_str     0x000239b0      0x12a release/./hal/lpc_chip_15xx/src/sysctl_15xx.o
+ .debug_str     0x000239d1      0x12a release/./hal/lpc_chip_15xx/src/sysctl_15xx.o
                                0xfade (size before relaxing)
- .debug_str     0x00023ada       0xc2 release/./src/messages.o
+ .debug_str     0x00023afb       0xc2 release/./src/messages.o
                               0x161eb (size before relaxing)
- .debug_str     0x00023b9c      0x333 release/./src/main.o
+ .debug_str     0x00023bbd      0x333 release/./src/main.o
                               0x1ae51 (size before relaxing)
 
 .comment        0x00000000       0xdc
