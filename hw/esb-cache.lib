@@ -650,8 +650,8 @@ F4 "1273476" 600 1250 60 H I C CNN "2nd Source Part Number"
 F5 "Farnell" 500 1150 60 H I C CNN "2nd Source"
 F6 "Digikey" 50 1150 60 H I C CNN "1st Source"
 F7 "LINEAR TECHNOLOGY" 25 950 60 H I C CNN "Manufacturer"
-F8 "LT1161CSW#PBF" 50 1050 60 H I C CNN "Manufacturer Part Number"
-F9 "LT1161CSW#TRPBFCT-ND" 150 800 60 H I C CNN "1st Source Part Number"
+F8 "LT1161ISW#PBF" 50 1050 60 H I C CNN "Manufacturer Part Number"
+F9 "LT1161ISW#PBF-ND" 150 800 60 H I C CNN "1st Source Part Number"
 DRAW
 S 350 600 -350 -650 0 1 0 N
 X GND 1 -450 550 100 R 50 50 1 1 I

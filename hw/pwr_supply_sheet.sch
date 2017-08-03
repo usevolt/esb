@@ -117,23 +117,6 @@ F 9 "Vishay Semiconductor Diodes Division" H 6320 4070 60  0001 C CNN "Manufactu
 	0    -1   -1   0   
 $EndComp
 $Comp
-L REG_MCP1700 VR202
-U 1 1 57B82857
-P 8000 3950
-F 0 "VR202" H 8000 4305 45  0000 C CNN
-F 1 "REG_MCP1700" H 8000 3950 45  0001 L BNN
-F 2 "usevolt:SOT-23_3-PIN" H 8030 4100 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/1784514.pdf?_ga=1.221693144.1948984246.1460023966" H 7700 4270 60  0001 C CNN
-F 4 "1296592" H 8100 4670 60  0001 C CNN "1st Source Part Number"
-F 5 "Digi-Key" H 8200 4770 60  0001 C CNN "2nd Source"
-F 6 "Farnell" H 8000 4570 60  0001 C CNN "1st Source"
-F 7 "MCP1700T-3302E/TT" H 7900 4470 60  0001 C CNN "Manufacturer Part Number"
-F 8 "MCP1700T3302ETTCT-ND" H 8300 4870 60  0001 C CNN "2nd Source Part Number"
-F 9 "MICROCHIP" H 7800 4370 60  0001 C CNN "Manufacturer"
-	1    8000 3950
-	1    0    0    -1  
-$EndComp
-$Comp
 L 100nF C205
 U 1 1 57B82A3F
 P 8600 3950
@@ -321,40 +304,6 @@ F 9 "732-3072-1-ND" H 7000 4390 60  0001 C CNN "2nd Source Part Number"
 	1    6500 3850
 	1    0    0    -1  
 $EndComp
-$Comp
-L T491D226K035AT C204
-U 1 1 58945F23
-P 6850 4050
-F 0 "C204" V 6758 4153 45  0000 L CNN
-F 1 "T491D226K035AT" V 6842 4153 45  0000 L CNN
-F 2 "kemet:7343" H 6880 4200 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2121523.pdf?_ga=1.259966538.1948984246.1460023966" H 6850 3990 60  0001 C CNN
-F 4 "Kemet" H 6950 4090 60  0001 C CNN "Manufacturer"
-F 5 "T491D226K035AT" H 7050 4190 60  0001 C CNN "Manufacturer Part Number"
-F 6 "Farnell" H 7150 4290 60  0001 C CNN "1st Source"
-F 7 "1457504" H 7250 4390 60  0001 C CNN "1st Source Part Number"
-F 8 "Digikey" H 7350 4490 60  0001 C CNN "2nd Source"
-F 9 "399-8375-1-ND" H 7450 4590 60  0001 C CNN "2nd Source Part Number"
-	1    6850 4050
-	0    1    1    0   
-$EndComp
-$Comp
-L T491D226K035AT C202
-U 1 1 58946146
-P 3800 4050
-F 0 "C202" V 3708 4153 45  0000 L CNN
-F 1 "T491D226K035AT" V 3792 4153 45  0000 L CNN
-F 2 "kemet:7343" H 3830 4200 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2121523.pdf?_ga=1.259966538.1948984246.1460023966" H 3800 3990 60  0001 C CNN
-F 4 "399-8375-1-ND" H 4400 4590 60  0001 C CNN "2nd Source Part Number"
-F 5 "Farnell" H 4100 4290 60  0001 C CNN "1st Source"
-F 6 "T491D226K035AT" H 4000 4190 60  0001 C CNN "Manufacturer Part Number"
-F 7 "Digikey" H 4300 4490 60  0001 C CNN "2nd Source"
-F 8 "Kemet" H 3900 4090 60  0001 C CNN "Manufacturer"
-F 9 "1457504" H 4200 4390 60  0001 C CNN "1st Source Part Number"
-	1    3800 4050
-	0    1    1    0   
-$EndComp
 Text HLabel 1350 2500 0    60   Input ~ 0
 VBATIN
 Text HLabel 2650 2500 2    60   Output ~ 0
@@ -484,6 +433,57 @@ F 7 "RS07J-GS18" H 2120 4070 60  0001 C CNN "Manufacturer Part Number"
 F 8 "RS07J-GS18-ND" H 2320 4270 60  0001 C CNN "1st Source Part Number"
 F 9 "Vishay Semiconductor Diodes Division" H 2020 3970 60  0001 C CNN "Manufacturer"
 	1    1900 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L T491D226K035AT C202
+U 1 1 597AF50C
+P 3800 4050
+F 0 "C202" V 3708 4153 45  0000 L CNN
+F 1 "T491D226K035AT" V 3792 4153 45  0000 L CNN
+F 2 "kemet:7343" H 3830 4200 20  0001 C CNN
+F 3 "http://www.farnell.com/datasheets/2121523.pdf?_ga=1.259966538.1948984246.1460023966" H 3800 3990 60  0001 C CNN
+F 4 "399-8375-1-ND" H 4400 4590 60  0001 C CNN "2nd Source Part Number"
+F 5 "Farnell" H 4100 4290 60  0001 C CNN "1st Source"
+F 6 "T491D226K035AT" H 4000 4190 60  0001 C CNN "Manufacturer Part Number"
+F 7 "Digikey" H 4300 4490 60  0001 C CNN "2nd Source"
+F 8 "Kemet" H 3900 4090 60  0001 C CNN "Manufacturer"
+F 9 "1457504" H 4200 4390 60  0001 C CNN "1st Source Part Number"
+	1    3800 4050
+	0    1    1    0   
+$EndComp
+$Comp
+L T491D226K035AT C204
+U 1 1 597AF606
+P 6850 4050
+F 0 "C204" V 6758 4153 45  0000 L CNN
+F 1 "T491D226K035AT" V 6842 4153 45  0000 L CNN
+F 2 "kemet:7343" H 6880 4200 20  0001 C CNN
+F 3 "http://www.farnell.com/datasheets/2121523.pdf?_ga=1.259966538.1948984246.1460023966" H 6850 3990 60  0001 C CNN
+F 4 "399-8375-1-ND" H 7450 4590 60  0001 C CNN "2nd Source Part Number"
+F 5 "Farnell" H 7150 4290 60  0001 C CNN "1st Source"
+F 6 "T491D226K035AT" H 7050 4190 60  0001 C CNN "Manufacturer Part Number"
+F 7 "Digikey" H 7350 4490 60  0001 C CNN "2nd Source"
+F 8 "Kemet" H 6950 4090 60  0001 C CNN "Manufacturer"
+F 9 "1457504" H 7250 4390 60  0001 C CNN "1st Source Part Number"
+	1    6850 4050
+	0    1    1    0   
+$EndComp
+$Comp
+L REG_MCP1700 VR202
+U 1 1 597AF83E
+P 8000 3950
+F 0 "VR202" H 8000 4305 45  0000 C CNN
+F 1 "REG_MCP1700" H 8000 3950 45  0001 L BNN
+F 2 "usevolt:SOT-23_3-PIN" H 8030 4100 20  0001 C CNN
+F 3 "http://www.farnell.com/datasheets/1784514.pdf?_ga=1.221693144.1948984246.1460023966" H 7700 4270 60  0001 C CNN
+F 4 "1296592" H 8100 4670 60  0001 C CNN "1st Source Part Number"
+F 5 "Digi-Key" H 8200 4770 60  0001 C CNN "2nd Source"
+F 6 "Farnell" H 8000 4570 60  0001 C CNN "1st Source"
+F 7 "MCP1700T-3302E/TT" H 7900 4470 60  0001 C CNN "Manufacturer Part Number"
+F 8 "MCP1700T3302ETTCT-ND" H 8300 4870 60  0001 C CNN "2nd Source Part Number"
+F 9 "MICROCHIP" H 7800 4370 60  0001 C CNN "Manufacturer"
+	1    8000 3950
 	1    0    0    -1  
 $EndComp
 $EndSCHEMATC
