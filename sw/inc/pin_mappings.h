@@ -18,8 +18,8 @@
 // Analog inputs
 #define VDD_SENSE_AIN				ADC0_10
 #define GLOW_SENSE_AIN				ADC0_8
-#define STARTER_SENSE_AIN			ADC0_9
-#define AC_SENSE_AIN				ADC0_6
+#define STARTER_SENSE_AIN			ADC0_6
+#define AC_SENSE_AIN				ADC0_9
 #define ENGINE_START1_SENSE_AIN		ADC0_4
 #define ENGINE_START2_SENSE_AIN		ADC0_5
 #define ALT_IG_SENSE_AIN			ADC0_2
@@ -38,11 +38,11 @@
 // Digital outputs
 #define PUMP_O						P0_10
 #define ALT_IG_O					P0_18
-#define AC_O						P0_28
+#define AC_O						P0_26
 #define ENGINE_START_1_O			P1_1
 #define ENGINE_START_2_O			P0_9
 #define GLOW_PLUGS_O				P0_27
-#define STARTER_O					P0_26
+#define STARTER_O					P0_28
 
 
 

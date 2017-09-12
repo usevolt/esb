@@ -21,6 +21,7 @@ dev_st dev = {};
 
 #define ADC_START()		do { uv_adc_start(GLOW_SENSE_AIN | \
 							STARTER_SENSE_AIN | \
+							AC_SENSE_AIN | \
 							ENGINE_START1_SENSE_AIN | \
 							ENGINE_START2_SENSE_AIN | \
 							ALT_IG_SENSE_AIN | \
