@@ -28,6 +28,7 @@ BINARY := esb
 
 # List of include directories
 INCLUDEDIRS := 	-I"inc/" \
+				-I"uw_can/" \
 				-I"hal/uv_hal/inc" \
 				-I"hal/lpc_chip_15xx/inc" \
 				-I"hal/uv_hal/freertos/include" \

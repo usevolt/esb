@@ -1,5 +1,6 @@
 release/./hal/uv_hal/src/uv_rtos.o: hal/uv_hal/src/uv_rtos.c \
- hal/uv_hal/inc/uv_rtos.h inc/uv_hal_config.h hal/uv_hal/inc/uv_errors.h \
+ hal/uv_hal/inc/uv_rtos.h inc/uv_hal_config.h inc/uv_if_config.h \
+ uw_can/can_esb.h inc/uv_if_config.h hal/uv_hal/inc/uv_errors.h \
  hal/uv_hal/freertos/include/FreeRTOS.h hal/uv_hal/inc/FreeRTOSConfig.h \
  hal/lpc_chip_15xx/inc/chip.h hal/lpc_chip_15xx/inc/lpc_types.h \
  hal/lpc_chip_15xx/inc/sys_config.h hal/lpc_chip_15xx/inc/cmsis.h \
@@ -50,4 +51,6 @@ release/./hal/uv_hal/src/uv_rtos.o: hal/uv_hal/src/uv_rtos.c \
  hal/uv_hal/inc/canopen/canopen_obj_dict.h hal/uv_hal/inc/uv_lcd.h \
  hal/uv_hal/inc/uv_spi.h hal/uv_hal/inc/uv_pwm.h \
  hal/uv_hal/inc/uv_eeprom.h hal/uv_hal/inc/uv_emc.h \
- hal/uv_hal/inc/uv_rtc.h hal/uv_hal/inc/uv_adc.h
+ hal/uv_hal/inc/uv_rtc.h hal/uv_hal/inc/uv_dma.h \
+ hal/uv_hal/inc/uv_ft81x.h hal/uv_hal/inc/uv_spi.h \
+ hal/uv_hal/inc/uv_adc.h

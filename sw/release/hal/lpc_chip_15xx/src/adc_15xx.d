@@ -1,11 +1,12 @@
 release/./hal/lpc_chip_15xx/src/adc_15xx.o: \
- hal/lpc_chip_15xx/src/adc_15xx.c inc/uv_hal_config.h \
- hal/lpc_chip_15xx/inc/chip.h hal/lpc_chip_15xx/inc/lpc_types.h \
- hal/lpc_chip_15xx/inc/sys_config.h hal/lpc_chip_15xx/inc/cmsis.h \
- hal/lpc_chip_15xx/inc/core_cm3.h hal/lpc_chip_15xx/inc/core_cmInstr.h \
- hal/lpc_chip_15xx/inc/core_cmFunc.h hal/lpc_chip_15xx/inc/romapi_15xx.h \
- hal/lpc_chip_15xx/inc/iap.h hal/lpc_chip_15xx/inc/eeprom.h \
- hal/lpc_chip_15xx/inc/error.h hal/lpc_chip_15xx/inc/rom_i2c_15xx.h \
+ hal/lpc_chip_15xx/src/adc_15xx.c inc/uv_hal_config.h inc/uv_if_config.h \
+ uw_can/can_esb.h inc/uv_if_config.h hal/lpc_chip_15xx/inc/chip.h \
+ hal/lpc_chip_15xx/inc/lpc_types.h hal/lpc_chip_15xx/inc/sys_config.h \
+ hal/lpc_chip_15xx/inc/cmsis.h hal/lpc_chip_15xx/inc/core_cm3.h \
+ hal/lpc_chip_15xx/inc/core_cmInstr.h hal/lpc_chip_15xx/inc/core_cmFunc.h \
+ hal/lpc_chip_15xx/inc/romapi_15xx.h hal/lpc_chip_15xx/inc/iap.h \
+ hal/lpc_chip_15xx/inc/eeprom.h hal/lpc_chip_15xx/inc/error.h \
+ hal/lpc_chip_15xx/inc/rom_i2c_15xx.h \
  hal/lpc_chip_15xx/inc/rom_pwr_15xx.h \
  hal/lpc_chip_15xx/inc/rom_uart_15xx.h \
  hal/lpc_chip_15xx/inc/rom_can_15xx.h \

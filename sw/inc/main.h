@@ -11,6 +11,9 @@
 
 #include <uv_memory.h>
 #include <uv_filters.h>
+#include "output.h"
+#include "sensor.h"
+#include "can_fsb.h"
 
 
 /// @brief: Motor temperature max limit in celsius.
@@ -25,23 +28,38 @@
 
 /// @brief: Hydraulic oil temperature max limit in celsius.
 /// Warning is generated after this has been exceeded
-#define HYDROIL_TEMP_WARN_VALUE		80
+#define OIL_TEMP_WARN_VALUE			80
 /// @brief: Motor temperature max limit in celsius.
 /// Error is generated after this has been exceeded
-#define HYDROIL_TEMP_ERR_VALUE		90
-#define HYDROIL_TEMP_HYSTERESIS		4
-#define HYDROIL_TEMP_AVG_COUNT		100
+#define OIL_TEMP_ERR_VALUE			90
+#define OIL_TEMP_HYSTERESIS			4
+#define OIL_TEMP_AVG_COUNT			100
 
 /// @brief: Fuel level min limit in percents.
 /// Warning is generated after this has been exceeded
-#define FUEL_LEVEL_WARN_VALUE		25
+#define FUEL_LEVEL_WARN_VALUE		30
 /// @brief: fuel level min limit in percents.
 /// Error is generated after this has been exceeded
-#define FUEL_LEVEL_ERR_VALUE		10
-#define FUEL_LEVEL_HYSTERESIS		5
+#define FUEL_LEVEL_ERR_VALUE		20
+#define FUEL_LEVEL_HYSTERESIS		10
 #define FUEL_LEVEL_AVG_COUNT		100
 
-#define ECHO_DELAY_MS				100
+/// @brief: Oil level min limit in percents.
+/// Warning is generated after this has been exceeded
+#define OIL_LEVEL_WARN_VALUE		70
+/// @brief: oil level min limit in percents.
+/// Error is generated after this has been exceeded
+#define OIL_LEVEL_ERR_VALUE			50
+#define OIL_LEVEL_HYSTERESIS		10
+#define OIL_LEVEL_AVG_COUNT			100
+
+#define VDD_AVG_COUNT				100
+
+
+#define OUTPUT_2_MOHM				2
+#define OUTPUT_15_MOHM				15
+#define OUTPUT_MOVING_AVG_COUNT		100
+
 
 
 
@@ -50,38 +68,49 @@
 /// a terminal command 'save'.
 typedef struct _dev_st {
 
-	uv_moving_aver_st motor_temp;
-	uv_hysteresis_st motor_temp_warn;
-	uv_hysteresis_st motor_temp_err;
+	output_st glow;
+	output_st starter;
+	output_st ac;
+	output_st engine_start1;
+	output_st engine_start2;
+	output_st pump;
+	output_st alt_ig;
 
-	uv_moving_aver_st hydroil_temp;
-	uv_hysteresis_st hydroil_temp_warn;
-	uv_hysteresis_st hydroil_temp_err;
+	uint32_t total_current;
 
-	uv_moving_aver_st fuel_level;
-	uv_hysteresis_st fuel_level_warn;
-	uv_hysteresis_st fuel_level_err;
+	sensor_st motor_temp;
+	sensor_st oil_temp;
+	sensor_st fuel_level;
+	sensor_st oil_level;
 
-	int echo_delay;
+	uint16_t alt_p_rpm;
+	uint8_t alt_l;
+	uint8_t motor_water_temp;
+	uint8_t motor_oil_press;
+
+	uv_moving_aver_st vdd_avg;
+	uint16_t vdd;
+
+	struct {
+		/// Ignition key state
+		fsb_ignkey_states_e ignkey_state;
+	} fsb;
 
 	uv_data_start_t data_start;
-
-	bool echo;
-
-	/// @brief: CANopen object dictionary structure
-	struct objdict {
-	};
 
 	uv_data_end_t data_end;
 
 } dev_st;
 
 
-
+void adc_callback(void);
 
 void step(void* me);
 
 void init(dev_st* me);
+
+
+
 
 
 #endif /* MAIN_H_ */

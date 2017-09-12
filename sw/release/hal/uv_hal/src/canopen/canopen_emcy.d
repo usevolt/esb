@@ -1,6 +1,7 @@
 release/./hal/uv_hal/src/canopen/canopen_emcy.o: \
  hal/uv_hal/src/canopen/canopen_emcy.c \
  hal/uv_hal/inc/canopen/canopen_emcy.h inc/uv_hal_config.h \
+ inc/uv_if_config.h uw_can/can_esb.h inc/uv_if_config.h \
  hal/uv_hal/inc/canopen/canopen_common.h hal/uv_hal/inc/uv_utilities.h \
  hal/uv_hal/inc/uv_can.h hal/uv_hal/inc/uv_errors.h \
  hal/uv_hal/inc/uv_gpio.h hal/lpc_chip_15xx/inc/chip.h \
@@ -32,4 +33,14 @@ release/./hal/uv_hal/src/canopen/canopen_emcy.o: \
  hal/lpc_chip_15xx/inc/i2cm_15xx.h \
  hal/lpc_chip_15xx/inc/i2c_common_15xx.h \
  hal/lpc_chip_15xx/inc/i2cs_15xx.h hal/lpc_chip_15xx/inc/gpio_15xx.h \
- hal/uv_hal/inc/uv_gpio_lpc1549.h
+ hal/uv_hal/inc/uv_gpio_lpc1549.h hal/uv_hal/inc/uv_canopen.h \
+ hal/uv_hal/inc/uv_utilities.h hal/uv_hal/inc/canopen/canopen_common.h \
+ hal/uv_hal/inc/canopen/canopen_heartbeat.h hal/uv_hal/inc/uv_can.h \
+ hal/uv_hal/inc/canopen/canopen_nmt.h \
+ hal/uv_hal/inc/canopen/canopen_pdo.h \
+ hal/uv_hal/inc/canopen/canopen_sdo.h \
+ hal/uv_hal/inc/canopen/canopen_emcy.h \
+ hal/uv_hal/inc/canopen/canopen_obj_dict.h inc/main.h \
+ hal/uv_hal/inc/uv_memory.h hal/uv_hal/inc/uv_canopen.h \
+ hal/uv_hal/inc/uv_filters.h inc/output.h hal/uv_hal/inc/uv_adc.h \
+ hal/uv_hal/inc/uv_gpio.h inc/sensor.h uw_can/can_fsb.h

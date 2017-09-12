@@ -1,5 +1,6 @@
 release/./hal/uv_hal/src/uv_gpio.o: hal/uv_hal/src/uv_gpio.c \
- hal/uv_hal/inc/uv_gpio.h inc/uv_hal_config.h hal/uv_hal/inc/uv_errors.h \
+ hal/uv_hal/inc/uv_gpio.h inc/uv_hal_config.h inc/uv_if_config.h \
+ uw_can/can_esb.h inc/uv_if_config.h hal/uv_hal/inc/uv_errors.h \
  hal/lpc_chip_15xx/inc/chip.h hal/lpc_chip_15xx/inc/lpc_types.h \
  hal/lpc_chip_15xx/inc/sys_config.h hal/lpc_chip_15xx/inc/cmsis.h \
  hal/lpc_chip_15xx/inc/core_cm3.h hal/lpc_chip_15xx/inc/core_cmInstr.h \

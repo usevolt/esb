@@ -1,5 +1,6 @@
 release/./hal/uv_hal/freertos/portable/GCC/ARM_CM3/port.o: \
  hal/uv_hal/freertos/portable/GCC/ARM_CM3/port.c inc/uv_hal_config.h \
+ inc/uv_if_config.h uw_can/can_esb.h inc/uv_if_config.h \
  hal/uv_hal/freertos/include/FreeRTOS.h hal/uv_hal/inc/FreeRTOSConfig.h \
  hal/lpc_chip_15xx/inc/chip.h hal/lpc_chip_15xx/inc/lpc_types.h \
  hal/lpc_chip_15xx/inc/sys_config.h hal/lpc_chip_15xx/inc/cmsis.h \

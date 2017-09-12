@@ -1,5 +1,6 @@
 release/./src/main.o: src/main.c inc/main.h hal/uv_hal/inc/uv_memory.h \
- inc/uv_hal_config.h hal/uv_hal/inc/uv_errors.h \
+ inc/uv_hal_config.h inc/uv_if_config.h uw_can/can_esb.h \
+ inc/uv_if_config.h hal/uv_hal/inc/uv_errors.h \
  hal/uv_hal/inc/uv_canopen.h hal/uv_hal/inc/uv_can.h \
  hal/uv_hal/inc/uv_gpio.h hal/lpc_chip_15xx/inc/chip.h \
  hal/lpc_chip_15xx/inc/lpc_types.h hal/lpc_chip_15xx/inc/sys_config.h \
@@ -39,12 +40,12 @@ release/./src/main.o: src/main.c inc/main.h hal/uv_hal/inc/uv_memory.h \
  hal/uv_hal/inc/canopen/canopen_sdo.h \
  hal/uv_hal/inc/canopen/canopen_emcy.h \
  hal/uv_hal/inc/canopen/canopen_obj_dict.h hal/uv_hal/inc/uv_filters.h \
- inc/messages.h hal/uv_hal/inc/uv_reset.h hal/uv_hal/inc/uv_terminal.h \
- hal/uv_hal/inc/uv_stdout.h hal/uv_hal/inc/uv_canopen.h \
- inc/pin_mappings.h hal/uv_hal/inc/uv_gpio.h hal/uv_hal/inc/uv_timer.h \
- hal/uv_hal/inc/uv_adc.h hal/uv_hal/inc/uv_rtos.h \
- hal/uv_hal/freertos/include/FreeRTOS.h hal/uv_hal/inc/FreeRTOSConfig.h \
- hal/uv_hal/freertos/include/projdefs.h \
+ inc/output.h hal/uv_hal/inc/uv_adc.h hal/uv_hal/inc/uv_gpio.h \
+ inc/sensor.h uw_can/can_fsb.h inc/messages.h hal/uv_hal/inc/uv_reset.h \
+ hal/uv_hal/inc/uv_terminal.h hal/uv_hal/inc/uv_stdout.h \
+ hal/uv_hal/inc/uv_canopen.h inc/pin_mappings.h hal/uv_hal/inc/uv_timer.h \
+ hal/uv_hal/inc/uv_rtos.h hal/uv_hal/freertos/include/FreeRTOS.h \
+ hal/uv_hal/inc/FreeRTOSConfig.h hal/uv_hal/freertos/include/projdefs.h \
  hal/uv_hal/freertos/include/portable.h \
  hal/uv_hal/freertos/include/deprecated_definitions.h \
  hal/uv_hal/freertos/portable/GCC/ARM_CM3/portmacro.h \
