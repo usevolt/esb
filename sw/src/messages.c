@@ -192,7 +192,21 @@ canopen_object_st obj_dict[] = {
 				.type = ESB_VDD_TYPE,
 				.permissions = ESB_VDD_PERMISSIONS,
 				.data_ptr = &this->vdd
-		}
+		},
+		{
+				.main_index = ESB_FSB_TOTAL_CURRENT_INDEX,
+				.sub_index = ESB_FSB_TOTAL_CURRENT_SUBINDEX,
+				.type = ESB_FSB_TOTAL_CURRENT_TYPE,
+				.permissions = ESB_FSB_TOTAL_CURRENT_PERMISSIONS,
+				.data_ptr = &this->fsb.total_current
+		},
+		{
+				.main_index = ESB_IGNKEY_INDEX,
+				.sub_index = ESB_IGNKEY_SUBINDEX,
+				.type = ESB_IGNKEY_TYPE,
+				.permissions = ESB_IGNKEY_PERMISSIONS,
+				.data_ptr = &this->fsb.ignkey_state
+		},
 };
 
 int obj_dict_len() {

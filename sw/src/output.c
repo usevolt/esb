@@ -78,8 +78,11 @@ void output_step(output_st *this, uint16_t step_ms) {
 
 /// @brief: Triggers the ADC conversion
 void output_adc(output_st *this) {
-	uint16_t adc = uv_adc_read(this->adc_chn);
-	int32_t mv = (int32_t) adc * 3300 / ADC_MAX_VALUE - OUTPUT_SENSE_OFFSET_MV;
+	int16_t adc = uv_adc_read(this->adc_chn) - OUTPUT_SENSE_OFFSET_ADC;
+	if (adc < 0) {
+		adc = 0;
+	}
+	int32_t mv = (int32_t) adc * 3300 / ADC_MAX_VALUE ;
 	// current is multiplied by inverted resistor value (1 / 0.002) and divided
 	// by current sensing amplification
 	int32_t current = mv * (1000 / (this->sense_mohm * this->sense_ampl));

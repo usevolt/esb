@@ -1,16 +1,17 @@
 EESchema Schematic File Version 2
+LIBS:esb-rescue
 LIBS:kemet
-LIBS:multicomp
 LIBS:usevolt
 LIBS:wurth_elektronik_LED
 LIBS:power
 LIBS:elt21300_kicad
+LIBS:yageo
 LIBS:esb-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 14 17
+Sheet 14 13
 Title ""
 Date ""
 Rev ""

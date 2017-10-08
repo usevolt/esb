@@ -58,7 +58,7 @@ void init(dev_st* me) {
 
 	// initialize outputs
 	output_init(&this->glow, GLOW_SENSE_AIN, GLOW_PLUGS_O, OUTPUT_2_MOHM,
-			100, 25000, OUTPUT_MOVING_AVG_COUNT,
+			0, 25000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_GLOW_OVERLOAD, ESB_EMCY_GLOW_FAULT);
 	output_init(&this->starter, STARTER_SENSE_AIN, STARTER_O, OUTPUT_2_MOHM,
 			0, 2000, OUTPUT_MOVING_AVG_COUNT,
@@ -67,16 +67,16 @@ void init(dev_st* me) {
 			0, 2000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_AC_OVERLOAD, ESB_EMCY_AC_FAULT);
 	output_init(&this->engine_start1, ENGINE_START1_SENSE_AIN, ENGINE_START_1_O, OUTPUT_2_MOHM,
-			100, 20000, OUTPUT_MOVING_AVG_COUNT,
+			0, 20000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_ENGINE_STOP_OVERLOAD, ESB_EMCY_ENGINE_STOP_FAULT);
 	output_init(&this->engine_start2, ENGINE_START2_SENSE_AIN, ENGINE_START_2_O, OUTPUT_2_MOHM,
-			100, 20000, OUTPUT_MOVING_AVG_COUNT,
+			0, 20000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_ENGINE_STOP_OVERLOAD, ESB_EMCY_ENGINE_STOP_FAULT);
 	output_init(&this->pump, PUMP_SENSE_AIN, PUMP_O, OUTPUT_15_MOHM,
-			100, 3000, OUTPUT_MOVING_AVG_COUNT,
+			0, 3000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_PUMP_OVERLOAD, ESB_EMCY_PUMP_FAULT);
 	output_init(&this->alt_ig, ALT_IG_SENSE_AIN, ALT_IG_O, OUTPUT_2_MOHM,
-			100, 2000, OUTPUT_MOVING_AVG_COUNT,
+			0, 2000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_ALT_IG_OVERLOAD, ESB_EMCY_ALT_IG_FAULT);
 
 	// initialize inputs
@@ -121,9 +121,6 @@ void init(dev_st* me) {
 	uv_moving_aver_init(&this->vdd_avg, VDD_AVG_COUNT);
 	this->vdd = 0;
 
-
-	this->fsb.ignkey_state = FSB_IGNKEY_STATE_OFF;
-
 	//init terminal and pass application terminal commands array as a parameter
 	uv_terminal_init(terminal_commands, commands_size());
 
@@ -133,6 +130,10 @@ void init(dev_st* me) {
 		uv_memory_save();
 	}
 
+	this->fsb.total_current = 0;
+	this->fsb.ignkey_state = FSB_IGNKEY_STATE_OFF;
+
+	uv_canopen_set_state(CANOPEN_OPERATIONAL);
 
 	ADC_START();
 }
@@ -205,6 +206,9 @@ void step(void* me) {
 		output_step(&this->pump, step_ms);
 		output_step(&this->alt_ig, step_ms);
 
+		// terminal step function
+		uv_terminal_step();
+
 		this->total_current = output_get_current(&this->glow) +
 				output_get_current(&this->starter) +
 				output_get_current(&this->ac) +
@@ -231,11 +235,12 @@ void step(void* me) {
 				adc_get_voltage_mv(VDD_SENSE_AIN) * 11);
 
 		// engine shut off solenoid
-		if (this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) {
-			if (output_get_current(&this->engine_start1) > 2000) {
+		if ((this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ||
+				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_PREHEAT)) {
+			if (output_get_current(&this->engine_start1) < 200) {
 				output_set_state(&this->engine_start1, ESB_OUTPUT_STATE_OFF);
 			}
-			else if (output_get_current(&this->engine_start2) > 2000) {
+			if (output_get_current(&this->engine_start2) < 200) {
 				output_set_state(&this->engine_start2, ESB_OUTPUT_STATE_OFF);
 			}
 		}
@@ -248,29 +253,26 @@ void step(void* me) {
 			output_set_state(&this->engine_start2, ESB_OUTPUT_STATE_OFF);
 		}
 
-		// glow is active only when ignition key is in preheat position
-		output_set_state(&this->glow,
-				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_PREHEAT) ?
-						ESB_OUTPUT_STATE_ON : ESB_OUTPUT_STATE_OFF);
-
-		// starter is active only when ignition key is in start position
-		output_set_state(&this->starter,
-				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_START) ?
-				ESB_OUTPUT_STATE_ON : ESB_OUTPUT_STATE_OFF);
-
-		// ac is controlled by CSB when ignition key is in on position
-		output_set_state(&this->ac,
-				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ?
-				output_get_state(&this->ac) : ESB_OUTPUT_STATE_OFF);
+//		// glow is active only when ignition key is in PREHEAT position
+//		output_set_state(&this->glow,
+//				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_PREHEAT) ?
+//						ESB_OUTPUT_STATE_ON : ESB_OUTPUT_STATE_OFF);
+//
+//		// starter is active only when ignition key is in START position
+//		output_set_state(&this->starter,
+//				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_START) ?
+//				ESB_OUTPUT_STATE_ON : ESB_OUTPUT_STATE_OFF);
+//
+//		// ac is controlled by CSB when ignition key is in ON position
+//		output_set_state(&this->ac,
+//				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ?
+//				output_get_state(&this->ac) : ESB_OUTPUT_STATE_OFF);
 
 		// alternator ignition is on if engine is running and starter is not running
 		output_set_state(&this->alt_ig,
-				(this->alt_p_rpm &&
-						this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ?
+				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ?
 				ESB_OUTPUT_STATE_ON : ESB_OUTPUT_STATE_OFF);
 
-		// terminal step function
-		uv_terminal_step();
 
 		uv_rtos_task_delay(step_ms);
 	}

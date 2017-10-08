@@ -76,7 +76,7 @@ typedef struct _dev_st {
 	output_st pump;
 	output_st alt_ig;
 
-	uint32_t total_current;
+	uint16_t total_current;
 
 	sensor_st motor_temp;
 	sensor_st oil_temp;
@@ -92,6 +92,8 @@ typedef struct _dev_st {
 	uint16_t vdd;
 
 	struct {
+		// fsb total current
+		uint16_t total_current;
 		/// Ignition key state
 		fsb_ignkey_states_e ignkey_state;
 	} fsb;

@@ -1,16 +1,17 @@
 EESchema Schematic File Version 2
+LIBS:esb-rescue
 LIBS:kemet
-LIBS:multicomp
 LIBS:usevolt
 LIBS:wurth_elektronik_LED
 LIBS:power
 LIBS:elt21300_kicad
+LIBS:yageo
 LIBS:esb-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 17
+Sheet 2 13
 Title "Power supply"
 Date "2016-08-20"
 Rev "1"
@@ -38,10 +39,10 @@ F 7 "Multicomp" H 2720 3970 60  0001 C CNN "Manufacturer"
 	1    0    0    -1  
 $EndComp
 $Comp
-L DIODE_TVS_SMBJ33A-TRDO-214AA D202
+L DIODE_TVS_SMBJ33A-TRDO-214AA D203
 U 1 1 57B820C1
 P 2800 4050
-F 0 "D202" V 2892 3982 45  0000 R CNN
+F 0 "D203" V 2892 3982 45  0000 R CNN
 F 1 "DIODE_TVS_SMBJ33A-TRDO-214AA" V 2750 4750 45  0000 R CNN
 F 2 "usevolt:DO-214AA" H 2830 4200 20  0001 C CNN
 F 3 "http://www.littelfuse.com/~/media/electronics/datasheets/tvs_diodes/littelfuse_tvs_diode_smbj_datasheet.pdf.pdf" H 2910 4060 60  0001 C CNN
@@ -100,10 +101,10 @@ F 7 "KEMET" H 5804 4059 60  0001 C CNN "Manufacturer"
 	1    0    0    -1  
 $EndComp
 $Comp
-L DIODE_RS07J-GS18 D203
+L DIODE_RS07J-GS18 D204
 U 1 1 57B82329
 P 6200 3950
-F 0 "D203" V 6150 3852 45  0000 R CNN
+F 0 "D204" V 6150 3852 45  0000 R CNN
 F 1 "DIODE_RS07J-GS18" H 6220 3890 45  0001 L BNN
 F 2 "usevolt:DO219AB" H 6230 4100 20  0001 C CNN
 F 3 "http://www.vishay.com/docs/85742/rs07b.pdf" H 6220 3970 60  0001 C CNN
@@ -426,10 +427,10 @@ Connection ~ 1600 4300
 Text HLabel 1700 4300 2    60   Output ~ 0
 VDD_SENSE
 $Comp
-L SCHOTTKY_DIODE_V40PW10C D204
+L SCHOTTKY_DIODE_V40PW10C D202
 U 1 1 59B7B8B2
 P 2050 3250
-F 0 "D204" H 2050 3597 60  0000 C CNN
+F 0 "D202" H 2050 3597 60  0000 C CNN
 F 1 "SCHOTTKY_DIODE_V40PW10C" H 2050 3491 60  0000 C CNN
 F 2 "usevolt:SlimDPAK" H 1850 2900 60  0001 C CNN
 F 3 "http://www.farnell.com/datasheets/2245239.pdf?_ga=2.16591231.874534928.1505194133-1862443086.1504075057" H 1850 2900 60  0001 C CNN

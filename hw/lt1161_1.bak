@@ -1,16 +1,17 @@
 EESchema Schematic File Version 2
+LIBS:esb-rescue
 LIBS:kemet
-LIBS:multicomp
 LIBS:usevolt
 LIBS:wurth_elektronik_LED
 LIBS:power
 LIBS:elt21300_kicad
+LIBS:yageo
 LIBS:esb-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 5 17
+Sheet 5 13
 Title ""
 Date ""
 Rev ""
@@ -20,489 +21,252 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-$Sheet
-S 6600 2500 950  350 
-U 58BE8E4D
-F0 "sheet58BE8E45" 60
-F1 "currentSense.sch" 60
-F2 "SENSE+" I R 7550 2600 60 
-F3 "SENSE-" I R 7550 2750 60 
-F4 "VOUT" O L 6600 2600 60 
-$EndSheet
-$Comp
-L GND #PWR202
-U 1 1 58BE8E62
-P 3350 4650
-F 0 "#PWR202" H 3350 4400 50  0001 C CNN
-F 1 "GND" H 3355 4477 50  0000 C CNN
-F 2 "" H 3350 4650 50  0000 C CNN
-F 3 "" H 3350 4650 50  0000 C CNN
-	1    3350 4650
-	1    0    0    -1  
-$EndComp
-$Comp
-L MOSFET_DRIVER_LT1161 U201
-U 1 1 594D8B82
-P 4400 3950
-F 0 "U201" H 4400 4747 60  0000 C CNN
-F 1 "MOSFET_DRIVER_LT1161" H 4400 4641 60  0000 C CNN
-F 2 "usevolt:SO20" H 4450 4825 60  0001 C CNN
-F 3 "http://www.linear.com/docs/3607" H 4500 4675 60  0001 C CNN
-F 4 "LINEAR TECHNOLOGY" H 4425 4900 60  0001 C CNN "Manufacturer"
-F 5 "LT1161" H 4450 5000 60  0001 C CNN "Manufacturer Part Number"
-F 6 "Digikey" H 4450 5100 60  0001 C CNN "1st Source"
-F 7 "LT1161ISW#TRPBFCT-ND" H 4550 4750 60  0001 C CNN "1st Source Part Number"
-F 8 "Farnell" H 4400 3950 60  0001 C CNN "2nd Source"
-F 9 "2115820" H 4400 3950 60  0001 C CNN "2nd Source Part Number"
-	1    4400 3950
-	1    0    0    -1  
-$EndComp
-$Comp
-L 100nF C?
-U 1 1 58BE8EAF
-P 5200 3400
-AR Path="/58BE8EAF" Ref="C?"  Part="1" 
-AR Path="/58BE52C9/58BE8EAF" Ref="C205"  Part="1" 
-AR Path="/58C7B0A8/58BE8EAF" Ref="C?"  Part="1" 
-F 0 "C205" H 5250 3599 45  0000 C CNN
-F 1 "100nF" H 5250 3515 45  0000 C CNN
-F 2 "kemet:0603" H 5230 3550 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2062872.pdf?_ga=1.250530118.1948984246.1460023966" H 5104 3409 60  0001 C CNN
-F 4 "1288255" H 5504 3809 60  0001 C CNN "1st Source Part Number"
-F 5 "C0603C104K5RACTU" H 5304 3609 60  0001 C CNN "Manufacturer Part Number"
-F 6 "Farnell" H 5404 3709 60  0001 C CNN "1st Source"
-F 7 "KEMET" H 5204 3509 60  0001 C CNN "Manufacturer"
-	1    5200 3400
-	1    0    0    -1  
-$EndComp
-$Comp
-L 100nF C?
-U 1 1 594D8B85
-P 5200 4550
-AR Path="/594D8B85" Ref="C?"  Part="1" 
-AR Path="/58BE52C9/594D8B85" Ref="C206"  Part="1" 
-AR Path="/58C7B0A8/594D8B85" Ref="C?"  Part="1" 
-F 0 "C206" H 5250 4749 45  0000 C CNN
-F 1 "100nF" H 5250 4665 45  0000 C CNN
-F 2 "kemet:0603" H 5230 4700 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2062872.pdf?_ga=1.250530118.1948984246.1460023966" H 5104 4559 60  0001 C CNN
-F 4 "1288255" H 5504 4959 60  0001 C CNN "1st Source Part Number"
-F 5 "C0603C104K5RACTU" H 5304 4759 60  0001 C CNN "Manufacturer Part Number"
-F 6 "Farnell" H 5404 4859 60  0001 C CNN "1st Source"
-F 7 "KEMET" H 5204 4659 60  0001 C CNN "Manufacturer"
-	1    5200 4550
-	1    0    0    -1  
-$EndComp
-$Comp
-L GND #PWR203
-U 1 1 58BE8EC1
-P 5400 4650
-F 0 "#PWR203" H 5400 4400 50  0001 C CNN
-F 1 "GND" H 5405 4477 50  0000 C CNN
-F 2 "" H 5400 4650 50  0000 C CNN
-F 3 "" H 5400 4650 50  0000 C CNN
-	1    5400 4650
-	1    0    0    -1  
-$EndComp
-Text HLabel 9750 3550 2    60   Output ~ 0
+Text HLabel 6000 3200 2    60   Output ~ 0
 OUT1
-Text HLabel 1850 3650 0    60   Input ~ 0
+Text HLabel 3700 3200 0    60   Input ~ 0
 IN1
-Text HLabel 1850 4150 0    60   Input ~ 0
+Text HLabel 3700 4500 0    60   Input ~ 0
 IN3
-Text HLabel 1850 4400 0    60   Input ~ 0
+Text HLabel 3600 5150 0    60   Input ~ 0
 IN4
-Text HLabel 4100 2600 0    60   Output ~ 0
+Text HLabel 5400 3450 2    60   Output ~ 0
 SENSE1
-Text HLabel 8000 2000 2    60   Input ~ 0
-VDD
-$Comp
-L R_ARRAY4_1K R201
-U 1 1 593FBF1A
-P 2000 3850
-F 0 "R201" V 1947 3928 60  0000 L CNN
-F 1 "R_ARRAY4_1K" V 2053 3928 60  0000 L CNN
-F 2 "usevolt:0603_array4" H 1900 3950 60  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2085571.pdf?_ga=2.53355752.1982371163.1497267075-1561825231.1484148445" H 2000 4050 60  0001 C CNN
-F 4 "2060100" H 2400 4450 60  0001 C CNN "1st Source Part Number"
-F 5 "Digikey" H 2500 4550 60  0001 C CNN "2nd Source"
-F 6 "EXB38V102JV" H 2200 4250 60  0001 C CNN "Manufacturer Part Number"
-F 7 "Farnell" H 2300 4350 60  0001 C CNN "1st Source"
-F 8 "Y9102CT-ND" H 2600 4650 60  0001 C CNN "2nd Source Part Number"
-F 9 "PANASONIC ELECTRONIC COMPONENTS" H 2100 4150 60  0001 C CNN "Manufacturer"
-	1    2000 3850
-	0    1    1    0   
-$EndComp
-$Comp
-L R_ARRAY4_1K R201
-U 2 1 594D8B89
-P 2200 4100
-F 0 "R201" V 2147 4178 60  0000 L CNN
-F 1 "R_ARRAY4_1K" V 2253 4178 60  0000 L CNN
-F 2 "usevolt:0603_array4" H 2100 4200 60  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2085571.pdf?_ga=2.53355752.1982371163.1497267075-1561825231.1484148445" H 2200 4300 60  0001 C CNN
-F 4 "2060100" H 2600 4700 60  0001 C CNN "1st Source Part Number"
-F 5 "Digikey" H 2700 4800 60  0001 C CNN "2nd Source"
-F 6 "EXB38V102JV" H 2400 4500 60  0001 C CNN "Manufacturer Part Number"
-F 7 "Farnell" H 2500 4600 60  0001 C CNN "1st Source"
-F 8 "Y9102CT-ND" H 2800 4900 60  0001 C CNN "2nd Source Part Number"
-F 9 "PANASONIC ELECTRONIC COMPONENTS" H 2300 4400 60  0001 C CNN "Manufacturer"
-	2    2200 4100
-	0    1    1    0   
-$EndComp
-$Comp
-L R_ARRAY4_1K R201
-U 3 1 593FC0D3
-P 2400 4350
-F 0 "R201" V 2347 4428 60  0000 L CNN
-F 1 "R_ARRAY4_1K" V 2453 4428 60  0000 L CNN
-F 2 "usevolt:0603_array4" H 2300 4450 60  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2085571.pdf?_ga=2.53355752.1982371163.1497267075-1561825231.1484148445" H 2400 4550 60  0001 C CNN
-F 4 "2060100" H 2800 4950 60  0001 C CNN "1st Source Part Number"
-F 5 "Digikey" H 2900 5050 60  0001 C CNN "2nd Source"
-F 6 "EXB38V102JV" H 2600 4750 60  0001 C CNN "Manufacturer Part Number"
-F 7 "Farnell" H 2700 4850 60  0001 C CNN "1st Source"
-F 8 "Y9102CT-ND" H 3000 5150 60  0001 C CNN "2nd Source Part Number"
-F 9 "PANASONIC ELECTRONIC COMPONENTS" H 2500 4650 60  0001 C CNN "Manufacturer"
-	3    2400 4350
-	0    1    1    0   
-$EndComp
-$Comp
-L R_ARRAY4_1K R201
-U 4 1 594D8B8B
-P 2600 4600
-F 0 "R201" V 2547 4678 60  0000 L CNN
-F 1 "R_ARRAY4_1K" V 2653 4678 60  0000 L CNN
-F 2 "usevolt:0603_array4" H 2500 4700 60  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2085571.pdf?_ga=2.53355752.1982371163.1497267075-1561825231.1484148445" H 2600 4800 60  0001 C CNN
-F 4 "2060100" H 3000 5200 60  0001 C CNN "1st Source Part Number"
-F 5 "Digikey" H 3100 5300 60  0001 C CNN "2nd Source"
-F 6 "EXB38V102JV" H 2800 5000 60  0001 C CNN "Manufacturer Part Number"
-F 7 "Farnell" H 2900 5100 60  0001 C CNN "1st Source"
-F 8 "Y9102CT-ND" H 3200 5400 60  0001 C CNN "2nd Source Part Number"
-F 9 "PANASONIC ELECTRONIC COMPONENTS" H 2700 4900 60  0001 C CNN "Manufacturer"
-	4    2600 4600
-	0    1    1    0   
-$EndComp
-$Comp
-L GND #PWR201
-U 1 1 593FC6CE
-P 2000 4950
-F 0 "#PWR201" H 2000 4700 50  0001 C CNN
-F 1 "GND" H 2005 4777 50  0000 C CNN
-F 2 "" H 2000 4950 50  0000 C CNN
-F 3 "" H 2000 4950 50  0000 C CNN
-	1    2000 4950
-	1    0    0    -1  
-$EndComp
-$Sheet
-S 6600 4600 950  350 
-U 5955DE03
-F0 "Sheet5955DE02" 60
-F1 "currentSense2.sch" 60
-F2 "SENSE+" I R 7550 4700 60 
-F3 "SENSE-" I R 7550 4850 60 
-F4 "VOUT" O L 6600 4700 60 
-$EndSheet
-Text HLabel 9750 5200 2    60   Output ~ 0
+Text HLabel 6000 4500 2    60   Output ~ 0
 OUT3
-Text HLabel 3850 2700 0    60   Output ~ 0
+Text HLabel 5450 4750 2    60   Output ~ 0
 SENSE3
-$Comp
-L MOSFET_IPG20N04S4L11ATMA1 U203
-U 1 1 597AFE0C
-P 8800 3750
-F 0 "U203" H 8800 4197 60  0000 C CNN
-F 1 "MOSFET_IPG20N04S4L11ATMA1" H 8800 4091 60  0000 C CNN
-F 2 "usevolt:PG-TDSON-8-4" H 8800 4250 60  0001 C CNN
-F 3 "http://www.infineon.com/dgdl/Infineon-IPG20N04S4L_11-DS-v01_00-en.pdf?fileId=db3a30432ba3fa6f012bbf644b016c14" H 9850 4650 60  0001 C CNN
-F 4 "Digikey" H 9300 4550 60  0001 C CNN "2nd Source"
-F 5 "IPG20N04S4L11ATMA1CT-ND" H 9400 4650 60  0001 C CNN "2nd Source Part Number"
-F 6 "2443439" H 9300 4750 60  0001 C CNN "1st Source Part Number"
-F 7 "Farnell" H 9200 4650 60  0001 C CNN "1st Source"
-F 8 "INFINEON" H 9000 4450 60  0001 C CNN "Manufacturer"
-F 9 "IPG20N04S4L11ATMA1" H 9100 4550 60  0001 C CNN "Manufacturer Part Number"
-	1    8800 3750
-	1    0    0    -1  
-$EndComp
-$Comp
-L MOSFET_IPG20N04S4L11ATMA1 U202
-U 1 1 597AFFBE
-P 8600 5400
-F 0 "U202" H 8600 5847 60  0000 C CNN
-F 1 "MOSFET_IPG20N04S4L11ATMA1" H 8600 5741 60  0000 C CNN
-F 2 "usevolt:PG-TDSON-8-4" H 8600 5900 60  0001 C CNN
-F 3 "http://www.infineon.com/dgdl/Infineon-IPG20N04S4L_11-DS-v01_00-en.pdf?fileId=db3a30432ba3fa6f012bbf644b016c14" H 9650 6300 60  0001 C CNN
-F 4 "Digikey" H 9100 6200 60  0001 C CNN "2nd Source"
-F 5 "IPG20N04S4L11ATMA1CT-ND" H 9200 6300 60  0001 C CNN "2nd Source Part Number"
-F 6 "2443439" H 9100 6400 60  0001 C CNN "1st Source Part Number"
-F 7 "Farnell" H 9000 6300 60  0001 C CNN "1st Source"
-F 8 "INFINEON" H 8800 6100 60  0001 C CNN "Manufacturer"
-F 9 "IPG20N04S4L11ATMA1" H 8900 6200 60  0001 C CNN "Manufacturer Part Number"
-	1    8600 5400
-	1    0    0    -1  
-$EndComp
-$Comp
-L 100nF C201
-U 1 1 59AE6C7D
-P 3650 3550
-F 0 "C201" H 3700 3749 45  0000 C CNN
-F 1 "100nF" H 3700 3665 45  0000 C CNN
-F 2 "kemet:0603" H 3680 3700 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2062872.pdf?_ga=1.250530118.1948984246.1460023966" H 3554 3559 60  0001 C CNN
-F 4 "1288255" H 3954 3959 60  0001 C CNN "1st Source Part Number"
-F 5 "C0603C104K5RACTU" H 3754 3759 60  0001 C CNN "Manufacturer Part Number"
-F 6 "Farnell" H 3854 3859 60  0001 C CNN "1st Source"
-F 7 "KEMET" H 3654 3659 60  0001 C CNN "Manufacturer"
-	1    3650 3550
-	1    0    0    -1  
-$EndComp
-$Comp
-L 100nF C202
-U 1 1 59AE6E38
-P 3650 3800
-F 0 "C202" H 3700 3999 45  0000 C CNN
-F 1 "100nF" H 3700 3915 45  0000 C CNN
-F 2 "kemet:0603" H 3680 3950 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2062872.pdf?_ga=1.250530118.1948984246.1460023966" H 3554 3809 60  0001 C CNN
-F 4 "1288255" H 3954 4209 60  0001 C CNN "1st Source Part Number"
-F 5 "C0603C104K5RACTU" H 3754 4009 60  0001 C CNN "Manufacturer Part Number"
-F 6 "Farnell" H 3854 4109 60  0001 C CNN "1st Source"
-F 7 "KEMET" H 3654 3909 60  0001 C CNN "Manufacturer"
-	1    3650 3800
-	1    0    0    -1  
-$EndComp
-$Comp
-L 100nF C203
-U 1 1 59AE6EAD
-P 3650 4050
-F 0 "C203" H 3700 4249 45  0000 C CNN
-F 1 "100nF" H 3700 4165 45  0000 C CNN
-F 2 "kemet:0603" H 3680 4200 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2062872.pdf?_ga=1.250530118.1948984246.1460023966" H 3554 4059 60  0001 C CNN
-F 4 "1288255" H 3954 4459 60  0001 C CNN "1st Source Part Number"
-F 5 "C0603C104K5RACTU" H 3754 4259 60  0001 C CNN "Manufacturer Part Number"
-F 6 "Farnell" H 3854 4359 60  0001 C CNN "1st Source"
-F 7 "KEMET" H 3654 4159 60  0001 C CNN "Manufacturer"
-	1    3650 4050
-	1    0    0    -1  
-$EndComp
-$Comp
-L 100nF C204
-U 1 1 59AE6F25
-P 3650 4300
-F 0 "C204" H 3700 4499 45  0000 C CNN
-F 1 "100nF" H 3700 4415 45  0000 C CNN
-F 2 "kemet:0603" H 3680 4450 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2062872.pdf?_ga=1.250530118.1948984246.1460023966" H 3554 4309 60  0001 C CNN
-F 4 "1288255" H 3954 4709 60  0001 C CNN "1st Source Part Number"
-F 5 "C0603C104K5RACTU" H 3754 4509 60  0001 C CNN "Manufacturer Part Number"
-F 6 "Farnell" H 3854 4609 60  0001 C CNN "1st Source"
-F 7 "KEMET" H 3654 4409 60  0001 C CNN "Manufacturer"
-	1    3650 4300
-	1    0    0    -1  
-$EndComp
-$Sheet
-S 6600 4000 950  350 
-U 59B27EDC
-F0 "Sheet59B27EDB" 60
-F1 "currentSense2.sch" 60
-F2 "SENSE+" I R 7550 4100 60 
-F3 "SENSE-" I R 7550 4250 60 
-F4 "VOUT" O L 6600 4100 60 
-$EndSheet
-Text HLabel 9750 5500 2    60   Output ~ 0
+Text HLabel 6000 5150 2    60   Output ~ 0
 OUT4
-Text HLabel 3750 2800 0    60   Output ~ 0
+Text HLabel 5450 5400 2    60   Output ~ 0
 SENSE4
 $Comp
-L MOSFET_IPG20N04S4L11ATMA1 U204
-U 1 1 59B2A380
-P 8800 4500
-F 0 "U204" H 8800 4947 60  0000 C CNN
-F 1 "MOSFET_IPG20N04S4L11ATMA1" H 8800 4841 60  0000 C CNN
-F 2 "usevolt:PG-TDSON-8-4" H 8800 5000 60  0001 C CNN
-F 3 "http://www.infineon.com/dgdl/Infineon-IPG20N04S4L_11-DS-v01_00-en.pdf?fileId=db3a30432ba3fa6f012bbf644b016c14" H 9850 5400 60  0001 C CNN
-F 4 "Digikey" H 9300 5300 60  0001 C CNN "2nd Source"
-F 5 "IPG20N04S4L11ATMA1CT-ND" H 9400 5400 60  0001 C CNN "2nd Source Part Number"
-F 6 "2443439" H 9300 5500 60  0001 C CNN "1st Source Part Number"
-F 7 "Farnell" H 9200 5400 60  0001 C CNN "1st Source"
-F 8 "INFINEON" H 9000 5200 60  0001 C CNN "Manufacturer"
-F 9 "IPG20N04S4L11ATMA1" H 9100 5300 60  0001 C CNN "Manufacturer Part Number"
-	1    8800 4500
+L BTS6133D U?
+U 1 1 59D7DBA1
+P 5000 3200
+F 0 "U?" H 5050 3547 60  0000 C CNN
+F 1 "BTS6133D" H 5050 3441 60  0000 C CNN
+F 2 "usevolt:DPAK-5" H 4800 3700 60  0001 C CNN
+F 3 "https://www.infineon.com/dgdl/Infineon-BTS6133D-DS-v01_00-EN.pdf?fileId=5546d4625a888733015aa3e3286f102a" H 4900 3800 60  0001 C CNN
+F 4 "BTS6133D" H 5100 4000 60  0001 C CNN "Manufacturer Part Number"
+F 5 "BTS6133DCT-ND" H 5300 4200 60  0001 C CNN "1st Source Part Number"
+F 6 "Digikey" H 5200 4100 60  0001 C CNN "1st Source"
+F 7 "INFINEON" H 5000 3900 60  0001 C CNN "Manufacturer"
+	1    5000 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L BTS6133D U?
+U 1 1 59D7DF68
+P 5000 3750
+F 0 "U?" H 5050 4097 60  0000 C CNN
+F 1 "BTS6133D" H 5050 3991 60  0000 C CNN
+F 2 "usevolt:DPAK-5" H 4800 4250 60  0001 C CNN
+F 3 "https://www.infineon.com/dgdl/Infineon-BTS6133D-DS-v01_00-EN.pdf?fileId=5546d4625a888733015aa3e3286f102a" H 4900 4350 60  0001 C CNN
+F 4 "BTS6133D" H 5100 4550 60  0001 C CNN "Manufacturer Part Number"
+F 5 "BTS6133DCT-ND" H 5300 4750 60  0001 C CNN "1st Source Part Number"
+F 6 "Digikey" H 5200 4650 60  0001 C CNN "1st Source"
+F 7 "INFINEON" H 5000 4450 60  0001 C CNN "Manufacturer"
+	1    5000 3750
+	1    0    0    -1  
+$EndComp
+$Comp
+L BTS6133D U?
+U 1 1 59D7DF9E
+P 5050 4500
+F 0 "U?" H 5100 4847 60  0000 C CNN
+F 1 "BTS6133D" H 5100 4741 60  0000 C CNN
+F 2 "usevolt:DPAK-5" H 4850 5000 60  0001 C CNN
+F 3 "https://www.infineon.com/dgdl/Infineon-BTS6133D-DS-v01_00-EN.pdf?fileId=5546d4625a888733015aa3e3286f102a" H 4950 5100 60  0001 C CNN
+F 4 "BTS6133D" H 5150 5300 60  0001 C CNN "Manufacturer Part Number"
+F 5 "BTS6133DCT-ND" H 5350 5500 60  0001 C CNN "1st Source Part Number"
+F 6 "Digikey" H 5250 5400 60  0001 C CNN "1st Source"
+F 7 "INFINEON" H 5050 5200 60  0001 C CNN "Manufacturer"
+	1    5050 4500
+	1    0    0    -1  
+$EndComp
+$Comp
+L BTS6133D U?
+U 1 1 59D7DFD7
+P 5050 5150
+F 0 "U?" H 5100 5497 60  0000 C CNN
+F 1 "BTS6133D" H 5100 5391 60  0000 C CNN
+F 2 "usevolt:DPAK-5" H 4850 5650 60  0001 C CNN
+F 3 "https://www.infineon.com/dgdl/Infineon-BTS6133D-DS-v01_00-EN.pdf?fileId=5546d4625a888733015aa3e3286f102a" H 4950 5750 60  0001 C CNN
+F 4 "BTS6133D" H 5150 5950 60  0001 C CNN "Manufacturer Part Number"
+F 5 "BTS6133DCT-ND" H 5350 6150 60  0001 C CNN "1st Source Part Number"
+F 6 "Digikey" H 5250 6050 60  0001 C CNN "1st Source"
+F 7 "INFINEON" H 5050 5850 60  0001 C CNN "Manufacturer"
+	1    5050 5150
+	1    0    0    -1  
+$EndComp
+$Comp
+L 560 R?
+U 1 1 59D7D931
+P 4250 3300
+F 0 "R?" H 4300 3484 45  0000 C CNN
+F 1 "560" H 4300 3400 45  0000 C CNN
+F 2 "yageo:0603" H 4280 3450 20  0001 C CNN
+F 3 "" H 4219 3339 60  0001 C CNN
+F 4 "" H 4619 3739 60  0001 C CNN "1st Source Part Number"
+F 5 "Digikey" H 4519 3639 60  0001 C CNN "1st Source"
+F 6 "RC0603FR-07560RL" H 4419 3539 60  0001 C CNN "Manufacturer Part Number"
+F 7 "YAGEO" H 4319 3439 60  0001 C CNN "Manufacturer"
+	1    4250 3300
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4100 2600 6600 2600
+	4450 3300 4700 3300
+$Comp
+L 560 R?
+U 1 1 59D7DE83
+P 4250 3850
+F 0 "R?" H 4300 4034 45  0000 C CNN
+F 1 "560" H 4300 3950 45  0000 C CNN
+F 2 "yageo:0603" H 4280 4000 20  0001 C CNN
+F 3 "" H 4219 3889 60  0001 C CNN
+F 4 "" H 4619 4289 60  0001 C CNN "1st Source Part Number"
+F 5 "Digikey" H 4519 4189 60  0001 C CNN "1st Source"
+F 6 "RC0603FR-07560RL" H 4419 4089 60  0001 C CNN "Manufacturer Part Number"
+F 7 "YAGEO" H 4319 3989 60  0001 C CNN "Manufacturer"
+	1    4250 3850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4450 3850 4700 3850
+Wire Wire Line
+	4500 3300 4500 3850
+Connection ~ 4500 3300
+Connection ~ 4500 3850
+$Comp
+L GND #PWR?
+U 1 1 59D7DECC
+P 3950 5450
+F 0 "#PWR?" H 3950 5200 50  0001 C CNN
+F 1 "GND" H 3955 5277 50  0000 C CNN
+F 2 "" H 3950 5450 50  0000 C CNN
+F 3 "" H 3950 5450 50  0000 C CNN
+	1    3950 5450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3950 3300 3950 5450
+Wire Wire Line
+	3950 3300 4150 3300
+Wire Wire Line
+	4150 3850 3950 3850
+Connection ~ 3950 3850
+$Comp
+L 560 R?
+U 1 1 59D7DF7D
+P 4250 4600
+F 0 "R?" H 4300 4784 45  0000 C CNN
+F 1 "560" H 4300 4700 45  0000 C CNN
+F 2 "yageo:0603" H 4280 4750 20  0001 C CNN
+F 3 "" H 4219 4639 60  0001 C CNN
+F 4 "" H 4619 5039 60  0001 C CNN "1st Source Part Number"
+F 5 "Digikey" H 4519 4939 60  0001 C CNN "1st Source"
+F 6 "RC0603FR-07560RL" H 4419 4839 60  0001 C CNN "Manufacturer Part Number"
+F 7 "YAGEO" H 4319 4739 60  0001 C CNN "Manufacturer"
+	1    4250 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L 560 R?
+U 1 1 59D7DFC6
+P 4250 5250
+F 0 "R?" H 4300 5434 45  0000 C CNN
+F 1 "560" H 4300 5350 45  0000 C CNN
+F 2 "yageo:0603" H 4280 5400 20  0001 C CNN
+F 3 "" H 4219 5289 60  0001 C CNN
+F 4 "" H 4619 5689 60  0001 C CNN "1st Source Part Number"
+F 5 "Digikey" H 4519 5589 60  0001 C CNN "1st Source"
+F 6 "RC0603FR-07560RL" H 4419 5489 60  0001 C CNN "Manufacturer Part Number"
+F 7 "YAGEO" H 4319 5389 60  0001 C CNN "Manufacturer"
+	1    4250 5250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4450 5250 4750 5250
+Wire Wire Line
+	4450 4600 4750 4600
+Wire Wire Line
+	4150 4600 3950 4600
+Connection ~ 3950 4600
+Wire Wire Line
+	4150 5250 3950 5250
+Connection ~ 3950 5250
+Wire Wire Line
+	3700 3200 4700 3200
+Wire Wire Line
+	3700 4500 4750 4500
+Wire Wire Line
+	3600 5150 4750 5150
+Wire Wire Line
+	5400 3450 4500 3450
+Connection ~ 4500 3450
+Wire Wire Line
+	5450 4750 4500 4750
+Wire Wire Line
+	4500 4750 4500 4600
+Connection ~ 4500 4600
+Wire Wire Line
+	5450 5400 4500 5400
+Wire Wire Line
+	4500 5400 4500 5250
+Connection ~ 4500 5250
+$Comp
+L VDD #PWR?
+U 1 1 59D7E637
+P 4600 3000
+F 0 "#PWR?" H 4600 2850 50  0001 C CNN
+F 1 "VDD" H 4617 3173 50  0000 C CNN
+F 2 "" H 4600 3000 50  0000 C CNN
+F 3 "" H 4600 3000 50  0000 C CNN
+	1    4600 3000
+	1    0    0    -1  
+$EndComp
 Wire Wire Line
-	7550 2750 8200 2750
+	4600 3000 4600 5050
 Wire Wire Line
-	8200 2750 8200 3550
+	4600 3100 4700 3100
 Wire Wire Line
-	8200 3550 8500 3550
+	4600 3650 4700 3650
+Connection ~ 4600 3100
 Wire Wire Line
-	1850 3650 3950 3650
-Connection ~ 3350 4550
+	4600 4400 4750 4400
+Connection ~ 4600 3650
 Wire Wire Line
-	3350 3400 3950 3400
+	4600 5050 4750 5050
+Connection ~ 4600 4400
 Wire Wire Line
-	3350 4550 3950 4550
+	5450 5250 5550 5250
 Wire Wire Line
-	3350 3400 3350 4650
+	5550 5250 5550 5150
 Wire Wire Line
-	4850 4550 5100 4550
-Connection ~ 5050 3400
+	5450 5150 6000 5150
 Wire Wire Line
-	4850 3400 5100 3400
+	5450 4600 5550 4600
 Wire Wire Line
-	5050 2000 5050 4550
+	5550 4600 5550 4500
 Wire Wire Line
-	4850 3650 8500 3650
+	5450 4500 6000 4500
 Wire Wire Line
-	1850 4150 3950 4150
+	5400 3850 5500 3850
 Wire Wire Line
-	1850 4400 3950 4400
-Connection ~ 5050 4550
+	5500 3850 5500 3750
 Wire Wire Line
-	5400 3400 5400 4650
-Connection ~ 5400 4550
+	5400 3750 5900 3750
 Wire Wire Line
-	9100 3550 9750 3550
-Connection ~ 7800 2600
+	5400 3300 5500 3300
 Wire Wire Line
-	7800 2600 7550 2600
+	5500 3300 5500 3200
 Wire Wire Line
-	7800 2000 7800 4700
+	5400 3200 6000 3200
+Connection ~ 5500 3200
+Connection ~ 5500 3750
+Connection ~ 5550 4500
+Connection ~ 5550 5150
 Wire Wire Line
-	5050 2000 8000 2000
-Connection ~ 7800 2000
-Connection ~ 2600 4400
-Connection ~ 2400 4150
-Connection ~ 2000 3650
-Wire Wire Line
-	2000 4050 2000 4950
-Wire Wire Line
-	2200 4300 2200 4800
-Wire Wire Line
-	2000 4800 2600 4800
-Connection ~ 2000 4800
-Wire Wire Line
-	2400 4800 2400 4550
-Connection ~ 2200 4800
-Connection ~ 2400 4800
-Wire Wire Line
-	7800 4100 7550 4100
-Wire Wire Line
-	7550 4250 7700 4250
-Wire Wire Line
-	7700 4250 7700 5200
-Wire Wire Line
-	5900 5200 8300 5200
-Wire Wire Line
-	8900 5200 9750 5200
-Wire Wire Line
-	6600 4100 6300 4100
-Wire Wire Line
-	6300 4100 6300 2700
-Wire Wire Line
-	6300 2700 3850 2700
-Wire Wire Line
-	8300 5300 5800 5300
-Wire Wire Line
-	5800 5300 5800 4150
-Wire Wire Line
-	5800 4150 4850 4150
-Wire Wire Line
-	3850 4300 3950 4300
-Wire Wire Line
-	3950 4050 3850 4050
-Wire Wire Line
-	3850 3800 3950 3800
-Wire Wire Line
-	3950 3550 3850 3550
-Wire Wire Line
-	3550 3550 3350 3550
-Connection ~ 3350 3550
-Wire Wire Line
-	3350 3800 3550 3800
-Connection ~ 3350 3800
-Wire Wire Line
-	3550 4050 3350 4050
-Connection ~ 3350 4050
-Wire Wire Line
-	3350 4300 3550 4300
-Connection ~ 3350 4300
-Wire Wire Line
-	4850 3550 5750 3550
-Wire Wire Line
-	5750 3550 5750 2950
-Wire Wire Line
-	5750 2950 8200 2950
-Connection ~ 8200 2950
-Wire Wire Line
-	4850 4050 5900 4050
-Wire Wire Line
-	5900 4050 5900 5200
-Connection ~ 7700 5200
-Wire Wire Line
-	7550 4850 7800 4850
-Wire Wire Line
-	7800 4850 7800 5500
-Wire Wire Line
-	5700 5500 8300 5500
-Wire Wire Line
-	5700 5500 5700 4300
-Wire Wire Line
-	5700 4300 4850 4300
-Connection ~ 7800 5500
-Wire Wire Line
-	4850 4400 5600 4400
-Wire Wire Line
-	5600 4400 5600 5600
-Wire Wire Line
-	5600 5600 8300 5600
-Wire Wire Line
-	8900 5500 9750 5500
-Wire Wire Line
-	6600 4700 6200 4700
-Wire Wire Line
-	6200 4700 6200 2800
-Wire Wire Line
-	6200 2800 3750 2800
-Wire Wire Line
-	9100 3850 9300 3850
-Wire Wire Line
-	9300 3550 9300 4600
-Connection ~ 9300 3550
-Wire Wire Line
-	8500 3850 8400 3850
-Wire Wire Line
-	8400 3550 8400 4600
-Connection ~ 8400 3550
-Wire Wire Line
-	8300 3650 8300 4700
-Wire Wire Line
-	8300 3950 8500 3950
-Connection ~ 8300 3650
-Wire Wire Line
-	8400 4300 8500 4300
-Connection ~ 8400 3850
-Wire Wire Line
-	8400 4600 8500 4600
-Connection ~ 8400 4300
-Wire Wire Line
-	8300 4400 8500 4400
-Connection ~ 8300 3950
-Wire Wire Line
-	8300 4700 8500 4700
-Connection ~ 8300 4400
-Wire Wire Line
-	9300 4600 9100 4600
-Connection ~ 9300 3850
-Wire Wire Line
-	9100 4300 9300 4300
-Connection ~ 9300 4300
-Wire Wire Line
-	7800 4700 7550 4700
-Connection ~ 7800 4100
+	5900 3750 5900 3200
+Connection ~ 5900 3200
 $EndSCHEMATC

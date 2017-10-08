@@ -21,7 +21,7 @@
 
 
 #define OUTPUT_SENSE_AMPL_DEFAULT	50
-#define OUTPUT_SENSE_OFFSET_MV		200
+#define OUTPUT_SENSE_OFFSET_ADC		0x24
 
 typedef struct {
 	/// @brief: ADC channel of the sense resistor
