@@ -257,9 +257,9 @@ unsigned int commands_size(void) {
 
 
 
-static void stat_output(output_st *output, const char *output_name) {
+static void stat_output(uv_output_st *output, const char *output_name) {
 	printf("%s state: %u, current: %u mA\n",
-			output_name, output_get_state(output), output_get_current(output));
+			output_name, uv_output_get_state(output), uv_output_get_current(output));
 }
 
 
@@ -323,7 +323,7 @@ void engine_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 
 void pump_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) {
 	if (args && argv[0].type == ARG_INTEGER) {
-		output_set_state(&this->pump, argv[0].number);
+		uv_output_set_state(&this->pump, argv[0].number);
 	}
 }
 

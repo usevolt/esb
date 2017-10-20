@@ -11,7 +11,7 @@
 
 #include <uv_memory.h>
 #include <uv_filters.h>
-#include "output.h"
+#include <uv_output.h>
 #include "sensor.h"
 #include "can_fsb.h"
 
@@ -68,13 +68,13 @@
 /// a terminal command 'save'.
 typedef struct _dev_st {
 
-	output_st glow;
-	output_st starter;
-	output_st ac;
-	output_st engine_start1;
-	output_st engine_start2;
-	output_st pump;
-	output_st alt_ig;
+	uv_output_st glow;
+	uv_output_st starter;
+	uv_output_st ac;
+	uv_output_st engine_start1;
+	uv_output_st engine_start2;
+	uv_output_st pump;
+	uv_output_st alt_ig;
 
 	uint16_t total_current;
 

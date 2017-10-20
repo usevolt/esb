@@ -45,14 +45,14 @@ void sensor_set_error(sensor_st *this, int16_t trigger_value, int16_t hysteresis
 void sensor_step(sensor_st *this, uint16_t step_ms) {
 	if (this->get_data(this->adc, &this->value)) {
 		this->value = uv_moving_aver_step(&this->avg, this->value);
-		this->state = SENSOR_STATE_OK;
+		sensor_state_e state = SENSOR_STATE_OK;
 		if (this->hyst_warning_enabled) {
 			if (uv_hysteresis_step(&this->hyst_warning, this->value)) {
 				if ((this->state != SENSOR_STATE_WARNING) &&
 						(this->state != SENSOR_STATE_ERROR)) {
 					uv_canopen_emcy_send(CANOPEN_EMCY_DEVICE_SPECIFIC, this->emcy_warning);
 				}
-				this->state = SENSOR_STATE_WARNING;
+				state = SENSOR_STATE_WARNING;
 			}
 		}
 		if (this->hyst_error_enabled) {
@@ -61,9 +61,10 @@ void sensor_step(sensor_st *this, uint16_t step_ms) {
 						(this->state != SENSOR_STATE_ERROR)) {
 					uv_canopen_emcy_send(CANOPEN_EMCY_DEVICE_SPECIFIC, this->emcy_error);
 				}
-				this->state = SENSOR_STATE_ERROR;
+				state = SENSOR_STATE_ERROR;
 			}
 		}
+		this->state = state;
 	}
 	else {
 		// sensor fault error
