@@ -91,7 +91,9 @@ void init(dev_st* me) {
 
 	// vdd
 	uv_moving_aver_init(&this->vdd_avg, VDD_AVG_COUNT);
+	uv_hysteresis_init(&this->vdd_warning, VDD_WARN_VALUE_MV, VDD_WARN_HYSTERESIS_MV, true);
 	this->vdd = 0;
+	this->vdd_warn_req = true;
 
 	//init terminal and pass application terminal commands array as a parameter
 	uv_terminal_init(terminal_commands, commands_size());
@@ -136,33 +138,19 @@ bool adc_get_temp(uv_adc_channels_e adc_chn, int16_t *dest) {
 	return ret;
 }
 
-#define LEVEL_0_MOHM			0
-#define LEVEL_100_MOHM			180000
+#define LEVEL_0_MV				0
+#define LEVEL_100_MV			500
 
 /// @brief: Reads the adc channel and converts it to liquid level percentage
 bool adc_get_level(uv_adc_channels_e adc_chn, int16_t *dest) {
-	int32_t adc = uv_adc_read(adc_chn);
 	bool ret = true;
-	if ((adc == ADC_MAX_VALUE) || (adc == 0) || (!dest)) {
+	int64_t mv = adc_get_voltage_mv(adc_chn);
+	if ((mv >= (LEVEL_100_MV * 2)) || (!dest)) {
 		ret = false;
 	}
 	else {
-		int64_t mv = adc * 3300 / ADC_MAX_VALUE;
-		if (mv >= 3300) {
-			mv = 3300 - 1;
-		}
-		int64_t res_mohm = 10000000 * mv / (3300 - mv) / 50;
-
-//		if (res_mohm < LEVEL_0_MOHM) {
-//			res_mohm = LEVEL_0_MOHM;
-//		}
-//		else if (res_mohm > LEVEL_100_MOHM) {
-//			res_mohm = LEVEL_100_MOHM;
-//		}
-
-		int32_t t = uv_reli(res_mohm, LEVEL_0_MOHM, LEVEL_100_MOHM);
+		int32_t t = uv_reli(mv, LEVEL_0_MV, LEVEL_100_MV);
 		*dest = uv_lerpi(t, 0, 100);
-		*dest = adc;
 	}
 	return ret;
 }
@@ -218,45 +206,71 @@ void step(void* me) {
 		// note: Multiplier 11 comes from 10k/1k voltage divider resistors
 		this->vdd = uv_moving_aver_step(&this->vdd_avg,
 				adc_get_voltage_mv(VDD_SENSE_AIN) * 11);
+		// warning when VDD is too low
+		if (uv_hysteresis_step(&this->vdd_warning, this->vdd)) {
+			if (this->vdd_warn_req) {
+				uv_canopen_emcy_send(CANOPEN_EMCY_DEVICE_SPECIFIC, ESB_EMCY_VDD_LOW_WARNING);
+				this->vdd_warn_req = false;
+			}
+		}
+		else {
+			this->vdd_warn_req = true;
+		}
 
 		// engine shut off solenoid
 		if ((this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ||
 				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_PREHEAT)) {
 			if (uv_output_get_current(&this->engine_start1) < 200) {
-				uv_output_set_state(&this->engine_start1, ESB_OUTPUT_STATE_OFF);
+				uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
+			}
+			// too big solenoid current might indicate a mismatch in solenoids
+			else if (uv_output_get_current(&this->engine_start1) > 2000) {
+				uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
+				uv_canopen_emcy_send(CANOPEN_EMCY_DEVICE_SPECIFIC, ESB_EMCY_ENGINE_STOP_MISMATCH);
+			}
+			else {
+
 			}
 			if (uv_output_get_current(&this->engine_start2) < 200) {
-				uv_output_set_state(&this->engine_start2, ESB_OUTPUT_STATE_OFF);
+				uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
+			}
+			// too big solenoid current might indicate a mismatch in solenoids
+			else if (uv_output_get_current(&this->engine_start2) > 2000) {
+				uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
+				uv_canopen_emcy_send(CANOPEN_EMCY_DEVICE_SPECIFIC, ESB_EMCY_ENGINE_STOP_MISMATCH);
+			}
+			else {
+
 			}
 		}
 		else if (this->fsb.ignkey_state == FSB_IGNKEY_STATE_START) {
-			uv_output_set_state(&this->engine_start1, ESB_OUTPUT_STATE_ON);
-			uv_output_set_state(&this->engine_start2, ESB_OUTPUT_STATE_ON);
+			uv_output_set_state(&this->engine_start1, OUTPUT_STATE_ON);
+			uv_output_set_state(&this->engine_start2, OUTPUT_STATE_ON);
 		}
 		else {
-			uv_output_set_state(&this->engine_start1, ESB_OUTPUT_STATE_OFF);
-			uv_output_set_state(&this->engine_start2, ESB_OUTPUT_STATE_OFF);
+			uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
+			uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
 		}
 
 //		// glow is active only when ignition key is in PREHEAT position
 //		uv_output_set_state(&this->glow,
 //				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_PREHEAT) ?
-//						ESB_OUTPUT_STATE_ON : ESB_OUTPUT_STATE_OFF);
+//						OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
 //
 //		// starter is active only when ignition key is in START position
 //		uv_output_set_state(&this->starter,
 //				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_START) ?
-//				ESB_OUTPUT_STATE_ON : ESB_OUTPUT_STATE_OFF);
+//				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
 //
 //		// ac is controlled by CSB when ignition key is in ON position
 //		uv_output_set_state(&this->ac,
 //				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ?
-//				uv_output_get_state(&this->ac) : ESB_OUTPUT_STATE_OFF);
+//				uv_output_get_state(&this->ac) : OUTPUT_STATE_OFF);
 
 		// alternator ignition is on if engine is running and starter is not running
 		uv_output_set_state(&this->alt_ig,
 				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ?
-				ESB_OUTPUT_STATE_ON : ESB_OUTPUT_STATE_OFF);
+				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
 
 
 		uv_rtos_task_delay(step_ms);

@@ -40,7 +40,7 @@
 #define FUEL_LEVEL_WARN_VALUE		30
 /// @brief: fuel level min limit in percents.
 /// Error is generated after this has been exceeded
-#define FUEL_LEVEL_ERR_VALUE		20
+#define FUEL_LEVEL_ERR_VALUE		5
 #define FUEL_LEVEL_HYSTERESIS		10
 #define FUEL_LEVEL_AVG_COUNT		100
 
@@ -53,8 +53,9 @@
 #define OIL_LEVEL_HYSTERESIS		10
 #define OIL_LEVEL_AVG_COUNT			100
 
-#define VDD_AVG_COUNT				100
-
+#define VDD_AVG_COUNT				10
+#define VDD_WARN_VALUE_MV			11000
+#define VDD_WARN_HYSTERESIS_MV		500
 
 #define OUTPUT_2_MOHM				2
 #define OUTPUT_15_MOHM				15
@@ -89,7 +90,9 @@ typedef struct _dev_st {
 	uint8_t motor_oil_press;
 
 	uv_moving_aver_st vdd_avg;
+	uv_hysteresis_st vdd_warning;
 	uint16_t vdd;
+	bool vdd_warn_req;
 
 	struct {
 		// fsb total current

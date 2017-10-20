@@ -57,8 +57,7 @@ void sensor_step(sensor_st *this, uint16_t step_ms) {
 		}
 		if (this->hyst_error_enabled) {
 			if (uv_hysteresis_step(&this->hyst_error, this->value)) {
-				if ((this->state != SENSOR_STATE_WARNING) &&
-						(this->state != SENSOR_STATE_ERROR)) {
+				if (this->state != SENSOR_STATE_ERROR) {
 					uv_canopen_emcy_send(CANOPEN_EMCY_DEVICE_SPECIFIC, this->emcy_error);
 				}
 				state = SENSOR_STATE_ERROR;
