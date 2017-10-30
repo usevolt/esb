@@ -15,17 +15,17 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="axf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="Debug build" errorParsers="org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.crt.advproject.config.exe.debug.1570009020.1367544095.1884964639" name="Debug" parent="com.crt.advproject.config.exe.debug" postannouncebuildStep="Performing post-build steps" postbuildStep="arm-none-eabi-size &quot;${BuildArtifactFileName}&quot; ; arm-none-eabi-objcopy -O ihex &quot;${BuildArtifactFileName}&quot; &quot;${BuildArtifactFileBaseName}.hex&quot; ; arm-none-eabi-objcopy -v -O binary &quot;${BuildArtifactFileName}&quot; &quot;${BuildArtifactFileBaseName}.bin&quot; ; checksum -p ${TargetChip} -d &quot;${BuildArtifactFileBaseName}.bin&quot;">
+				<configuration artifactExtension="axf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="Debug build" errorParsers="org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="com.crt.advproject.config.exe.debug.1570009020.1367544095.1884964639" name="Debug" postannouncebuildStep="Performing post-build steps" postbuildStep="arm-none-eabi-size &quot;${BuildArtifactFileName}&quot; ; arm-none-eabi-objcopy -O ihex &quot;${BuildArtifactFileName}&quot; &quot;${BuildArtifactFileBaseName}.hex&quot; ; arm-none-eabi-objcopy -v -O binary &quot;${BuildArtifactFileName}&quot; &quot;${BuildArtifactFileBaseName}.bin&quot; ; checksum -p ${TargetChip} -d &quot;${BuildArtifactFileBaseName}.bin&quot;">
 					<folderInfo id="com.crt.advproject.config.exe.debug.1570009020.1367544095.1884964639." name="/" resourcePath="">
-						<toolChain id="com.crt.advproject.toolchain.exe.debug.40323337" name="Code Red MCU Tools" superClass="com.crt.advproject.toolchain.exe.debug">
-							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.GNU_ELF" id="com.crt.advproject.platform.exe.debug.1288267111" name="ARM-based MCU (Debug)" superClass="com.crt.advproject.platform.exe.debug"/>
-							<builder arguments="" buildPath="${workspace_loc:/esb}" command="make" id="com.crt.advproject.builder.exe.debug.715661411" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="com.crt.advproject.builder.exe.debug">
+						<toolChain id="com.crt.advproject.toolchain.exe.debug.40323337" name="Code Red MCU Tools">
+							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.GNU_ELF" id="com.crt.advproject.platform.exe.debug.1288267111" name="ARM-based MCU (Debug)"/>
+							<builder arguments="" buildPath="${workspace_loc:/esb}" command="make" id="com.crt.advproject.builder.exe.debug.715661411" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder">
 								<outputEntries>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name=""/>
 								</outputEntries>
 							</builder>
-							<tool id="com.crt.advproject.cpp.exe.debug.1678765469" name="MCU C++ Compiler" superClass="com.crt.advproject.cpp.exe.debug"/>
-							<tool id="com.crt.advproject.gcc.exe.debug.1167208209" name="MCU C Compiler" superClass="com.crt.advproject.gcc.exe.debug">
+							<tool id="com.crt.advproject.cpp.exe.debug.1678765469" name="MCU C++ Compiler"/>
+							<tool id="com.crt.advproject.gcc.exe.debug.1167208209" name="MCU C Compiler">
 								<option id="com.crt.advproject.gcc.arch.685187371" name="Architecture" superClass="com.crt.advproject.gcc.arch" value="com.crt.advproject.gcc.target.cm0" valueType="enumerated"/>
 								<option id="com.crt.advproject.gcc.thumb.22380339" name="Thumb mode" superClass="com.crt.advproject.gcc.thumb" value="true" valueType="boolean"/>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.856522051" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
@@ -45,9 +45,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/uw_gsm/uw_gsm/hal/uv_hal/freertos/portable/GCC/ARM_CM0}&quot;"/>
 								</option>
 								<option id="com.crt.advproject.gcc.exe.debug.option.optimization.level.1377270853" name="Optimization Level" superClass="com.crt.advproject.gcc.exe.debug.option.optimization.level" value="gnu.c.optimization.level.size" valueType="enumerated"/>
-								<inputType id="com.crt.advproject.compiler.input.445511664" superClass="com.crt.advproject.compiler.input"/>
+								<inputType id="com.crt.advproject.compiler.input.445511664"/>
 							</tool>
-							<tool id="com.crt.advproject.gas.exe.debug.1855467174" name="MCU Assembler" superClass="com.crt.advproject.gas.exe.debug">
+							<tool id="com.crt.advproject.gas.exe.debug.1855467174" name="MCU Assembler">
 								<option id="com.crt.advproject.gas.arch.1544190350" name="Architecture" superClass="com.crt.advproject.gas.arch" value="com.crt.advproject.gas.target.cm0" valueType="enumerated"/>
 								<option id="com.crt.advproject.gas.thumb.2087556301" name="Thumb mode" superClass="com.crt.advproject.gas.thumb" value="true" valueType="boolean"/>
 								<option id="gnu.both.asm.option.flags.crt.2034253873" name="Assembler flags" superClass="gnu.both.asm.option.flags.crt" value="-c -x assembler-with-cpp -DDEBUG -D__CODE_RED -DCORE_M0 -D__USE_CMSIS=CMSIS_CORE_LPC11xx -D__LPC11XX__ -D__REDLIB__" valueType="string"/>
@@ -60,11 +60,11 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/uw_gsm/uw_gsm/hal/uv_hal/freertos/portable/GCC/ARM_CM0}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1353569013" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
-								<inputType id="com.crt.advproject.assembler.input.1549987148" name="Additional Assembly Source Files" superClass="com.crt.advproject.assembler.input"/>
+								<inputType id="com.crt.advproject.assembler.input.1549987148" name="Additional Assembly Source Files"/>
 							</tool>
-							<tool id="com.crt.advproject.link.cpp.exe.debug.1855875978" name="MCU C++ Linker" superClass="com.crt.advproject.link.cpp.exe.debug"/>
-							<tool id="com.crt.advproject.link.exe.debug.770386546" name="MCU Linker" superClass="com.crt.advproject.link.exe.debug">
-								<option id="com.crt.advproject.link.gcc.multicore.master.userobjs.588560362" name="Slave Objects (not visible)" superClass="com.crt.advproject.link.gcc.multicore.master.userobjs" valueType="userObjs"/>
+							<tool id="com.crt.advproject.link.cpp.exe.debug.1855875978" name="MCU C++ Linker"/>
+							<tool id="com.crt.advproject.link.exe.debug.770386546" name="MCU Linker">
+								<option id="com.crt.advproject.link.gcc.multicore.master.userobjs.588560362" name="Slave Objects (not visible)" superClass="com.crt.advproject.link.gcc.multicore.master.userobjs"/>
 								<option id="com.crt.advproject.link.arch.432904575" name="Architecture" superClass="com.crt.advproject.link.arch" value="com.crt.advproject.link.target.cm0" valueType="enumerated"/>
 								<option id="com.crt.advproject.link.thumb.1794641159" name="Thumb mode" superClass="com.crt.advproject.link.thumb" value="true" valueType="boolean"/>
 								<option id="com.crt.advproject.link.script.304794255" name="Linker script" superClass="com.crt.advproject.link.script" value="&quot;uw_gsm_Debug.ld&quot;" valueType="string"/>
@@ -102,7 +102,7 @@
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="tj_keypad.com.crt.advproject.projecttype.exe.289023123" name="Executable" projectType="com.crt.advproject.projecttype.exe"/>
+		<project id="tj_keypad.com.crt.advproject.projecttype.exe.289023123" name="Executable"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="com.crt.config">
@@ -203,4 +203,5 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.crt.advproject.GCCManagedMakePerProjectProfile"/>
 		</scannerConfigBuildInfo>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>
