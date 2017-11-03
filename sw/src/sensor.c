@@ -17,8 +17,8 @@ void sensor_init(sensor_st *this, uv_adc_channels_e adc_chn, uint16_t avg_count,
 	this->adc = adc_chn;
 	uv_moving_aver_init(&this->avg, avg_count);
 	this->emcy_fault = emcy_fault;
-	this->emcy_error = ESB_EMCY_NONE;
-	this->emcy_warning = ESB_EMCY_NONE;
+	this->emcy_error = 0;
+	this->emcy_warning = 0;
 	this->get_data = get_data_ptr;
 	this->hyst_warning_enabled = false;
 	this->hyst_error_enabled = false;

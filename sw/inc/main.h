@@ -15,6 +15,10 @@
 #include "sensor.h"
 #include "can_fsb.h"
 
+/// brief: Delay for motor_oil_press and motor_water_temp
+/// warning signals
+#define MOTOR_DELAY_MS			2000
+
 
 /// @brief: Motor temperature max limit in celsius.
 /// Warning is generated after this has been exceeded
@@ -64,6 +68,7 @@
 
 
 
+
 /// @brief: main data structure.
 /// This struct can be save to non-volatile flash memory with
 /// a terminal command 'save'.
@@ -88,6 +93,7 @@ typedef struct _dev_st {
 	uint8_t alt_l;
 	uint8_t motor_water_temp;
 	uint8_t motor_oil_press;
+	int motor_delay;
 
 	uv_moving_aver_st vdd_avg;
 	uv_hysteresis_st vdd_warning;
@@ -95,10 +101,8 @@ typedef struct _dev_st {
 	bool vdd_warn_req;
 
 	struct {
-		// fsb total current
-		uint16_t total_current;
-		/// Ignition key state
 		fsb_ignkey_states_e ignkey_state;
+		uint8_t emcy;
 	} fsb;
 
 	uv_data_start_t data_start;

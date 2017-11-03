@@ -25,6 +25,9 @@ bool adc_get_level(uv_adc_channels_e adc_chn, int16_t *dest);
 uint16_t adc_get_voltage_mv(const uv_adc_channels_e adc_chn);
 
 
+#define GET_MOTOR_WATER()	(!uv_gpio_get(MOTOR_WATER_TEMP_I))
+#define GET_MOTOR_OIL_PRESS() (!uv_gpio_get(MOTOR_OIL_PRESS_I))
+
 
 void init(dev_st* me) {
 
@@ -95,6 +98,11 @@ void init(dev_st* me) {
 	this->vdd = 0;
 	this->vdd_warn_req = true;
 
+	this->motor_water_temp = 0;
+	this->motor_oil_press = 0;
+	this->alt_p_rpm = 0;
+	uv_delay_init(MOTOR_DELAY_MS, &this->motor_delay);
+
 	//init terminal and pass application terminal commands array as a parameter
 	uv_terminal_init(terminal_commands, commands_size());
 
@@ -104,8 +112,8 @@ void init(dev_st* me) {
 		uv_memory_save();
 	}
 
-	this->fsb.total_current = 0;
 	this->fsb.ignkey_state = FSB_IGNKEY_STATE_OFF;
+	this->fsb.emcy = 0;
 
 	uv_canopen_set_state(CANOPEN_OPERATIONAL);
 
@@ -192,15 +200,16 @@ void step(void* me) {
 
 
 		// motor temperature
-		sensor_step(&this->motor_temp, step_ms);
-		sensor_step(&this->oil_temp, step_ms);
+//		todo: Temperature sensors commented until HW implements it
+//		sensor_step(&this->motor_temp, step_ms);
+//		sensor_step(&this->oil_temp, step_ms);
 		sensor_step(&this->fuel_level, step_ms);
 		sensor_step(&this->oil_level, step_ms);
 
 		// kubota sensors
-		this->motor_water_temp = uv_gpio_get(MOTOR_WATER_TEMP_I);
-		this->motor_oil_press = uv_gpio_get(MOTOR_OIL_PRESS_I);
-		this->alt_l = uv_gpio_get(ALT_L_I);
+		this->motor_water_temp = GET_MOTOR_WATER();
+		this->motor_oil_press = GET_MOTOR_OIL_PRESS();
+		this->alt_l = !uv_gpio_get(ALT_L_I);
 
 		// vdd voltage
 		// note: Multiplier 11 comes from 10k/1k voltage divider resistors
@@ -217,7 +226,7 @@ void step(void* me) {
 			this->vdd_warn_req = true;
 		}
 
-		// engine shut off solenoid
+		// ignition key states
 		if ((this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ||
 				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_PREHEAT)) {
 			if (uv_output_get_current(&this->engine_start1) < 200) {
@@ -226,7 +235,6 @@ void step(void* me) {
 			// too big solenoid current might indicate a mismatch in solenoids
 			else if (uv_output_get_current(&this->engine_start1) > 2000) {
 				uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
-				uv_canopen_emcy_send(CANOPEN_EMCY_DEVICE_SPECIFIC, ESB_EMCY_ENGINE_STOP_MISMATCH);
 			}
 			else {
 
@@ -237,7 +245,6 @@ void step(void* me) {
 			// too big solenoid current might indicate a mismatch in solenoids
 			else if (uv_output_get_current(&this->engine_start2) > 2000) {
 				uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
-				uv_canopen_emcy_send(CANOPEN_EMCY_DEVICE_SPECIFIC, ESB_EMCY_ENGINE_STOP_MISMATCH);
 			}
 			else {
 
@@ -250,6 +257,23 @@ void step(void* me) {
 		else {
 			uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
 			uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
+		}
+
+		// motor sensor shut down
+		if (this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) {
+			if (this->motor_water_temp ||
+					this->motor_oil_press) {
+				if (uv_delay(step_ms, &this->motor_delay)) {
+					uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
+					uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
+					// send EMCY message from motor protection
+					uv_canopen_emcy_send(CANOPEN_EMCY_DEVICE_SPECIFIC,
+							ESB_EMCY_ENGINE_PROTECTION_SHUTDOWN);
+				}
+			}
+			else {
+				uv_delay_init(MOTOR_DELAY_MS, &this->motor_delay);
+			}
 		}
 
 //		// glow is active only when ignition key is in PREHEAT position
@@ -272,6 +296,17 @@ void step(void* me) {
 				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ?
 				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
 
+
+		// emcy
+		if (this->fsb.emcy) {
+			uv_output_set_state(&this->glow, OUTPUT_STATE_OFF);
+			uv_output_set_state(&this->starter, OUTPUT_STATE_OFF);
+			uv_output_set_state(&this->ac, OUTPUT_STATE_OFF);
+			uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
+			uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
+			uv_output_set_state(&this->pump, OUTPUT_STATE_OFF);
+			uv_output_set_state(&this->alt_ig, OUTPUT_STATE_OFF);
+		}
 
 		uv_rtos_task_delay(step_ms);
 	}
