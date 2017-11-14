@@ -620,7 +620,6 @@ F10 "SENSE1" O R 6350 7150 60
 F11 "SENSE2" O R 6350 7250 60 
 F12 "SENSE3" O R 6350 7350 60 
 F13 "SENSE4" O R 6350 7450 60 
-F14 "VDD" I L 5450 6650 60 
 $EndSheet
 Text Label 3550 6950 0    60   ~ 0
 MOTOR_START_16A+
@@ -808,7 +807,7 @@ Wire Wire Line
 Wire Wire Line
 	6900 2600 4300 2600
 Wire Wire Line
-	2250 2100 2250 2950
+	2250 2100 2250 3400
 Wire Wire Line
 	3550 5800 3450 5800
 Wire Wire Line
@@ -884,4 +883,7 @@ F 7 "YAGEO" H 5019 4189 60  0001 C CNN "Manufacturer"
 	1    4950 4050
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	2250 3400 1650 3400
+Connection ~ 2250 2950
 $EndSCHEMATC
