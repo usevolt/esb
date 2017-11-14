@@ -40,12 +40,12 @@
 #define CONFIG_UV_BOOTLOADER			1
 
 
-#define CONFIG_PWM						0
-#define CONFIG_PWM0						0
-#define CONFIG_PWM0_FREQ				10000
+#define CONFIG_PWM						1
+#define CONFIG_PWM0						1
+#define CONFIG_PWM0_FREQ				200
 #define CONFIG_PWM0_0					1
-#define CONFIG_PWM0_0_IO				P0_0
-#define CONFIG_PWM0_4					1
+#define CONFIG_PWM0_0_IO				P0_4
+#define CONFIG_PWM0_4					0
 #define CONFIG_PWM0_4_IO				0
 
 #define CONFIG_PWM1						0
@@ -85,17 +85,17 @@
 #define CONFIG_ADC_CONVERSION_FREQ		20000
 
 #define CONFIG_ADC_CHANNEL0_0			0
-#define CONFIG_ADC_CHANNEL0_1			0
+#define CONFIG_ADC_CHANNEL0_1			1
 #define CONFIG_ADC_CHANNEL0_2			1
 #define CONFIG_ADC_CHANNEL0_3			1
 #define CONFIG_ADC_CHANNEL0_4			1
 #define CONFIG_ADC_CHANNEL0_5			1
 #define CONFIG_ADC_CHANNEL0_6			1
-#define CONFIG_ADC_CHANNEL0_7			0
+#define CONFIG_ADC_CHANNEL0_7			1
 #define CONFIG_ADC_CHANNEL0_8			1
 #define CONFIG_ADC_CHANNEL0_9			1
 #define CONFIG_ADC_CHANNEL0_10			1
-#define CONFIG_ADC_CHANNEL0_11			0
+#define CONFIG_ADC_CHANNEL0_11			1
 #define CONFIG_ADC_CHANNEL1_0			0
 #define CONFIG_ADC_CHANNEL1_1			0
 #define CONFIG_ADC_CHANNEL1_2			0
@@ -238,6 +238,12 @@
 
 
 #define CONFIG_OUTPUT								1
+
+#define CONFIG_SOLENOID_OUTPUT						1
+#define CONFIG_SOLENOID_P							10
+#define CONFIG_SOLENOID_I							0
+
+#define CONFIG_PID									1
 
 /**** END OF USER CONFIGURATIONS ****/
 

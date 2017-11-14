@@ -32,27 +32,29 @@ uint16_t adc_get_voltage_mv(const uv_adc_channels_e adc_chn);
 void init(dev_st* me) {
 
 	// initialize outputs
-	uv_output_init(&this->glow, GLOW_SENSE_AIN, GLOW_PLUGS_O, OUTPUT_2_MOHM,
-			0, 25000, OUTPUT_MOVING_AVG_COUNT,
+	uv_output_init(&this->glow, GLOW_SENSE_AIN,
+			GLOW_PLUGS_O, 1, 50000, 60000,
+			OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_GLOW_OVERLOAD, ESB_EMCY_GLOW_FAULT);
-	uv_output_init(&this->starter, STARTER_SENSE_AIN, STARTER_O, OUTPUT_2_MOHM,
-			0, 2000, OUTPUT_MOVING_AVG_COUNT,
+	uv_output_init(&this->starter, STARTER_SENSE_AIN,
+			STARTER_O, 1, 7000, 30000,
+			OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_STARTER_OVERLOAD, ESB_EMCY_STARTER_FAULT);
-	uv_output_init(&this->ac, AC_SENSE_AIN, AC_O, OUTPUT_2_MOHM,
-			0, 2000, OUTPUT_MOVING_AVG_COUNT,
+	uv_output_init(&this->ac, AC_SENSE_AIN,
+			AC_O, 1, 2000, 5000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_AC_OVERLOAD, ESB_EMCY_AC_FAULT);
-	uv_output_init(&this->engine_start1, ENGINE_START1_SENSE_AIN, ENGINE_START_1_O, OUTPUT_2_MOHM,
-			0, 20000, OUTPUT_MOVING_AVG_COUNT,
+	uv_output_init(&this->engine_start1, ENGINE_START1_SENSE_AIN,
+			ENGINE_START_1_O, 1, 10000, 30000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_ENGINE_STOP_OVERLOAD, ESB_EMCY_ENGINE_STOP_FAULT);
-	uv_output_init(&this->engine_start2, ENGINE_START2_SENSE_AIN, ENGINE_START_2_O, OUTPUT_2_MOHM,
-			0, 20000, OUTPUT_MOVING_AVG_COUNT,
+	uv_output_init(&this->engine_start2, ENGINE_START2_SENSE_AIN,
+			ENGINE_START_2_O, 1, 10000, 30000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_ENGINE_STOP_OVERLOAD, ESB_EMCY_ENGINE_STOP_FAULT);
-	uv_output_init(&this->pump, PUMP_SENSE_AIN, PUMP_O, OUTPUT_15_MOHM,
-			0, 3000, OUTPUT_MOVING_AVG_COUNT,
-			ESB_EMCY_PUMP_OVERLOAD, ESB_EMCY_PUMP_FAULT);
-	uv_output_init(&this->alt_ig, ALT_IG_SENSE_AIN, ALT_IG_O, OUTPUT_2_MOHM,
-			0, 2000, OUTPUT_MOVING_AVG_COUNT,
+	uv_output_init(&this->alt_ig, ALT_IG_SENSE_AIN,
+			ALT_IG_O, 1, 2000, 5000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_ALT_IG_OVERLOAD, ESB_EMCY_ALT_IG_FAULT);
+	uv_solenoid_output_init(&this->pump, PUMP_PWM, 50, DUTY_CYCLEPPT(100), PUMP_SENSE_AIN,
+			1, 3000, 5000, OUTPUT_MOVING_AVG_COUNT,
+			ESB_EMCY_PUMP_OVERLOAD, ESB_EMCY_PUMP_FAULT);
 
 	// initialize inputs
 	UV_GPIO_INIT_INPUT(ALT_L_I, PULL_UP_ENABLED);
@@ -101,7 +103,7 @@ void init(dev_st* me) {
 	this->motor_water_temp = 0;
 	this->motor_oil_press = 0;
 	this->alt_p_rpm = 0;
-	uv_delay_init(MOTOR_DELAY_MS, &this->motor_delay);
+	uv_delay_init(&this->motor_delay, MOTOR_DELAY_MS);
 
 	//init terminal and pass application terminal commands array as a parameter
 	uv_terminal_init(terminal_commands, commands_size());
@@ -114,6 +116,8 @@ void init(dev_st* me) {
 
 	this->fsb.ignkey_state = FSB_IGNKEY_STATE_OFF;
 	this->fsb.emcy = 0;
+
+	this->network_override = false;
 
 	uv_canopen_set_state(CANOPEN_OPERATIONAL);
 
@@ -175,7 +179,7 @@ void step(void* me) {
 	init(this);
 
 	while (true) {
-		unsigned int step_ms = 20;
+		unsigned int step_ms = 2;
 		// update watchdog timer value to prevent a hard reset
 		// uw_wdt_update();
 
@@ -184,8 +188,8 @@ void step(void* me) {
 		uv_output_step(&this->ac, step_ms);
 		uv_output_step(&this->engine_start1, step_ms);
 		uv_output_step(&this->engine_start2,step_ms);
-		uv_output_step(&this->pump, step_ms);
 		uv_output_step(&this->alt_ig, step_ms);
+		uv_solenoid_output_step(&this->pump, step_ms);
 
 		// terminal step function
 		uv_terminal_step();
@@ -195,12 +199,12 @@ void step(void* me) {
 				uv_output_get_current(&this->ac) +
 				uv_output_get_current(&this->engine_start1) +
 				uv_output_get_current(&this->engine_start2) +
-				uv_output_get_current(&this->pump) +
-				uv_output_get_current(&this->alt_ig);
+				uv_output_get_current(&this->alt_ig +
+				uv_solenoid_output_get_current(&this->pump));
 
 
 		// motor temperature
-//		todo: Temperature sensors commented until HW implements it
+//		todo: Temperature sensors commented until HW implements them
 //		sensor_step(&this->motor_temp, step_ms);
 //		sensor_step(&this->oil_temp, step_ms);
 		sensor_step(&this->fuel_level, step_ms);
@@ -263,7 +267,7 @@ void step(void* me) {
 		if (this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) {
 			if (this->motor_water_temp ||
 					this->motor_oil_press) {
-				if (uv_delay(step_ms, &this->motor_delay)) {
+				if (uv_delay(&this->motor_delay, step_ms)) {
 					uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
 					uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
 					// send EMCY message from motor protection
@@ -272,7 +276,7 @@ void step(void* me) {
 				}
 			}
 			else {
-				uv_delay_init(MOTOR_DELAY_MS, &this->motor_delay);
+				uv_delay_init(&this->motor_delay, MOTOR_DELAY_MS);
 			}
 		}
 
@@ -297,16 +301,16 @@ void step(void* me) {
 				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
 
 
-		// emcy
-		if (this->fsb.emcy) {
-			uv_output_set_state(&this->glow, OUTPUT_STATE_OFF);
-			uv_output_set_state(&this->starter, OUTPUT_STATE_OFF);
-			uv_output_set_state(&this->ac, OUTPUT_STATE_OFF);
-			uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
-			uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
-			uv_output_set_state(&this->pump, OUTPUT_STATE_OFF);
-			uv_output_set_state(&this->alt_ig, OUTPUT_STATE_OFF);
-		}
+//		// emcy
+//		if (this->fsb.emcy) {
+//			uv_output_set_state(&this->glow, OUTPUT_STATE_OFF);
+//			uv_output_set_state(&this->starter, OUTPUT_STATE_OFF);
+//			uv_output_set_state(&this->ac, OUTPUT_STATE_OFF);
+//			uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
+//			uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
+//			uv_output_set_state(&this->alt_ig, OUTPUT_STATE_OFF);
+//			uv_solenoid_output_set_state(&this->pump, OUTPUT_STATE_OFF);
+//		}
 
 		uv_rtos_task_delay(step_ms);
 	}

@@ -13,17 +13,18 @@
 #include <uv_gpio.h>
 #include <uv_timer.h>
 #include <uv_adc.h>
+#include <uv_pwm.h>
 
 
 // Analog inputs
-#define VDD_SENSE_AIN				ADC0_10
-#define GLOW_SENSE_AIN				ADC0_8
+#define VDD_SENSE_AIN				ADC0_11
+#define GLOW_SENSE_AIN				ADC0_10
 #define STARTER_SENSE_AIN			ADC0_9
-#define AC_SENSE_AIN				ADC0_6
-#define ENGINE_START1_SENSE_AIN		ADC0_4
+#define AC_SENSE_AIN				ADC0_8
+#define ENGINE_START1_SENSE_AIN		ADC0_7
 #define ENGINE_START2_SENSE_AIN		ADC0_5
 #define ALT_IG_SENSE_AIN			ADC0_2
-#define PUMP_SENSE_AIN				ADC0_3
+#define PUMP_SENSE_AIN				ADC0_1
 #define MOTOR_TEMP_AIN				ADC1_11
 #define OIL_TEMP_AIN				ADC1_10
 #define FUEL_LEVEL_AIN				ADC1_8
@@ -36,7 +37,7 @@
 #define MOTOR_OIL_PRESS_I			P1_2
 
 // Digital outputs
-#define PUMP_O						P0_10
+#define PUMP_PWM					PWM0_0
 #define ALT_IG_O					P0_18
 #define AC_O						P0_28
 #define ENGINE_START_1_O			P1_1

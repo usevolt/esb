@@ -106,14 +106,14 @@ canopen_object_st obj_dict[] = {
 				.sub_index = ESB_PUMP_STATUS_SUBINDEX,
 				.type = ESB_PUMP_STATUS_TYPE,
 				.permissions = ESB_PUMP_STATUS_PERMISSIONS,
-				.data_ptr = &this->pump.state
+				.data_ptr = &this->pump.super.state
 		},
 		{
 				.main_index = ESB_PUMP_CURRENT_INDEX,
 				.sub_index = ESB_PUMP_CURRENT_SUBINDEX,
 				.type = ESB_PUMP_CURRENT_TYPE,
 				.permissions = ESB_PUMP_CURRENT_PERMISSIONS,
-				.data_ptr = &this->pump.current
+				.data_ptr = &this->pump.pid.input
 		},
 		{
 				.main_index = ESB_ALT_IG_STATUS_INDEX,
@@ -216,6 +216,7 @@ int obj_dict_len() {
 
 void engine_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 void pump_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
+void clear_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 
 
 
@@ -284,7 +285,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	stat_output(&this->ac, "AC compressor");
 	stat_output(&this->engine_start1, "Engine start 1");
 	stat_output(&this->engine_start2, "Engine start 2");
-	stat_output(&this->pump, "Hydr Pump");
+	stat_output((uv_output_st *) &this->pump, "Hydr Pump");
 	stat_output(&this->alt_ig, "Alt IG");
 	printf("Vdd: %u mV\n", this->vdd);
 
@@ -323,10 +324,10 @@ void engine_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 
 void pump_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) {
 	if (args && argv[0].type == ARG_INTEGER) {
-		uv_output_set_state(&this->pump, argv[0].number);
+		uv_solenoid_output_set_state(&this->pump, OUTPUT_STATE_ON);
+		uv_solenoid_output_set(&this->pump, argv[0].number);
 	}
 }
-
 
 
 

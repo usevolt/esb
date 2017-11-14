@@ -12,6 +12,7 @@
 #include <uv_memory.h>
 #include <uv_filters.h>
 #include <uv_output.h>
+#include <uv_solenoid_output.h>
 #include "sensor.h"
 #include "can_fsb.h"
 
@@ -61,8 +62,6 @@
 #define VDD_WARN_VALUE_MV			11000
 #define VDD_WARN_HYSTERESIS_MV		500
 
-#define OUTPUT_2_MOHM				2
-#define OUTPUT_15_MOHM				15
 #define OUTPUT_MOVING_AVG_COUNT		100
 
 
@@ -79,8 +78,8 @@ typedef struct _dev_st {
 	uv_output_st ac;
 	uv_output_st engine_start1;
 	uv_output_st engine_start2;
-	uv_output_st pump;
 	uv_output_st alt_ig;
+	uv_solenoid_output_st pump;
 
 	uint16_t total_current;
 
@@ -93,7 +92,7 @@ typedef struct _dev_st {
 	uint8_t alt_l;
 	uint8_t motor_water_temp;
 	uint8_t motor_oil_press;
-	int motor_delay;
+	uv_delay_st motor_delay;
 
 	uv_moving_aver_st vdd_avg;
 	uv_hysteresis_st vdd_warning;
@@ -104,6 +103,8 @@ typedef struct _dev_st {
 		fsb_ignkey_states_e ignkey_state;
 		uint8_t emcy;
 	} fsb;
+
+	bool network_override;
 
 	uv_data_start_t data_start;
 
