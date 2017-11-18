@@ -11,7 +11,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 3 9
+Sheet 3 11
 Title ""
 Date ""
 Rev ""
@@ -375,59 +375,65 @@ Wire Wire Line
 $Comp
 L +5V #PWR301
 U 1 1 58C01582
-P 1750 2800
-F 0 "#PWR301" H 1750 2650 50  0001 C CNN
-F 1 "+5V" H 1765 2973 50  0000 C CNN
-F 2 "" H 1750 2800 50  0000 C CNN
-F 3 "" H 1750 2800 50  0000 C CNN
-	1    1750 2800
+P 2800 2750
+F 0 "#PWR301" H 2800 2600 50  0001 C CNN
+F 1 "+5V" H 2815 2923 50  0000 C CNN
+F 2 "" H 2800 2750 50  0000 C CNN
+F 3 "" H 2800 2750 50  0000 C CNN
+	1    2800 2750
 	1    0    0    -1  
 $EndComp
 $Comp
 L GND #PWR302
 U 1 1 58C01588
-P 1750 3200
-F 0 "#PWR302" H 1750 2950 50  0001 C CNN
-F 1 "GND" H 1755 3027 50  0000 C CNN
-F 2 "" H 1750 3200 50  0000 C CNN
-F 3 "" H 1750 3200 50  0000 C CNN
-	1    1750 3200
+P 2800 3300
+F 0 "#PWR302" H 2800 3050 50  0001 C CNN
+F 1 "GND" H 2805 3127 50  0000 C CNN
+F 2 "" H 2800 3300 50  0000 C CNN
+F 3 "" H 2800 3300 50  0000 C CNN
+	1    2800 3300
 	1    0    0    -1  
 $EndComp
 $Comp
 L 100nF C?
 U 1 1 58C01592
-P 1450 2950
+P 2900 2950
 AR Path="/58C01592" Ref="C?"  Part="1" 
 AR Path="/57E682A9/58C01592" Ref="C301"  Part="1" 
-F 0 "C301" V 1458 3023 45  0000 L CNN
-F 1 "100nF" V 1542 3023 45  0000 L CNN
-F 2 "kemet:0603" H 1480 3100 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2062872.pdf?_ga=1.250530118.1948984246.1460023966" H 1354 2959 60  0001 C CNN
-F 4 "1288255" H 1754 3359 60  0001 C CNN "1st Source Part Number"
-F 5 "C0603C104K5RACTU" H 1554 3159 60  0001 C CNN "Manufacturer Part Number"
-F 6 "Farnell" H 1654 3259 60  0001 C CNN "1st Source"
-F 7 "KEMET" H 1454 3059 60  0001 C CNN "Manufacturer"
-	1    1450 2950
+F 0 "C301" V 2908 3023 45  0000 L CNN
+F 1 "100nF" V 2992 3023 45  0000 L CNN
+F 2 "kemet:0603" H 2930 3100 20  0001 C CNN
+F 3 "http://www.farnell.com/datasheets/2062872.pdf?_ga=1.250530118.1948984246.1460023966" H 2804 2959 60  0001 C CNN
+F 4 "1288255" H 3204 3359 60  0001 C CNN "1st Source Part Number"
+F 5 "C0603C104K5RACTU" H 3004 3159 60  0001 C CNN "Manufacturer Part Number"
+F 6 "Farnell" H 3104 3259 60  0001 C CNN "1st Source"
+F 7 "KEMET" H 2904 3059 60  0001 C CNN "Manufacturer"
+	1    2900 2950
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	1750 2800 1750 2850
+	2650 2850 2900 2850
 Wire Wire Line
-	1750 3050 1750 3200
+	2800 2850 2800 2750
 Wire Wire Line
-	2550 3150 3400 3150
+	2650 3150 2900 3150
 Wire Wire Line
-	2550 3050 3400 3050
+	2800 3050 2800 3300
+Connection ~ 2800 3150
+Connection ~ 2800 2850
 Wire Wire Line
-	3100 2850 2550 2850
-Text HLabel 3100 2950 2    60   Input ~ 0
+	1950 3150 1150 3150
+Wire Wire Line
+	1150 3050 1950 3050
+Wire Wire Line
+	1800 2850 1950 2850
+Text HLabel 1800 2950 0    60   Input ~ 0
 CANL
-Text HLabel 3100 2850 2    60   Input ~ 0
+Text HLabel 1800 2850 0    60   Input ~ 0
 CANH
-Text Label 3400 3150 2    60   ~ 0
+Text Label 1150 3150 0    60   ~ 0
 CAN_RX
-Text Label 3400 3050 2    60   ~ 0
+Text Label 1150 3050 0    60   ~ 0
 CAN_TX
 Text Label 7600 5250 2    60   ~ 0
 CAN_TX
@@ -474,7 +480,7 @@ MOTOR_ON_SENSE
 Text HLabel 4800 2750 0    60   Input ~ 0
 MOTOR_START_SENSE
 Wire Wire Line
-	3100 2950 2550 2950
+	1800 2950 1950 2950
 Text HLabel 7500 1950 2    60   Input ~ 0
 MOTOR_WATER_TEMP
 Wire Wire Line
@@ -565,27 +571,21 @@ Wire Wire Line
 	9150 3650 9150 3950
 $Comp
 L MCP2551_SOIC8 U301
-U 1 1 5A0181A5
-P 2150 2950
-F 0 "U301" H 2200 3254 45  0000 C CNN
-F 1 "MCP2551_SOIC8" H 2200 3170 45  0000 C CNN
-F 2 "usevolt:SOIC8" H 2030 3100 20  0001 C CNN
-F 3 "http://www.microchip.com/mymicrochip/filehandler.aspx?ddocname=en011797" H 1750 3400 60  0001 C CNN
-F 4 "9758569" H 2750 3770 60  0001 C CNN "2nd Source Part Number"
-F 5 "Digi-Key" H 2450 3470 60  0001 C CNN "1st Source"
-F 6 "Farnell" H 2650 3670 60  0001 C CNN "2nd Source"
-F 7 "MCP2551-I/SN" H 2350 3370 60  0001 C CNN "Manufacturer Part Number"
-F 8 "MCP2551-I/SN-ND" H 2550 3570 60  0001 C CNN "1st Source Part Number"
-F 9 "MICROCHIP" H 2300 3250 60  0001 C CNN "Manufacturer"
-	1    2150 2950
-	1    0    0    -1  
+U 1 1 5A102A85
+P 2350 2950
+F 0 "U301" H 2400 3254 45  0000 C CNN
+F 1 "MCP2551_SOIC8" H 2400 3170 45  0000 C CNN
+F 2 "usevolt:SOIC8" H 2230 3100 20  0001 C CNN
+F 3 "http://www.microchip.com/mymicrochip/filehandler.aspx?ddocname=en011797" H 1950 3400 60  0001 C CNN
+F 4 "9758569" H 2950 3770 60  0001 C CNN "2nd Source Part Number"
+F 5 "Digi-Key" H 2650 3470 60  0001 C CNN "1st Source"
+F 6 "Farnell" H 2850 3670 60  0001 C CNN "2nd Source"
+F 7 "MCP2551-I/SN" H 2550 3370 60  0001 C CNN "Manufacturer Part Number"
+F 8 "MCP2551-I/SN-ND" H 2750 3570 60  0001 C CNN "1st Source Part Number"
+F 9 "MICROCHIP" H 2500 3250 60  0001 C CNN "Manufacturer"
+	1    2350 2950
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
-	1450 2850 1850 2850
-Connection ~ 1750 2850
-Wire Wire Line
-	1450 3150 1850 3150
-Connection ~ 1750 3150
-Wire Wire Line
-	1850 3050 1750 3050
+	2650 3050 2800 3050
 $EndSCHEMATC

@@ -31,6 +31,16 @@ uint16_t adc_get_voltage_mv(const uv_adc_channels_e adc_chn);
 
 void init(dev_st* me) {
 
+
+	// load non-volatile data
+	if (uv_memory_load()) {
+
+		// initialize non-volatile memory to default settings
+		this->dither_ampl = 120;
+		this->dither_freq = 50;
+		uv_memory_save();
+	}
+
 	// initialize outputs
 	uv_output_init(&this->glow, GLOW_SENSE_AIN,
 			GLOW_PLUGS_O, 1, 50000, 60000,
@@ -52,8 +62,9 @@ void init(dev_st* me) {
 	uv_output_init(&this->alt_ig, ALT_IG_SENSE_AIN,
 			ALT_IG_O, 1, 2000, 5000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_ALT_IG_OVERLOAD, ESB_EMCY_ALT_IG_FAULT);
-	uv_solenoid_output_init(&this->pump, PUMP_PWM, 50, DUTY_CYCLEPPT(100), PUMP_SENSE_AIN,
-			1, 3000, 5000, OUTPUT_MOVING_AVG_COUNT,
+	uv_solenoid_output_init(&this->pump, PUMP_PWM, this->dither_freq,
+			DUTY_CYCLEPPT(this->dither_ampl), PUMP_SENSE_AIN,
+			0, 3500, 5000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_PUMP_OVERLOAD, ESB_EMCY_PUMP_FAULT);
 
 	// initialize inputs
@@ -107,12 +118,6 @@ void init(dev_st* me) {
 
 	//init terminal and pass application terminal commands array as a parameter
 	uv_terminal_init(terminal_commands, commands_size());
-
-	// load non-volatile data
-	if (uv_memory_load()) {
-
-		uv_memory_save();
-	}
 
 	this->fsb.ignkey_state = FSB_IGNKEY_STATE_OFF;
 	this->fsb.emcy = 0;
@@ -190,6 +195,8 @@ void step(void* me) {
 		uv_output_step(&this->engine_start2,step_ms);
 		uv_output_step(&this->alt_ig, step_ms);
 		uv_solenoid_output_step(&this->pump, step_ms);
+		// update pump solenoid dither parameters
+
 
 		// terminal step function
 		uv_terminal_step();
@@ -299,6 +306,7 @@ void step(void* me) {
 		uv_output_set_state(&this->alt_ig,
 				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ?
 				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
+
 
 
 //		// emcy

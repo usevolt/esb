@@ -194,6 +194,20 @@ canopen_object_st obj_dict[] = {
 				.data_ptr = &this->vdd
 		},
 		{
+				.main_index = ESB_DITHER_FREQ_INDEX,
+				.sub_index = ESB_DITHER_FREQ_SUBINDEX,
+				.type = ESB_DITHER_FREQ_TYPE,
+				.permissions = ESB_DITHER_FREQ_PERMISSIONS,
+				.data_ptr = &this->dither_freq
+		},
+		{
+				.main_index = ESB_DITHER_AMPL_INDEX,
+				.sub_index = ESB_DITHER_AMPL_SUBINDEX,
+				.type = ESB_DITHER_AMPL_TYPE,
+				.permissions = ESB_DITHER_AMPL_PERMISSIONS,
+				.data_ptr = &this->dither_ampl
+		},
+		{
 				.main_index = ESB_FSB_IGNKEY_INDEX,
 				.sub_index = ESB_FSB_IGNKEY_SUBINDEX,
 				.type = ESB_FSB_IGNKEY_TYPE,
@@ -324,7 +338,6 @@ void engine_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 
 void pump_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) {
 	if (args && argv[0].type == ARG_INTEGER) {
-		uv_solenoid_output_set_state(&this->pump, OUTPUT_STATE_ON);
 		uv_solenoid_output_set(&this->pump, argv[0].number);
 	}
 }

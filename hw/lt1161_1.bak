@@ -11,7 +11,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 5 9
+Sheet 5 11
 Title ""
 Date ""
 Rev ""
@@ -23,11 +23,11 @@ Comment4 ""
 $EndDescr
 Text HLabel 6000 3200 2    60   Output ~ 0
 OUT1
-Text HLabel 2400 3200 0    60   Input ~ 0
+Text HLabel 3700 3200 0    60   Input ~ 0
 IN1
-Text HLabel 2400 4500 0    60   Input ~ 0
+Text HLabel 3700 4500 0    60   Input ~ 0
 IN3
-Text HLabel 2300 5150 0    60   Input ~ 0
+Text HLabel 3600 5150 0    60   Input ~ 0
 IN4
 Text HLabel 5400 3450 2    60   Output ~ 0
 SENSE1
@@ -138,10 +138,10 @@ Wire Wire Line
 Connection ~ 4400 3300
 Connection ~ 4400 3850
 $Comp
-L GND #PWR502
+L GND #PWR024
 U 1 1 59D7DECC
 P 3950 5450
-F 0 "#PWR502" H 3950 5200 50  0001 C CNN
+F 0 "#PWR024" H 3950 5200 50  0001 C CNN
 F 1 "GND" H 3955 5277 50  0000 C CNN
 F 2 "" H 3950 5450 50  0000 C CNN
 F 3 "" H 3950 5450 50  0000 C CNN
@@ -196,11 +196,11 @@ Wire Wire Line
 	4150 5250 3950 5250
 Connection ~ 3950 5250
 Wire Wire Line
-	2400 3200 4700 3200
+	3700 3200 4700 3200
 Wire Wire Line
-	2400 4500 4750 4500
+	3700 4500 4750 4500
 Wire Wire Line
-	2300 5150 4750 5150
+	3600 5150 4750 5150
 Wire Wire Line
 	5400 3450 4400 3450
 Connection ~ 4400 3450
@@ -215,10 +215,10 @@ Wire Wire Line
 	4500 5400 4500 5250
 Connection ~ 4500 5250
 $Comp
-L VDD #PWR503
+L VDD #PWR025
 U 1 1 59D7E637
 P 4600 3000
-F 0 "#PWR503" H 4600 2850 50  0001 C CNN
+F 0 "#PWR025" H 4600 2850 50  0001 C CNN
 F 1 "VDD" H 4617 3173 50  0000 C CNN
 F 2 "" H 4600 3000 50  0000 C CNN
 F 3 "" H 4600 3000 50  0000 C CNN
@@ -274,85 +274,4 @@ Wire Wire Line
 Wire Wire Line
 	4500 3750 4500 3200
 Connection ~ 4500 3200
-Connection ~ 2700 3200
-Wire Wire Line
-	2700 4800 2700 4500
-Connection ~ 2700 4500
-Wire Wire Line
-	2850 5450 2700 5450
-Wire Wire Line
-	2700 5450 2700 5150
-Connection ~ 2700 5150
-$Comp
-L GND #PWR501
-U 1 1 5A023FD1
-P 3450 5950
-F 0 "#PWR501" H 3450 5700 50  0001 C CNN
-F 1 "GND" H 3455 5777 50  0000 C CNN
-F 2 "" H 3450 5950 50  0000 C CNN
-F 3 "" H 3450 5950 50  0000 C CNN
-	1    3450 5950
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3450 3450 3450 5950
-Wire Wire Line
-	3450 5450 3150 5450
-Wire Wire Line
-	3450 4800 3150 4800
-Connection ~ 3450 5450
-Connection ~ 3450 4800
-$Comp
-L 1K R505
-U 1 1 5A02E26A
-P 2950 3450
-F 0 "R505" H 3000 3634 45  0000 C CNN
-F 1 "1K" H 3000 3550 45  0000 C CNN
-F 2 "yageo:0603" H 2980 3600 20  0001 C CNN
-F 3 "" H 2919 3489 60  0001 C CNN
-F 4 "" H 3319 3889 60  0001 C CNN "1st Source Part Number"
-F 5 "Digikey" H 3219 3789 60  0001 C CNN "1st Source"
-F 6 "RC0603FR-071KL" H 3119 3689 60  0001 C CNN "Manufacturer Part Number"
-F 7 "YAGEO" H 3019 3589 60  0001 C CNN "Manufacturer"
-	1    2950 3450
-	1    0    0    -1  
-$EndComp
-$Comp
-L 1K R506
-U 1 1 5A02E2D5
-P 2950 4800
-F 0 "R506" H 3000 4984 45  0000 C CNN
-F 1 "1K" H 3000 4900 45  0000 C CNN
-F 2 "yageo:0603" H 2980 4950 20  0001 C CNN
-F 3 "" H 2919 4839 60  0001 C CNN
-F 4 "" H 3319 5239 60  0001 C CNN "1st Source Part Number"
-F 5 "Digikey" H 3219 5139 60  0001 C CNN "1st Source"
-F 6 "RC0603FR-071KL" H 3119 5039 60  0001 C CNN "Manufacturer Part Number"
-F 7 "YAGEO" H 3019 4939 60  0001 C CNN "Manufacturer"
-	1    2950 4800
-	1    0    0    -1  
-$EndComp
-$Comp
-L 1K R507
-U 1 1 5A02E33D
-P 2950 5450
-F 0 "R507" H 3000 5634 45  0000 C CNN
-F 1 "1K" H 3000 5550 45  0000 C CNN
-F 2 "yageo:0603" H 2980 5600 20  0001 C CNN
-F 3 "" H 2919 5489 60  0001 C CNN
-F 4 "" H 3319 5889 60  0001 C CNN "1st Source Part Number"
-F 5 "Digikey" H 3219 5789 60  0001 C CNN "1st Source"
-F 6 "RC0603FR-071KL" H 3119 5689 60  0001 C CNN "Manufacturer Part Number"
-F 7 "YAGEO" H 3019 5589 60  0001 C CNN "Manufacturer"
-	1    2950 5450
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2700 4800 2850 4800
-Wire Wire Line
-	2850 3450 2700 3450
-Wire Wire Line
-	2700 3450 2700 3200
-Wire Wire Line
-	3150 3450 3450 3450
 $EndSCHEMATC

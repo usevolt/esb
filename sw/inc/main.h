@@ -106,7 +106,13 @@ typedef struct _dev_st {
 
 	bool network_override;
 
+	// non-volatile data start
 	uv_data_start_t data_start;
+
+	/// @brief: Proportional solenoid dither frequency
+	uint8_t dither_freq;
+	/// @brief: Proportional solenoid dither amplitude
+	uint16_t dither_ampl;
 
 	uv_data_end_t data_end;
 

@@ -12,8 +12,8 @@
 /// @brief: ESB Interface revision
 ///
 /// 1: Initial revision
-///
-#define CONFIG_ESB_IF_REVISION	1
+/// 2: Added proportional solenoid dither frequency & amplitude settings
+#define CONFIG_ESB_IF_REVISION	2
 
 
 
