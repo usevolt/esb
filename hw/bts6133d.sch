@@ -1,0 +1,182 @@
+EESchema Schematic File Version 2
+LIBS:esb-rescue
+LIBS:kemet
+LIBS:usevolt
+LIBS:wurth_elektronik_LED
+LIBS:power
+LIBS:elt21300_kicad
+LIBS:yageo
+LIBS:esb-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 16 13
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Text HLabel 6000 3200 2    60   Output ~ 0
+OUT1
+Text HLabel 3450 3200 0    60   Input ~ 0
+IN1
+Text HLabel 4350 3450 0    60   Output ~ 0
+SENSE1
+$Comp
+L BTS6133D U601
+U 1 1 59D7DBA1
+P 5000 3200
+AR Path="/5A019746/59D7DBA1" Ref="U601"  Part="1" 
+AR Path="/5A01611C/59D7DBA1" Ref="U501"  Part="1" 
+AR Path="/5A01A445/59D7DBA1" Ref="U701"  Part="1" 
+AR Path="/5A01AB59/59D7DBA1" Ref="U801"  Part="1" 
+AR Path="/5A120DD2/59D7DBA1" Ref="U901"  Part="1" 
+AR Path="/5A12FF64/59D7DBA1" Ref="U1101"  Part="1" 
+AR Path="/5A130D3E/59D7DBA1" Ref="U1201"  Part="1" 
+AR Path="/5A1349CF/59D7DBA1" Ref="U1301"  Part="1" 
+AR Path="/5A1358B0/59D7DBA1" Ref="U1402"  Part="1" 
+AR Path="/5A13680F/59D7DBA1" Ref="U1502"  Part="1" 
+AR Path="/5A14370A/59D7DBA1" Ref="U1602"  Part="1" 
+F 0 "U901" H 5050 3547 60  0000 C CNN
+F 1 "BTS6133D" H 5050 3441 60  0000 C CNN
+F 2 "usevolt:DPAK-5" H 4800 3700 60  0001 C CNN
+F 3 "https://www.infineon.com/dgdl/Infineon-BTS6133D-DS-v01_00-EN.pdf?fileId=5546d4625a888733015aa3e3286f102a" H 4900 3800 60  0001 C CNN
+F 4 "BTS6133D" H 5100 4000 60  0001 C CNN "Manufacturer Part Number"
+F 5 "BTS6133DCT-ND" H 5300 4200 60  0001 C CNN "1st Source Part Number"
+F 6 "Digikey" H 5200 4100 60  0001 C CNN "1st Source"
+F 7 "INFINEON" H 5000 3900 60  0001 C CNN "Manufacturer"
+	1    5000 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L 560 R501
+U 1 1 59D7D931
+P 4150 3300
+AR Path="/5A01611C/59D7D931" Ref="R501"  Part="1" 
+AR Path="/5A019746/59D7D931" Ref="R601"  Part="1" 
+AR Path="/5A01A445/59D7D931" Ref="R701"  Part="1" 
+AR Path="/5A01AB59/59D7D931" Ref="R801"  Part="1" 
+AR Path="/5A120DD2/59D7D931" Ref="R902"  Part="1" 
+AR Path="/5A12FF64/59D7D931" Ref="R1102"  Part="1" 
+AR Path="/5A130D3E/59D7D931" Ref="R1202"  Part="1" 
+AR Path="/5A1349CF/59D7D931" Ref="R1302"  Part="1" 
+AR Path="/5A1358B0/59D7D931" Ref="R1403"  Part="1" 
+AR Path="/5A13680F/59D7D931" Ref="R1503"  Part="1" 
+AR Path="/5A14370A/59D7D931" Ref="R1603"  Part="1" 
+F 0 "R902" H 4200 3484 45  0000 C CNN
+F 1 "560" H 4200 3400 45  0000 C CNN
+F 2 "yageo:0603" H 4180 3450 20  0001 C CNN
+F 3 "" H 4119 3339 60  0001 C CNN
+F 4 "" H 4519 3739 60  0001 C CNN "1st Source Part Number"
+F 5 "Digikey" H 4419 3639 60  0001 C CNN "1st Source"
+F 6 "RC0603FR-07560RL" H 4319 3539 60  0001 C CNN "Manufacturer Part Number"
+F 7 "YAGEO" H 4219 3439 60  0001 C CNN "Manufacturer"
+	1    4150 3300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4350 3300 4700 3300
+Wire Wire Line
+	3850 3300 4050 3300
+Wire Wire Line
+	3450 3200 4700 3200
+Wire Wire Line
+	4350 3450 4600 3450
+$Comp
+L VDD #PWR602
+U 1 1 59D7E637
+P 4600 3000
+AR Path="/5A019746/59D7E637" Ref="#PWR602"  Part="1" 
+AR Path="/5A01611C/59D7E637" Ref="#PWR502"  Part="1" 
+AR Path="/5A01A445/59D7E637" Ref="#PWR702"  Part="1" 
+AR Path="/5A01AB59/59D7E637" Ref="#PWR802"  Part="1" 
+AR Path="/5A120DD2/59D7E637" Ref="#PWR902"  Part="1" 
+AR Path="/5A12FF64/59D7E637" Ref="#PWR1102"  Part="1" 
+AR Path="/5A130D3E/59D7E637" Ref="#PWR1202"  Part="1" 
+AR Path="/5A1349CF/59D7E637" Ref="#PWR1302"  Part="1" 
+AR Path="/5A1358B0/59D7E637" Ref="#PWR1402"  Part="1" 
+AR Path="/5A13680F/59D7E637" Ref="#PWR1502"  Part="1" 
+AR Path="/5A14370A/59D7E637" Ref="#PWR1602"  Part="1" 
+F 0 "#PWR902" H 4600 2850 50  0001 C CNN
+F 1 "VDD" H 4617 3173 50  0000 C CNN
+F 2 "" H 4600 3000 50  0000 C CNN
+F 3 "" H 4600 3000 50  0000 C CNN
+	1    4600 3000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4600 3100 4700 3100
+Wire Wire Line
+	5400 3300 5500 3300
+Wire Wire Line
+	5500 3300 5500 3200
+Wire Wire Line
+	5400 3200 6000 3200
+Connection ~ 5500 3200
+Wire Wire Line
+	4600 3000 4600 3100
+Wire Wire Line
+	4600 3450 4600 3300
+Connection ~ 4600 3300
+$Comp
+L GND #PWR601
+U 1 1 5A014ACD
+P 3850 3600
+AR Path="/5A019746/5A014ACD" Ref="#PWR601"  Part="1" 
+AR Path="/5A01611C/5A014ACD" Ref="#PWR501"  Part="1" 
+AR Path="/5A01A445/5A014ACD" Ref="#PWR701"  Part="1" 
+AR Path="/5A01AB59/5A014ACD" Ref="#PWR801"  Part="1" 
+AR Path="/5A120DD2/5A014ACD" Ref="#PWR901"  Part="1" 
+AR Path="/5A12FF64/5A014ACD" Ref="#PWR1101"  Part="1" 
+AR Path="/5A130D3E/5A014ACD" Ref="#PWR1201"  Part="1" 
+AR Path="/5A1349CF/5A014ACD" Ref="#PWR1301"  Part="1" 
+AR Path="/5A1358B0/5A014ACD" Ref="#PWR1401"  Part="1" 
+AR Path="/5A13680F/5A014ACD" Ref="#PWR1501"  Part="1" 
+AR Path="/5A14370A/5A014ACD" Ref="#PWR1601"  Part="1" 
+F 0 "#PWR901" H 3850 3350 50  0001 C CNN
+F 1 "GND" H 3855 3427 50  0000 C CNN
+F 2 "" H 3850 3600 50  0000 C CNN
+F 3 "" H 3850 3600 50  0000 C CNN
+	1    3850 3600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3850 3600 3850 3300
+$Comp
+L 1K R502
+U 1 1 5A058D94
+P 3600 3350
+AR Path="/5A01611C/5A058D94" Ref="R502"  Part="1" 
+AR Path="/5A019746/5A058D94" Ref="R602"  Part="1" 
+AR Path="/5A01A445/5A058D94" Ref="R702"  Part="1" 
+AR Path="/5A01AB59/5A058D94" Ref="R802"  Part="1" 
+AR Path="/5A120DD2/5A058D94" Ref="R901"  Part="1" 
+AR Path="/5A12FF64/5A058D94" Ref="R1101"  Part="1" 
+AR Path="/5A130D3E/5A058D94" Ref="R1201"  Part="1" 
+AR Path="/5A1349CF/5A058D94" Ref="R1301"  Part="1" 
+AR Path="/5A1358B0/5A058D94" Ref="R1402"  Part="1" 
+AR Path="/5A13680F/5A058D94" Ref="R1502"  Part="1" 
+AR Path="/5A14370A/5A058D94" Ref="R1602"  Part="1" 
+F 0 "R901" V 3608 3408 45  0000 L CNN
+F 1 "1K" V 3692 3408 45  0000 L CNN
+F 2 "yageo:0603" H 3630 3500 20  0001 C CNN
+F 3 "" H 3569 3389 60  0001 C CNN
+F 4 "" H 3969 3789 60  0001 C CNN "1st Source Part Number"
+F 5 "Digikey" H 3869 3689 60  0001 C CNN "1st Source"
+F 6 "RC0603FR-071KL" H 3769 3589 60  0001 C CNN "Manufacturer Part Number"
+F 7 "YAGEO" H 3669 3489 60  0001 C CNN "Manufacturer"
+	1    3600 3350
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3600 3250 3600 3200
+Connection ~ 3600 3200
+Wire Wire Line
+	3600 3550 3850 3550
+Connection ~ 3850 3550
+$EndSCHEMATC

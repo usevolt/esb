@@ -11,7 +11,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 3 11
+Sheet 3 13
 Title ""
 Date ""
 Rev ""
@@ -588,4 +588,12 @@ F 9 "MICROCHIP" H 2500 3250 60  0001 C CNN "Manufacturer"
 $EndComp
 Wire Wire Line
 	2650 3050 2800 3050
+Wire Wire Line
+	5200 5150 4600 5150
+Wire Wire Line
+	5200 5050 4600 5050
+Text HLabel 4600 5150 0    60   Output ~ 0
+OILC
+Text HLabel 4600 5050 0    60   Input ~ 0
+OILC_SENSE
 $EndSCHEMATC

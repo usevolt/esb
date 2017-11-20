@@ -195,7 +195,6 @@ void step(void* me) {
 		uv_output_step(&this->engine_start2,step_ms);
 		uv_output_step(&this->alt_ig, step_ms);
 		uv_solenoid_output_step(&this->pump, step_ms);
-		// update pump solenoid dither parameters
 
 
 		// terminal step function
