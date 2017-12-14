@@ -9,14 +9,13 @@
 #define UV_HAL_CONFIG_H_
 
 
-#include "uv_if_config.h"
 #include "can_esb.h"
 #include "can_fsb.h"
 
 /**** USER CONFIGURATIONS ****/
 
-#define CONFIG_INTERFACE_REVISION		CONFIG_ESB_IF_REVISION
 
+#define CONFIG_INTERFACE_REVISION		0
 
 
 #define CONFIG_TARGET_LPC11C14			0
@@ -93,7 +92,7 @@
 #define CONFIG_ADC_CHANNEL0_9			1
 #define CONFIG_ADC_CHANNEL0_10			1
 #define CONFIG_ADC_CHANNEL0_11			1
-#define CONFIG_ADC_CHANNEL1_0			0
+#define CONFIG_ADC_CHANNEL1_0			1
 #define CONFIG_ADC_CHANNEL1_1			0
 #define CONFIG_ADC_CHANNEL1_2			0
 #define CONFIG_ADC_CHANNEL1_3			0

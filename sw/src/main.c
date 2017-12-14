@@ -35,6 +35,8 @@ void init(dev_st* me) {
 	// load non-volatile data
 	if (uv_memory_load()) {
 
+		this->oilcooler_trigger_temp = OIL_TEMP_DEFAULT_TRIGGER_VALUE_C;
+
 		// initialize non-volatile memory to default settings
 		this->dither_ampl = 120;
 		this->dither_freq = 50;
@@ -62,6 +64,9 @@ void init(dev_st* me) {
 	uv_output_init(&this->alt_ig, ALT_IG_SENSE_AIN,
 			ALT_IG_O, 1, 2000, 5000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_ALT_IG_OVERLOAD, ESB_EMCY_ALT_IG_FAULT);
+	uv_output_init(&this->oilcooler, OILCOOLER_AIN, OILCOOLER_O,
+			1, 15000, 30000, OUTPUT_MOVING_AVG_COUNT,
+			ESB_EMCY_OILCOOLER_OVERCURRENT, ESB_EMCY_OILCOOLER_FAULT);
 	uv_solenoid_output_init(&this->pump, PUMP_PWM, this->dither_freq,
 			DUTY_CYCLEPPT(this->dither_ampl), PUMP_SENSE_AIN,
 			0, 3500, 5000, OUTPUT_MOVING_AVG_COUNT,
@@ -72,6 +77,9 @@ void init(dev_st* me) {
 	UV_GPIO_INIT_INPUT(ALT_P_RPM_I, PULL_UP_ENABLED);
 	UV_GPIO_INIT_INPUT(MOTOR_WATER_TEMP_I, PULL_UP_ENABLED);
 	UV_GPIO_INIT_INPUT(MOTOR_OIL_PRESS_I, PULL_UP_ENABLED);
+
+	uv_hysteresis_init(&this->oil_temp_hyst, this->oilcooler_trigger_temp, OIL_TEMP_HYSTERESIS_C, false);
+
 
 	// motor temp
 	sensor_init(&this->motor_temp, MOTOR_TEMP_AIN, MOTOR_TEMP_AVG_COUNT,
@@ -194,6 +202,7 @@ void step(void* me) {
 		uv_output_step(&this->engine_start1, step_ms);
 		uv_output_step(&this->engine_start2,step_ms);
 		uv_output_step(&this->alt_ig, step_ms);
+		uv_output_step(&this->oilcooler, step_ms);
 		uv_solenoid_output_step(&this->pump, step_ms);
 
 
@@ -206,13 +215,13 @@ void step(void* me) {
 				uv_output_get_current(&this->engine_start1) +
 				uv_output_get_current(&this->engine_start2) +
 				uv_output_get_current(&this->alt_ig +
+				uv_output_get_current(&this->oilcooler) +
 				uv_solenoid_output_get_current(&this->pump));
 
 
 		// motor temperature
-//		todo: Temperature sensors commented until HW implements them
-//		sensor_step(&this->motor_temp, step_ms);
-//		sensor_step(&this->oil_temp, step_ms);
+		sensor_step(&this->motor_temp, step_ms);
+		sensor_step(&this->oil_temp, step_ms);
 		sensor_step(&this->fuel_level, step_ms);
 		sensor_step(&this->oil_level, step_ms);
 
@@ -286,38 +295,44 @@ void step(void* me) {
 			}
 		}
 
-//		// glow is active only when ignition key is in PREHEAT position
-//		uv_output_set_state(&this->glow,
-//				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_PREHEAT) ?
-//						OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
-//
-//		// starter is active only when ignition key is in START position
-//		uv_output_set_state(&this->starter,
-//				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_START) ?
-//				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
-//
-//		// ac is controlled by CSB when ignition key is in ON position
-//		uv_output_set_state(&this->ac,
-//				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ?
-//				uv_output_get_state(&this->ac) : OUTPUT_STATE_OFF);
+		// glow is active only when ignition key is in PREHEAT position
+		uv_output_set_state(&this->glow,
+				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_PREHEAT) ?
+						OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
+
+		// starter is active only when ignition key is in START position
+		uv_output_set_state(&this->starter,
+				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_START) ?
+				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
+
+		// ac is controlled by CSB when ignition key is in ON position
+		uv_output_set_state(&this->ac,
+				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ?
+				uv_output_get_state(&this->ac) : OUTPUT_STATE_OFF);
 
 		// alternator ignition is on if engine is running and starter is not running
 		uv_output_set_state(&this->alt_ig,
 				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ?
 				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
 
+		// oil cooler control
+//		uv_hysteresis_set_trigger_value(&this->oil_temp_hyst, this->oilcooler_trigger_temp);
+//		uv_hysteresis_step(&this->oil_temp_hyst, sensor_get_value(&this->oil_temp));
+//		uv_output_set_state(&this->oilcooler, (uv_hysteresis_get_output(&this->oil_temp_hyst)) ?
+//				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
 
 
-//		// emcy
-//		if (this->fsb.emcy) {
-//			uv_output_set_state(&this->glow, OUTPUT_STATE_OFF);
-//			uv_output_set_state(&this->starter, OUTPUT_STATE_OFF);
-//			uv_output_set_state(&this->ac, OUTPUT_STATE_OFF);
-//			uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
-//			uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
-//			uv_output_set_state(&this->alt_ig, OUTPUT_STATE_OFF);
-//			uv_solenoid_output_set_state(&this->pump, OUTPUT_STATE_OFF);
-//		}
+		// emcy
+		if (this->fsb.emcy) {
+			uv_output_set_state(&this->glow, OUTPUT_STATE_OFF);
+			uv_output_set_state(&this->starter, OUTPUT_STATE_OFF);
+			uv_output_set_state(&this->ac, OUTPUT_STATE_OFF);
+			uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
+			uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
+			uv_output_set_state(&this->alt_ig, OUTPUT_STATE_OFF);
+			uv_output_set_state(&this->oilcooler, OUTPUT_STATE_OFF);
+			uv_solenoid_output_set_state(&this->pump, OUTPUT_STATE_OFF);
+		}
 
 		uv_rtos_task_delay(step_ms);
 	}

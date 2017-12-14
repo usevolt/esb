@@ -64,6 +64,9 @@
 
 #define OUTPUT_MOVING_AVG_COUNT		100
 
+#define OIL_TEMP_HYSTERESIS_C				10
+#define OIL_TEMP_DEFAULT_TRIGGER_VALUE_C	70
+
 
 
 
@@ -79,6 +82,7 @@ typedef struct _dev_st {
 	uv_output_st engine_start1;
 	uv_output_st engine_start2;
 	uv_output_st alt_ig;
+	uv_output_st oilcooler;
 	uv_solenoid_output_st pump;
 
 	uint16_t total_current;
@@ -87,6 +91,8 @@ typedef struct _dev_st {
 	sensor_st oil_temp;
 	sensor_st fuel_level;
 	sensor_st oil_level;
+
+	uv_hysteresis_st oil_temp_hyst;
 
 	uint16_t alt_p_rpm;
 	uint8_t alt_l;
@@ -108,6 +114,8 @@ typedef struct _dev_st {
 
 	// non-volatile data start
 	uv_data_start_t data_start;
+
+	int8_t oilcooler_trigger_temp;
 
 	/// @brief: Proportional solenoid dither frequency
 	uint8_t dither_freq;

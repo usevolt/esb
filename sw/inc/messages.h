@@ -28,6 +28,7 @@ typedef enum {
 	CMD_ENGINE,
 	CMD_PUMP,
 	CMD_CLEAR,
+	CMD_OILC,
 	CMD_COUNT
 } gsm_commands_e;
 

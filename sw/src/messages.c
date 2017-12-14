@@ -129,6 +129,30 @@ canopen_object_st obj_dict[] = {
 				.permissions = ESB_ALT_IG_CURRENT_PERMISSIONS,
 				.data_ptr = &this->alt_ig.current
 		},
+		{
+				.main_index = ESB_OILCOOLER_STATUS_INDEX,
+				.sub_index = ESB_OILCOOLER_STATUS_SUBINDEX,
+				.type = ESB_OILCOOLER_STATUS_TYPE,
+				.permissions = ESB_OILCOOLER_STATUS_PERMISSIONS,
+				.data_ptr = &this->oilcooler.state
+		},
+		{
+				.main_index = ESB_OILCOOLER_CURRENT_INDEX,
+				.sub_index = ESB_OILCOOLER_CURRENT_SUBINDEX,
+				.type = ESB_OILCOOLER_CURRENT_TYPE,
+				.permissions = ESB_OILCOOLER_CURRENT_PERMISSIONS,
+				.data_ptr = &this->oilcooler.current
+		},
+		{
+				.main_index = ESB_OILCOOLER_TRIGGER_INDEX,
+				.sub_index = ESB_OILCOOLER_TRIGGER_SUBINDEX,
+				.type = ESB_OILCOOLER_TRIGGER_TYPE,
+				.permissions = ESB_OILCOOLER_TRIGGER_PERMISSIONS,
+				.data_ptr = &this->oilcooler_trigger_temp
+		},
+
+
+
 
 		{
 				.main_index = ESB_RPM_INDEX,
@@ -231,6 +255,7 @@ int obj_dict_len() {
 void engine_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 void pump_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 void clear_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
+void oilc_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 
 
 
@@ -259,6 +284,13 @@ const uv_command_st terminal_commands[] = {
 				.instructions = "Sets the hydraulic pump output state.\n"
 						"Usage: pump (milliamps)",
 				.callback = &pump_callb
+		},
+		{
+				.id = CMD_OILC,
+				.str = "oilc",
+				.instructions = "Sets the oil cooler trigger temperature.\n"
+						"Usage: oilc <-127...127>",
+				.callback = &oilc_callb
 		}
 };
 
@@ -301,6 +333,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	stat_output(&this->engine_start2, "Engine start 2");
 	stat_output((uv_output_st *) &this->pump, "Hydr Pump");
 	stat_output(&this->alt_ig, "Alt IG");
+	stat_output(&this->oilcooler, "OilC");
 	printf("Vdd: %u mV\n", this->vdd);
 
 	printf("motor temp adc: 0x%x / 0x%x\n", uv_adc_read(MOTOR_TEMP_AIN), ADC_MAX_VALUE);
@@ -341,6 +374,16 @@ void pump_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv
 		uv_solenoid_output_set(&this->pump, argv[0].number);
 	}
 }
+
+
+
+void oilc_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) {
+	if (args) {
+		this->oilcooler_trigger_temp = argv[0].number;
+	}
+	printf("Oil cooler trigger temp: %i\n", this->oilcooler_trigger_temp);
+}
+
 
 
 
