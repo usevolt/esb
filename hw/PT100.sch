@@ -315,6 +315,4 @@ Connection ~ 7300 3850
 Wire Wire Line
 	7000 3000 7000 3700
 Connection ~ 7000 3300
-Wire Wire Line
-	7000 3100 7000 3100
 $EndSCHEMATC

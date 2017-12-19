@@ -2414,7 +2414,7 @@
     (fp_text reference R1602 (at 3.55 -0.95) (layer F.SilkS)
       (effects (font (size 0.8128 0.8128) (thickness 0.0762)))
     )
-    (fp_text value 1K (at 2.35 0.1) (layer F.SilkS)
+    (fp_text value 1K (at 2.45 0.05) (layer F.SilkS)
       (effects (font (size 0.8128 0.8128) (thickness 0.0762)))
     )
     (fp_line (start 1.4224 0.6604) (end 1.4224 -0.6604) (layer F.SilkS) (width 0.2))

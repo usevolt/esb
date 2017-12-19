@@ -139,7 +139,12 @@ void init(dev_st* me) {
 /// @brief: PT100 resistor teaching values in milliohms
 #define PT100_RES_0C_MOHM		100000
 #define PT100_RES_100C_MOHM		139000
-#define PT100_RES_NEG50C_MOHM	80500
+
+/// @brief: Indicates the ADC reading when PT100 sensor is
+/// in series with 1k5 resistor (voltage divider) and that
+/// voltage is amplified by 11 (op amp with 10k + 1k negative feedback)
+#define PT100_ADC_0C			2816
+#define PT100_ADC_100C			3821
 
 
 /// @brief: Returns the ADC's read value as celsius degrees
@@ -150,15 +155,9 @@ bool adc_get_temp(uv_adc_channels_e adc_chn, int16_t *dest) {
 		ret = false;
 	}
 	else {
-		int64_t mv = adc * 3300 / ADC_MAX_VALUE;
-		if (mv >= 3300) {
-			mv = 3300 - 1;
-		}
-		int64_t res_mohm = 10000000 * mv / (3300 - mv) / 50;
 
-
-		int32_t t = uv_reli(res_mohm, PT100_RES_NEG50C_MOHM, PT100_RES_100C_MOHM);
-		*dest = uv_lerpi(t, -50, 100);
+		int32_t t = uv_reli(adc, PT100_ADC_0C, PT100_ADC_100C);
+		*dest = uv_lerpi(t, 0, 100);
 	}
 	return ret;
 }

@@ -37,7 +37,7 @@
   )
 
   (setup
-    (last_trace_width 0.6)
+    (last_trace_width 0.2)
     (user_trace_width 0.3)
     (user_trace_width 0.4)
     (user_trace_width 0.6)
@@ -3318,7 +3318,7 @@
   )
 
   (dimension 90 (width 0.3) (layer F.Fab)
-    (gr_text "90,000 mm" (at 228.45 94 270) (layer F.Fab) (tstamp 5A32A0EB)
+    (gr_text "90,000 mm" (at 228.45 94 270) (layer F.Fab) (tstamp 5A39345D)
       (effects (font (size 1.5 1.5) (thickness 0.3)))
     )
     (feature1 (pts (xy 213 139) (xy 229.8 139)))
@@ -3330,7 +3330,7 @@
     (arrow2b (pts (xy 227.1 49) (xy 227.686421 50.126504)))
   )
   (dimension 100 (width 0.3) (layer F.Fab)
-    (gr_text "100,000 mm" (at 168 41.45) (layer F.Fab) (tstamp 5A32A0EC)
+    (gr_text "100,000 mm" (at 168 41.45) (layer F.Fab) (tstamp 5A39345E)
       (effects (font (size 1.5 1.5) (thickness 0.3)))
     )
     (feature1 (pts (xy 218 54) (xy 218 40.1)))
