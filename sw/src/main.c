@@ -224,7 +224,6 @@ void rpm_callb(uv_gpios_e gpio) {
 	if (us != 0) {
 		uint32_t freq = 1000000 / us;
 		this->alt_p_rpm = freq * 5.5f;
-//		this->alt_p_rpm = ALT_POLE_COUNT * freq / 120;
 	}
 }
 
