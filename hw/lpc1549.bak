@@ -4,7 +4,6 @@ LIBS:kemet
 LIBS:usevolt
 LIBS:wurth_elektronik_LED
 LIBS:power
-LIBS:elt21300_kicad
 LIBS:yageo
 LIBS:esb-cache
 EELAYER 26 0
@@ -211,36 +210,6 @@ Text Label 9350 4450 0    60   ~ 0
 RESET
 Text Label 4800 1950 0    60   ~ 0
 RESET
-$Comp
-L 10K R301
-U 1 1 589226EB
-P 9250 3550
-F 0 "R301" V 9258 3608 45  0000 L CNN
-F 1 "10K" V 9342 3608 45  0000 L CNN
-F 2 "multicomp:0603" H 9280 3700 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/1788326.pdf?_ga=1.214208087.1948984246.1460023966" H 9219 3589 60  0001 C CNN
-F 4 "9330399" H 9619 3989 60  0001 C CNN "1st Source Part Number"
-F 5 "Farnell" H 9519 3889 60  0001 C CNN "1st Source"
-F 6 "MC0063W0603110K" H 9419 3789 60  0001 C CNN "Manufacturer Part Number"
-F 7 "MULTICOMP" H 9319 3689 60  0001 C CNN "Manufacturer"
-	1    9250 3550
-	0    1    1    0   
-$EndComp
-$Comp
-L 10K R302
-U 1 1 58922760
-P 9500 3600
-F 0 "R302" V 9508 3658 45  0000 L CNN
-F 1 "10K" V 9592 3658 45  0000 L CNN
-F 2 "multicomp:0603" H 9530 3750 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/1788326.pdf?_ga=1.214208087.1948984246.1460023966" H 9469 3639 60  0001 C CNN
-F 4 "9330399" H 9869 4039 60  0001 C CNN "1st Source Part Number"
-F 5 "Farnell" H 9769 3939 60  0001 C CNN "1st Source"
-F 6 "MC0063W0603110K" H 9669 3839 60  0001 C CNN "Manufacturer Part Number"
-F 7 "MULTICOMP" H 9569 3739 60  0001 C CNN "Manufacturer"
-	1    9500 3600
-	0    1    1    0   
-$EndComp
 Text HLabel 7500 2050 2    60   Input ~ 0
 ALT_P/RPM
 Text HLabel 4800 2250 0    60   Input ~ 0
@@ -556,12 +525,12 @@ F 0 "U302" H 6100 3826 45  0000 C CNN
 F 1 "LPC1549JBD64" H 5700 2750 45  0001 L BNN
 F 2 "usevolt:QFP64" H 5730 2900 20  0001 C CNN
 F 3 "http://www.nxp.com/documents/data_sheet/LPC15XX.pdf" H 5310 3670 60  0001 C CNN
-F 4 "2400142" H 5910 4270 60  0001 C CNN "2nd Source Part Number"
-F 5 "Farnell" H 5810 4170 60  0001 C CNN "2nd Source"
-F 6 "568-11350-ND" H 5710 4070 60  0001 C CNN "1st Source Part Number"
-F 7 "Digi-Key" H 5610 3970 60  0001 C CNN "1st Source"
-F 8 "LPC1549JBD64E" H 6100 3731 60  0000 C CNN "Manufacturer Part Number"
-F 9 "NXP" H 5410 3770 60  0001 C CNN "Manufacturer"
+F 4 "NXP" H 5410 3770 60  0001 C CNN "Manufacturer"
+F 5 "LPC1549JBD64QL" H 6100 3731 60  0000 C CNN "Manufacturer Part Number"
+F 6 "Digi-Key" H 5610 3970 60  0001 C CNN "1st Source"
+F 7 "568-11350-ND" H 5710 4070 60  0001 C CNN "1st Source Part Number"
+F 8 "Farnell" H 5810 4170 60  0001 C CNN "2nd Source"
+F 9 "2400142" H 5910 4270 60  0001 C CNN "2nd Source Part Number"
 	1    5700 2750
 	1    0    0    -1  
 $EndComp
@@ -596,4 +565,34 @@ Text HLabel 4600 5150 0    60   Output ~ 0
 OILC
 Text HLabel 4600 5050 0    60   Input ~ 0
 OILC_SENSE
+$Comp
+L 10K R302
+U 1 1 5A533409
+P 9500 3600
+F 0 "R302" V 9508 3658 45  0000 L CNN
+F 1 "10K" V 9592 3658 45  0000 L CNN
+F 2 "yageo:0603" H 9530 3750 20  0001 C CNN
+F 3 "" H 9469 3639 60  0001 C CNN
+F 4 "" H 9869 4039 60  0001 C CNN "1st Source Part Number"
+F 5 "Digikey" H 9769 3939 60  0001 C CNN "1st Source"
+F 6 "RC0603FR-0710KL" H 9669 3839 60  0001 C CNN "Manufacturer Part Number"
+F 7 "YAGEO" H 9569 3739 60  0001 C CNN "Manufacturer"
+	1    9500 3600
+	0    1    1    0   
+$EndComp
+$Comp
+L 10K R301
+U 1 1 5A533486
+P 9250 3550
+F 0 "R301" V 9258 3608 45  0000 L CNN
+F 1 "10K" V 9342 3608 45  0000 L CNN
+F 2 "yageo:0603" H 9280 3700 20  0001 C CNN
+F 3 "" H 9219 3589 60  0001 C CNN
+F 4 "" H 9619 3989 60  0001 C CNN "1st Source Part Number"
+F 5 "Digikey" H 9519 3889 60  0001 C CNN "1st Source"
+F 6 "RC0603FR-0710KL" H 9419 3789 60  0001 C CNN "Manufacturer Part Number"
+F 7 "YAGEO" H 9319 3689 60  0001 C CNN "Manufacturer"
+	1    9250 3550
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC

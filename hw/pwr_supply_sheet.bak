@@ -4,7 +4,6 @@ LIBS:kemet
 LIBS:usevolt
 LIBS:wurth_elektronik_LED
 LIBS:power
-LIBS:elt21300_kicad
 LIBS:yageo
 LIBS:esb-cache
 EELAYER 26 0
@@ -134,49 +133,6 @@ F 7 "KEMET" H 8604 4059 60  0001 C CNN "Manufacturer"
 	1    8600 3950
 	0    1    1    0   
 $EndComp
-Wire Wire Line
-	8000 4950 8000 4250
-Wire Wire Line
-	6850 4950 6850 4150
-Connection ~ 8000 4950
-Wire Wire Line
-	6200 4950 6200 4150
-Connection ~ 6850 4950
-Wire Wire Line
-	5550 4950 5550 4050
-Connection ~ 6200 4950
-Wire Wire Line
-	3800 4950 3800 4150
-Connection ~ 5550 4950
-Wire Wire Line
-	3400 4950 3400 4150
-Connection ~ 3800 4950
-Wire Wire Line
-	2800 4150 2800 5150
-Connection ~ 3400 4950
-Connection ~ 2800 3850
-Connection ~ 3400 3850
-Wire Wire Line
-	8600 4950 8600 4150
-Wire Wire Line
-	8600 3600 8600 3850
-Wire Wire Line
-	8600 3850 8400 3850
-Wire Wire Line
-	6700 3850 7600 3850
-Connection ~ 6850 3850
-Wire Wire Line
-	5550 3850 6300 3850
-Connection ~ 6200 3850
-Wire Wire Line
-	6000 3950 6000 3850
-Connection ~ 6000 3850
-Wire Wire Line
-	5700 3950 5550 3950
-Wire Wire Line
-	5550 3750 6850 3750
-Wire Wire Line
-	6850 3600 6850 3850
 $Comp
 L +5V #PWR206
 U 1 1 57B831F8
@@ -188,7 +144,6 @@ F 3 "" H 6850 3600 50  0000 C CNN
 	1    6850 3600
 	1    0    0    -1  
 $EndComp
-Connection ~ 6850 3750
 $Comp
 L +3V3 #PWR207
 U 1 1 57B83259
@@ -200,25 +155,14 @@ F 3 "" H 8600 3600 50  0000 C CNN
 	1    8600 3600
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	1350 3850 1700 3850
-Wire Wire Line
-	3800 3700 4550 3700
-Wire Wire Line
-	4550 3700 4550 3750
 Text HLabel 7050 3600 2    60   Output ~ 0
 +5V
-Wire Wire Line
-	7050 3600 6850 3600
 Text HLabel 8750 3600 2    60   Output ~ 0
 +3V3
-Wire Wire Line
-	8750 3600 8600 3600
 Text HLabel 3150 2700 2    60   Output ~ 0
 VDD
 Text HLabel 2700 4950 0    60   Input ~ 0
 GND
-Connection ~ 2800 4950
 NoConn ~ 4550 3850
 NoConn ~ 4550 3950
 NoConn ~ 4550 4050
@@ -244,8 +188,6 @@ F 3 "" H 3800 2300 50  0000 C CNN
 	1    3800 2300
 	-1   0    0    1   
 $EndComp
-Wire Wire Line
-	3800 2300 3800 2100
 $Comp
 L GND #PWR205
 U 1 1 57B9D351
@@ -268,24 +210,17 @@ F 3 "" H 4300 2150 50  0000 C CNN
 	1    4300 2150
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	4300 2150 4300 2350
 $Comp
-L GND #PWR201
+L GND #PWR202
 U 1 1 57CF1F5E
 P 2800 5150
-F 0 "#PWR201" H 2800 4900 50  0001 C CNN
+F 0 "#PWR202" H 2800 4900 50  0001 C CNN
 F 1 "GND" H 2805 4977 50  0000 C CNN
 F 2 "" H 2800 5150 50  0000 C CNN
 F 3 "" H 2800 5150 50  0000 C CNN
 	1    2800 5150
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	3800 3850 3800 3700
-Connection ~ 1500 3850
-Wire Wire Line
-	2700 3850 3800 3850
 $Comp
 L IND_744045210 L201
 U 1 1 58945E39
@@ -303,10 +238,6 @@ F 9 "732-3072-1-ND" H 7000 4390 60  0001 C CNN "2nd Source Part Number"
 	1    6500 3850
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	2000 3850 2300 3850
-Wire Wire Line
-	2700 4950 8600 4950
 $Comp
 L DIODE_RS07J-GS18 D201
 U 1 1 5896E2A2
@@ -361,55 +292,45 @@ $EndComp
 $Comp
 L 10K R201
 U 1 1 59B1277F
-P 3100 4050
-F 0 "R201" V 3108 4108 45  0000 L CNN
-F 1 "10K" V 3192 4108 45  0000 L CNN
-F 2 "multicomp:0603" H 3130 4200 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/1788326.pdf?_ga=1.214208087.1948984246.1460023966" H 3069 4089 60  0001 C CNN
-F 4 "9330399" H 3469 4489 60  0001 C CNN "1st Source Part Number"
-F 5 "Farnell" H 3369 4389 60  0001 C CNN "1st Source"
-F 6 "MC0063W0603110K" H 3269 4289 60  0001 C CNN "Manufacturer Part Number"
-F 7 "MULTICOMP" H 3169 4189 60  0001 C CNN "Manufacturer"
-	1    3100 4050
+P 1500 4350
+F 0 "R201" V 1508 4408 45  0000 L CNN
+F 1 "10K" V 1592 4408 45  0000 L CNN
+F 2 "multicomp:0603" H 1530 4500 20  0001 C CNN
+F 3 "http://www.farnell.com/datasheets/1788326.pdf?_ga=1.214208087.1948984246.1460023966" H 1469 4389 60  0001 C CNN
+F 4 "9330399" H 1869 4789 60  0001 C CNN "1st Source Part Number"
+F 5 "Farnell" H 1769 4689 60  0001 C CNN "1st Source"
+F 6 "MC0063W0603110K" H 1669 4589 60  0001 C CNN "Manufacturer Part Number"
+F 7 "MULTICOMP" H 1569 4489 60  0001 C CNN "Manufacturer"
+	1    1500 4350
 	0    1    1    0   
 $EndComp
 $Comp
 L 1K R202
 U 1 1 59B12803
-P 3100 4450
-F 0 "R202" V 3108 4508 45  0000 L CNN
-F 1 "1K" V 3192 4508 45  0000 L CNN
-F 2 "multicomp:0603" H 3130 4600 20  0001 C CNN
-F 3 "" H 3069 4489 60  0001 C CNN
-F 4 "9330380" H 3469 4889 60  0001 C CNN "1st Source Part Number"
-F 5 "Farnell" H 3369 4789 60  0001 C CNN "1st Source"
-F 6 "MC0063W060311K" H 3269 4689 60  0001 C CNN "Manufacturer Part Number"
-F 7 "MULTICOMP" H 3169 4589 60  0001 C CNN "Manufacturer"
-	1    3100 4450
+P 1500 4750
+F 0 "R202" V 1508 4808 45  0000 L CNN
+F 1 "1K" V 1592 4808 45  0000 L CNN
+F 2 "multicomp:0603" H 1530 4900 20  0001 C CNN
+F 3 "" H 1469 4789 60  0001 C CNN
+F 4 "9330380" H 1869 5189 60  0001 C CNN "1st Source Part Number"
+F 5 "Farnell" H 1769 5089 60  0001 C CNN "1st Source"
+F 6 "MC0063W060311K" H 1669 4989 60  0001 C CNN "Manufacturer Part Number"
+F 7 "MULTICOMP" H 1569 4889 60  0001 C CNN "Manufacturer"
+	1    1500 4750
 	0    1    1    0   
 $EndComp
 $Comp
-L GND #PWR203
+L GND #PWR201
 U 1 1 59B128CC
-P 3100 4700
-F 0 "#PWR203" H 3100 4450 50  0001 C CNN
-F 1 "GND" H 3105 4527 50  0000 C CNN
-F 2 "" H 3100 4700 50  0000 C CNN
-F 3 "" H 3100 4700 50  0000 C CNN
-	1    3100 4700
+P 1500 5000
+F 0 "#PWR201" H 1500 4750 50  0001 C CNN
+F 1 "GND" H 1505 4827 50  0000 C CNN
+F 2 "" H 1500 5000 50  0000 C CNN
+F 3 "" H 1500 5000 50  0000 C CNN
+	1    1500 5000
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	3100 4700 3100 4650
-Wire Wire Line
-	3100 4250 3100 4350
-Wire Wire Line
-	3100 3950 3100 3850
-Connection ~ 1600 3850
-Wire Wire Line
-	3100 4300 2600 4300
-Connection ~ 3100 4300
-Text HLabel 2600 4300 0    60   Output ~ 0
+Text HLabel 1450 4600 0    60   Output ~ 0
 VDD_SENSE
 $Comp
 L SCHOTTKY_DIODE_V40PW10C D202
@@ -428,15 +349,6 @@ F 9 "VISHAY" H 2100 3550 60  0001 C CNN "Manufacturer"
 	1    2050 3250
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	2750 3200 2450 3200
-Wire Wire Line
-	1500 2650 1500 3850
-Wire Wire Line
-	1500 3150 1650 3150
-Wire Wire Line
-	1650 3250 1500 3250
-Connection ~ 1500 3250
 $Comp
 L SCHOTTKY_DIODE_V40PW10C D205
 U 1 1 59D9089A
@@ -454,17 +366,6 @@ F 9 "VISHAY" H 2100 3050 60  0001 C CNN "Manufacturer"
 	1    2050 2750
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	1500 2750 1650 2750
-Connection ~ 1500 3150
-Wire Wire Line
-	1500 2650 1650 2650
-Connection ~ 1500 2750
-Wire Wire Line
-	2450 2700 3150 2700
-Wire Wire Line
-	2750 2700 2750 3200
-Connection ~ 3100 3850
 $Comp
 L CAP_EEE-FK1H470P C202
 U 1 1 5A13B69C
@@ -482,8 +383,6 @@ F 9 "PCE3815CT-ND" H 4200 4390 60  0001 C CNN "1st Source Part Number"
 	1    3800 4050
 	0    1    1    0   
 $EndComp
-Connection ~ 3800 3850
-Connection ~ 2750 2700
 $Comp
 L DIODE_TVS_TPSMD28A D206
 U 1 1 5A13BC8E
@@ -499,20 +398,116 @@ F 7 "F6570CT-ND" H 3410 3360 60  0001 C CNN "1st Source Part Number"
 	1    2900 2950
 	0    -1   -1   0   
 $EndComp
-Wire Wire Line
-	2900 2750 2900 2700
-Connection ~ 2900 2700
 $Comp
-L GND #PWR202
+L GND #PWR203
 U 1 1 5A13BD77
 P 2900 3150
-F 0 "#PWR202" H 2900 2900 50  0001 C CNN
+F 0 "#PWR203" H 2900 2900 50  0001 C CNN
 F 1 "GND" H 2905 2977 50  0000 C CNN
 F 2 "" H 2900 3150 50  0000 C CNN
 F 3 "" H 2900 3150 50  0000 C CNN
 	1    2900 3150
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	8000 4950 8000 4250
+Wire Wire Line
+	6850 4950 6850 4150
+Connection ~ 8000 4950
+Wire Wire Line
+	6200 4950 6200 4150
+Connection ~ 6850 4950
+Wire Wire Line
+	5550 4950 5550 4050
+Connection ~ 6200 4950
+Wire Wire Line
+	3800 4950 3800 4150
+Connection ~ 5550 4950
+Wire Wire Line
+	3400 4950 3400 4150
+Connection ~ 3800 4950
+Wire Wire Line
+	2800 4150 2800 5150
+Connection ~ 3400 4950
+Connection ~ 2800 3850
+Connection ~ 3400 3850
+Wire Wire Line
+	8600 4950 8600 4150
+Wire Wire Line
+	8600 3600 8600 3850
+Wire Wire Line
+	8600 3850 8400 3850
+Wire Wire Line
+	6700 3850 7600 3850
+Connection ~ 6850 3850
+Wire Wire Line
+	5550 3850 6300 3850
+Connection ~ 6200 3850
+Wire Wire Line
+	6000 3950 6000 3850
+Connection ~ 6000 3850
+Wire Wire Line
+	5700 3950 5550 3950
+Wire Wire Line
+	5550 3750 6850 3750
+Wire Wire Line
+	6850 3600 6850 3850
+Connection ~ 6850 3750
+Wire Wire Line
+	1350 3850 1700 3850
+Wire Wire Line
+	3800 3700 4550 3700
+Wire Wire Line
+	4550 3700 4550 3750
+Wire Wire Line
+	7050 3600 6850 3600
+Wire Wire Line
+	8750 3600 8600 3600
+Connection ~ 2800 4950
+Wire Wire Line
+	3800 2300 3800 2100
+Wire Wire Line
+	4300 2150 4300 2350
+Wire Wire Line
+	3800 3850 3800 3700
+Connection ~ 1500 3850
+Wire Wire Line
+	2700 3850 3800 3850
+Wire Wire Line
+	2000 3850 2300 3850
+Wire Wire Line
+	2700 4950 8600 4950
+Wire Wire Line
+	1500 5000 1500 4950
+Wire Wire Line
+	1500 4550 1500 4650
+Wire Wire Line
+	1500 4600 1450 4600
+Connection ~ 1500 4600
+Wire Wire Line
+	2750 3200 2450 3200
+Wire Wire Line
+	1500 2650 1500 4250
+Wire Wire Line
+	1500 3150 1650 3150
+Wire Wire Line
+	1650 3250 1500 3250
+Connection ~ 1500 3250
+Wire Wire Line
+	1500 2750 1650 2750
+Connection ~ 1500 3150
+Wire Wire Line
+	1500 2650 1650 2650
+Connection ~ 1500 2750
+Wire Wire Line
+	2450 2700 3150 2700
+Wire Wire Line
+	2750 2700 2750 3200
+Connection ~ 3800 3850
+Connection ~ 2750 2700
+Wire Wire Line
+	2900 2750 2900 2700
+Connection ~ 2900 2700
 Wire Wire Line
 	2900 3150 2900 3050
 $EndSCHEMATC

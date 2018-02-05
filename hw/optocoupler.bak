@@ -4,7 +4,6 @@ LIBS:kemet
 LIBS:usevolt
 LIBS:wurth_elektronik_LED
 LIBS:power
-LIBS:elt21300_kicad
 LIBS:yageo
 LIBS:esb-cache
 EELAYER 26 0

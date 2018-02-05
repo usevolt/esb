@@ -10,6 +10,7 @@
 #include "messages.h"
 #include "can_esb.h"
 #include "can_fsb.h"
+#include "can_csb.h"
 #include "pin_mappings.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -113,7 +114,7 @@ canopen_object_st obj_dict[] = {
 				.sub_index = ESB_PUMP_CURRENT_SUBINDEX,
 				.type = ESB_PUMP_CURRENT_TYPE,
 				.permissions = ESB_PUMP_CURRENT_PERMISSIONS,
-				.data_ptr = &this->pump.pid.input
+				.data_ptr = &this->pump.super.current
 		},
 		{
 				.main_index = ESB_ALT_IG_STATUS_INDEX,
@@ -232,18 +233,32 @@ canopen_object_st obj_dict[] = {
 				.data_ptr = &this->dither_ampl
 		},
 		{
+				.main_index = ESB_ENGINE_POWER_USAGE_INDEX,
+				.sub_index = ESB_ENGINE_POWER_USAGE_SUBINDEX,
+				.type = ESB_ENGINE_POWER_USAGE_TYPE,
+				.permissions = ESB_ENGINE_POWER_USAGE_PERMISSIONS,
+				.data_ptr = &this->engine_power_usage
+		},
+		{
 				.main_index = ESB_FSB_IGNKEY_INDEX,
 				.sub_index = ESB_FSB_IGNKEY_SUBINDEX,
-				.type = ESB_FSB_IGNKEY_TYPE,
+				.type = FSB_IGNKEY_TYPE,
 				.permissions = ESB_FSB_IGNKEY_PERMISSIONS,
 				.data_ptr = &this->fsb.ignkey_state
 		},
 		{
 				.main_index = ESB_FSB_EMCY_INDEX,
 				.sub_index = ESB_FSB_EMCY_SUBINDEX,
-				.type = ESB_FSB_EMCY_TYPE,
+				.type = FSB_EMCY_TYPE,
 				.permissions = ESB_FSB_EMCY_PERMISSIONS,
 				.data_ptr = &this->fsb.emcy
+		},
+		{
+				.main_index = ESB_CSB_COOLER_P_INDEX,
+				.sub_index = ESB_CSB_COOLER_P_SUBINDEX,
+				.type = FSB_EMCY_TYPE,
+				.permissions = ESB_CSB_COOLER_P_PERMISSIONS,
+				.data_ptr = &this->csb.ac_req
 		}
 };
 
@@ -256,6 +271,7 @@ void engine_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 void pump_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 void clear_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 void oilc_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
+void ac_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 
 
 
@@ -281,8 +297,10 @@ const uv_command_st terminal_commands[] = {
 		{
 				.id = CMD_PUMP,
 				.str = "pump",
-				.instructions = "Sets the hydraulic pump output state.\n"
-						"Usage: pump (milliamps)",
+				.instructions = "Sets the hydraulic pump output state or PID controller's\n"
+						"Kp and Ki factors. Can also be used to set the power compensation\n"
+						"P factor.\n"
+						"Usage: pump (milliamps/\"p\"/\"i\"/\"pwrp\") (p_value/i_value/pwrp_value)",
 				.callback = &pump_callb
 		},
 		{
@@ -291,6 +309,13 @@ const uv_command_st terminal_commands[] = {
 				.instructions = "Sets the oil cooler trigger temperature.\n"
 						"Usage: oilc <-127...127>",
 				.callback = &oilc_callb
+		},
+		{
+				.id = CMD_AC,
+				.str = "ac",
+				.instructions = "Forces the air conditioner compressor on or off.\n"
+						"Usage: ac <1/0>",
+				.callback = &ac_callb
 		}
 };
 
@@ -335,8 +360,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	stat_output(&this->alt_ig, "Alt IG");
 	stat_output(&this->oilcooler, "OilC");
 	printf("Vdd: %u mV\n", this->vdd);
-
-	printf("motor temp adc: 0x%x / 0x%x\n", uv_adc_read(MOTOR_TEMP_AIN), ADC_MAX_VALUE);
+	printf("FSB ignkey state: %u, emcy: %u\n", this->fsb.ignkey_state, this->fsb.emcy);
 }
 
 
@@ -370,8 +394,38 @@ void engine_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 
 
 void pump_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) {
-	if (args && argv[0].type == ARG_INTEGER) {
-		uv_solenoid_output_set(&this->pump, argv[0].number);
+	if (args) {
+		if (argv[0].type == ARG_INTEGER) {
+			uv_solenoid_output_set(&this->pump, argv[0].number);
+		}
+		else if (argv[0].type == ARG_STRING) {
+			if (strcmp(argv[0].str, "p") == 0) {
+				if (args >= 2) {
+					dev.pump_p = argv[1].number;
+					uv_pid_set_p(uv_solenoid_output_get_ma_pid(&dev.pump), dev.pump_p);
+				}
+				printf("Kp: %u\n", dev.pump_p);
+			}
+			else if (strcmp(argv[0].str, "i") == 0) {
+				if (args >= 2) {
+					dev.pump_i = argv[1].number;
+					uv_pid_set_i(uv_solenoid_output_get_ma_pid(&dev.pump), dev.pump_i);
+				}
+				printf("Ki: %u\n", dev.pump_i);
+			}
+			else if (strcmp(argv[0].str, "pwrp") == 0) {
+				if (args >= 2) {
+					dev.pwr_rising_p = argv[1].number;
+				}
+				printf("PwrP: %u\n", dev.pwr_rising_p);
+			}
+			else {
+				printf("Unknown argument\n");
+			}
+		}
+		else {
+
+		}
 	}
 }
 
@@ -385,5 +439,11 @@ void oilc_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv
 }
 
 
+void ac_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) {
+	if (args) {
+		this->ac_override = argv[0].number;
+	}
+	printf("ac override: %u\n", this->ac_override);
+}
 
 

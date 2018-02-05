@@ -1,4 +1,4 @@
-update=ti  7. marraskuuta 2017 10.21.20
+update=ma  8. tammikuuta 2018 09.39.49
 version=1
 last_client=kicad
 [pcbnew]
@@ -44,6 +44,5 @@ LibName2=/home/usevolt/uv/kicad/libs/kemet
 LibName3=/home/usevolt/uv/kicad/libs/usevolt
 LibName4=/home/usevolt/uv/kicad/libs/wurth_elektronik_LED
 LibName5=/home/usevolt/uv/kicad/libs/power
-LibName6=/home/usevolt/tty/mikrokontrollerit/harj_tyo/elt21300_kicad
-LibName7=yageo
+LibName6=yageo
 

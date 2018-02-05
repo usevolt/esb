@@ -18,7 +18,7 @@
 
 /// brief: Delay for motor_oil_press and motor_water_temp
 /// warning signals
-#define MOTOR_DELAY_MS			2000
+#define MOTOR_DELAY_MS			10000
 
 
 /// @brief: Motor temperature max limit in celsius.
@@ -51,7 +51,7 @@
 
 /// @brief: Oil level min limit in percents.
 /// Warning is generated after this has been exceeded
-#define OIL_LEVEL_WARN_VALUE		70
+#define OIL_LEVEL_WARN_VALUE		50
 /// @brief: oil level min limit in percents.
 /// Error is generated after this has been exceeded
 #define OIL_LEVEL_ERR_VALUE			50
@@ -67,7 +67,11 @@
 #define OIL_TEMP_HYSTERESIS_C				10
 #define OIL_TEMP_DEFAULT_TRIGGER_VALUE_C	70
 
-
+#define ENGINE_POWER_USAGE_DEFAULT	50
+#define PUMP_CURRENT_MIN_MA			200
+#define PUMP_CURRENT_MAX_MA			600
+#define PWR_RISING_P_DEFAULT		10
+#define PWR_USAGE_MAX				1000
 
 
 
@@ -84,6 +88,7 @@ typedef struct _dev_st {
 	uv_output_st alt_ig;
 	uv_output_st oilcooler;
 	uv_solenoid_output_st pump;
+
 
 	uint16_t total_current;
 
@@ -106,16 +111,43 @@ typedef struct _dev_st {
 	bool vdd_warn_req;
 
 	struct {
+		// stores the current power usage calculated from rpm and pressure
+		int16_t usage;
+		// last calculated value
+		int16_t last_usage;
+		// rising value pid controller
+		uv_pid_st pid;
+		// result value of the controller. 0...1000
+		int16_t pump_angle;
+	} pwr;
+
+
+	struct {
 		fsb_ignkey_states_e ignkey_state;
 		uint8_t emcy;
 	} fsb;
+	struct {
+		uint16_t hydr_pressure;
+	} ecu;
+	struct {
+		uint8_t ac_req;
+	} csb;
 
-	bool network_override;
+	uint8_t ac_override;
+
 
 	// non-volatile data start
 	uv_data_start_t data_start;
 
 	int8_t oilcooler_trigger_temp;
+
+	uint8_t engine_power_usage;
+	// Kp factor for increasing the pump angle
+	uint16_t pwr_rising_p;
+
+	// PID Kp and Ki factors for the pump solenoid output
+	uint16_t pump_i;
+	uint16_t pump_p;
 
 	/// @brief: Proportional solenoid dither frequency
 	uint8_t dither_freq;

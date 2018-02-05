@@ -48,5 +48,7 @@
 #define OILCOOLER_O					P0_9
 
 
+// RPM timer
+#define RPM_TIMER					TIMER1
 
 #endif /* UW_MB_SRC_PIN_MAPPINGS_H_ */
