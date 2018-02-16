@@ -152,6 +152,7 @@ void init(dev_st* me) {
 	this->fsb.ignkey_state = FSB_IGNKEY_STATE_OFF;
 	this->fsb.emcy = 0;
 	this->ecu.hydr_pressure = 0;
+	this->csb.ac_req = 0;
 
 	this->ac_override = false;
 
@@ -273,8 +274,9 @@ void step(void* me) {
 
 		// vdd voltage
 		// note: Multiplier 11 comes from 10k/1k voltage divider resistors
+		// note2: Add 0.7 V since voltage is measured after diode
 		this->vdd = uv_moving_aver_step(&this->vdd_avg,
-				adc_get_voltage_mv(VDD_SENSE_AIN) * 11);
+				adc_get_voltage_mv(VDD_SENSE_AIN) * 11) + 700;
 		// round vdd up
 		this->vdd /= 100;
 		this->vdd *= 100;
@@ -369,7 +371,8 @@ void step(void* me) {
 		}
 
 		// motor sensor shut down
-		if (this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) {
+		if ((this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) &&
+				(this->alt_p_rpm != 0)) {
 			if (this->motor_water_temp ||
 					this->motor_oil_press) {
 				if (uv_delay(&this->motor_delay, step_ms)) {

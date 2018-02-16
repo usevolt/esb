@@ -18,7 +18,7 @@
 
 /// brief: Delay for motor_oil_press and motor_water_temp
 /// warning signals
-#define MOTOR_DELAY_MS			10000
+#define MOTOR_DELAY_MS			2000
 
 
 /// @brief: Motor temperature max limit in celsius.
@@ -54,7 +54,7 @@
 #define OIL_LEVEL_WARN_VALUE		50
 /// @brief: oil level min limit in percents.
 /// Error is generated after this has been exceeded
-#define OIL_LEVEL_ERR_VALUE			50
+#define OIL_LEVEL_ERR_VALUE			30
 #define OIL_LEVEL_HYSTERESIS		10
 #define OIL_LEVEL_AVG_COUNT			100
 
@@ -62,7 +62,7 @@
 #define VDD_WARN_VALUE_MV			11000
 #define VDD_WARN_HYSTERESIS_MV		500
 
-#define OUTPUT_MOVING_AVG_COUNT		100
+#define OUTPUT_MOVING_AVG_COUNT		10
 
 #define OIL_TEMP_HYSTERESIS_C				10
 #define OIL_TEMP_DEFAULT_TRIGGER_VALUE_C	70
