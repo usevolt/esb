@@ -1,10 +1,4 @@
-EESchema Schematic File Version 2
-LIBS:esb-rescue
-LIBS:kemet
-LIBS:usevolt
-LIBS:wurth_elektronik_LED
-LIBS:power
-LIBS:yageo
+EESchema Schematic File Version 4
 LIBS:esb-cache
 EELAYER 26 0
 EELAYER END
@@ -29,7 +23,7 @@ SENSOR2
 Text HLabel 5850 3750 2    60   Output ~ 0
 VOUT2
 $Comp
-L +3V3 #PWR026
+L power:+3V3 #PWR026
 U 1 1 59EDDEDF
 P 4050 3350
 AR Path="/58C97F3A/59EDDEDF" Ref="#PWR026"  Part="1" 
@@ -42,7 +36,7 @@ F 3 "" H 4050 3350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR027
+L power:GND #PWR027
 U 1 1 59EDDEF8
 P 4050 4000
 AR Path="/58C97F3A/59EDDEF8" Ref="#PWR027"  Part="1" 
@@ -59,7 +53,7 @@ Wire Wire Line
 Wire Wire Line
 	4050 3850 4300 3850
 $Comp
-L 100nF C701
+L kemet:100nF C701
 U 1 1 59EDDF13
 P 4050 3700
 AR Path="/58C97F3A/59EDDF13" Ref="C701"  Part="1" 
@@ -76,7 +70,7 @@ F 7 "KEMET" H 4054 3809 60  0001 C CNN "Manufacturer"
 	0    -1   -1   0   
 $EndComp
 $Comp
-L OPAMP_MCP6002 U701
+L usevolt:OPAMP_MCP6002 U701
 U 1 1 59EDF729
 P 4550 3550
 AR Path="/58C97F3A/59EDF729" Ref="U701"  Part="1" 
@@ -105,7 +99,7 @@ Wire Wire Line
 Wire Wire Line
 	5050 3750 5850 3750
 $Comp
-L +3V3 #PWR028
+L power:+3V3 #PWR028
 U 1 1 59EDF8B8
 P 7000 3000
 AR Path="/58C97F3A/59EDF8B8" Ref="#PWR028"  Part="1" 
@@ -122,7 +116,7 @@ Wire Wire Line
 Wire Wire Line
 	5050 3850 6650 3850
 $Comp
-L 10K R705
+L yageo:10K R705
 U 1 1 59EDFACF
 P 6750 3450
 AR Path="/58C97F3A/59EDFACF" Ref="R705"  Part="1" 
@@ -139,7 +133,7 @@ F 7 "YAGEO" H 6819 3589 60  0001 C CNN "Manufacturer"
 	1    0    0    -1  
 $EndComp
 $Comp
-L 10K R706
+L yageo:10K R706
 U 1 1 59EDFB0E
 P 6750 3850
 AR Path="/58C97F3A/59EDFB0E" Ref="R706"  Part="1" 
@@ -156,7 +150,7 @@ F 7 "YAGEO" H 6819 3989 60  0001 C CNN "Manufacturer"
 	1    0    0    -1  
 $EndComp
 $Comp
-L 10K R703
+L yageo:10K R703
 U 1 1 59EE04D0
 P 5500 3550
 AR Path="/58C97F3A/59EE04D0" Ref="R703"  Part="1" 
@@ -180,7 +174,7 @@ Connection ~ 5750 3350
 Wire Wire Line
 	5050 3550 5400 3550
 $Comp
-L 1K R701
+L yageo:1K R701
 U 1 1 59EE059A
 P 5300 3650
 AR Path="/58C97F3A/59EE059A" Ref="R701"  Part="1" 
@@ -202,7 +196,7 @@ Wire Wire Line
 Wire Wire Line
 	5150 3650 5150 3550
 $Comp
-L 10K R704
+L yageo:10K R704
 U 1 1 59EE0699
 P 5500 3950
 AR Path="/58C97F3A/59EE0699" Ref="R704"  Part="1" 
@@ -219,7 +213,7 @@ F 7 "YAGEO" H 5569 4089 60  0001 C CNN "Manufacturer"
 	1    0    0    -1  
 $EndComp
 $Comp
-L 1K R702
+L yageo:1K R702
 U 1 1 59EE06D8
 P 5300 4050
 AR Path="/58C97F3A/59EE06D8" Ref="R702"  Part="1" 
@@ -248,7 +242,7 @@ Wire Wire Line
 	5150 4050 5150 3950
 Connection ~ 5150 3950
 $Comp
-L GND #PWR029
+L power:GND #PWR029
 U 1 1 59EE07A1
 P 6250 4100
 AR Path="/58C97F3A/59EE07A1" Ref="#PWR029"  Part="1" 
@@ -272,7 +266,7 @@ Wire Wire Line
 Wire Wire Line
 	6950 3850 7450 3850
 $Comp
-L 1K5 R708
+L yageo:1K5 R708
 U 1 1 59EE17CE
 P 7100 3700
 AR Path="/58C97F3A/59EE17CE" Ref="R708"  Part="1" 
@@ -289,7 +283,7 @@ F 7 "YAGEO" H 7169 3839 60  0001 C CNN "Manufacturer"
 	1    0    0    -1  
 $EndComp
 $Comp
-L 1K5 R707
+L yageo:1K5 R707
 U 1 1 59EE1849
 P 7100 3300
 AR Path="/58C97F3A/59EE1849" Ref="R707"  Part="1" 

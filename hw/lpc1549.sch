@@ -1,10 +1,4 @@
-EESchema Schematic File Version 2
-LIBS:esb-rescue
-LIBS:kemet
-LIBS:usevolt
-LIBS:wurth_elektronik_LED
-LIBS:power
-LIBS:yageo
+EESchema Schematic File Version 4
 LIBS:esb-cache
 EELAYER 26 0
 EELAYER END
@@ -21,7 +15,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L 100nF C307
+L kemet:100nF C307
 U 1 1 57E685B4
 P 5000 4200
 F 0 "C307" V 5008 4273 45  0000 L CNN
@@ -36,7 +30,7 @@ F 7 "KEMET" H 5004 4309 60  0001 C CNN "Manufacturer"
 	0    1    1    0   
 $EndComp
 $Comp
-L 100nF C306
+L kemet:100nF C306
 U 1 1 57E68621
 P 4650 4200
 F 0 "C306" V 4658 4273 45  0000 L CNN
@@ -51,7 +45,7 @@ F 7 "KEMET" H 4654 4309 60  0001 C CNN "Manufacturer"
 	0    1    1    0   
 $EndComp
 $Comp
-L 100nF C305
+L kemet:100nF C305
 U 1 1 57E68672
 P 4300 4200
 F 0 "C305" V 4308 4273 45  0000 L CNN
@@ -66,7 +60,7 @@ F 7 "KEMET" H 4304 4309 60  0001 C CNN "Manufacturer"
 	0    1    1    0   
 $EndComp
 $Comp
-L 100nF C304
+L kemet:100nF C304
 U 1 1 57E686C7
 P 3950 4200
 F 0 "C304" V 3958 4273 45  0000 L CNN
@@ -81,7 +75,7 @@ F 7 "KEMET" H 3954 4309 60  0001 C CNN "Manufacturer"
 	0    1    1    0   
 $EndComp
 $Comp
-L 100nF C303
+L kemet:100nF C303
 U 1 1 57E6871C
 P 3600 4200
 F 0 "C303" V 3608 4273 45  0000 L CNN
@@ -96,7 +90,7 @@ F 7 "KEMET" H 3604 4309 60  0001 C CNN "Manufacturer"
 	0    1    1    0   
 $EndComp
 $Comp
-L +3V3 #PWR016
+L power:+3V3 #PWR016
 U 1 1 57E689A3
 P 3600 3950
 F 0 "#PWR016" H 3600 3800 50  0001 C CNN
@@ -107,7 +101,7 @@ F 3 "" H 3600 3950 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR017
+L power:GND #PWR017
 U 1 1 57E689C9
 P 3600 4550
 F 0 "#PWR017" H 3600 4300 50  0001 C CNN
@@ -118,7 +112,7 @@ F 3 "" H 3600 4550 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L XTAL_7A-12.000MAAJ-T X301
+L usevolt:XTAL_7A-12.000MAAJ-T X301
 U 1 1 57E6956F
 P 7250 2950
 F 0 "X301" V 7158 3048 45  0000 L CNN
@@ -133,7 +127,7 @@ F 7 "TXC" H 7370 3070 60  0001 C CNN "Manufacturer"
 	0    1    1    0   
 $EndComp
 $Comp
-L 18pF C308
+L kemet:18pF C308
 U 1 1 57E695FA
 P 7550 2750
 F 0 "C308" H 7500 2700 45  0000 C CNN
@@ -148,7 +142,7 @@ F 7 "KEMET" H 7554 2859 60  0001 C CNN "Manufacturer"
 	1    0    0    -1  
 $EndComp
 $Comp
-L 18pF C309
+L kemet:18pF C309
 U 1 1 57E69648
 P 7550 3050
 F 0 "C309" H 7500 3100 45  0000 C CNN
@@ -163,7 +157,7 @@ F 7 "KEMET" H 7554 3159 60  0001 C CNN "Manufacturer"
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR018
+L power:GND #PWR018
 U 1 1 57E697A1
 P 8000 3100
 F 0 "#PWR018" H 8000 2850 50  0001 C CNN
@@ -174,7 +168,7 @@ F 3 "" H 8000 3100 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR019
+L power:GND #PWR019
 U 1 1 57E69A8B
 P 7300 3350
 F 0 "#PWR019" H 7300 3100 50  0001 C CNN
@@ -185,7 +179,7 @@ F 3 "" H 7300 3350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR020
+L power:GND #PWR020
 U 1 1 5891FBFB
 P 9700 4500
 F 0 "#PWR020" H 9700 4250 50  0001 C CNN
@@ -196,7 +190,7 @@ F 3 "" H 9700 4500 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +3V3 #PWR021
+L power:+3V3 #PWR021
 U 1 1 5891FCDE
 P 9750 3450
 F 0 "#PWR021" H 9750 3300 50  0001 C CNN
@@ -342,7 +336,7 @@ Wire Wire Line
 Wire Wire Line
 	7000 1950 7500 1950
 $Comp
-L +5V #PWR022
+L power:+5V #PWR022
 U 1 1 58C01582
 P 2800 2750
 F 0 "#PWR022" H 2800 2600 50  0001 C CNN
@@ -353,7 +347,7 @@ F 3 "" H 2800 2750 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR023
+L power:GND #PWR023
 U 1 1 58C01588
 P 2800 3300
 F 0 "#PWR023" H 2800 3050 50  0001 C CNN
@@ -364,7 +358,7 @@ F 3 "" H 2800 3300 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 100nF C?
+L kemet:100nF C?
 U 1 1 58C01592
 P 2900 2950
 AR Path="/58C01592" Ref="C?"  Part="1" 
@@ -469,7 +463,7 @@ PUMP
 Text HLabel 4800 3150 0    60   Input ~ 0
 PUMP_SENSE
 $Comp
-L 100nF C302
+L kemet:100nF C302
 U 1 1 58D0A5A6
 P 3250 4200
 F 0 "C302" V 3258 4273 45  0000 L CNN
@@ -499,7 +493,7 @@ Wire Wire Line
 Text HLabel 7300 5550 2    60   Output ~ 0
 AC
 $Comp
-L ARM_JTAG_SWD_HEADER_10_PINSMD J301
+L usevolt:ARM_JTAG_SWD_HEADER_10_PINSMD J301
 U 1 1 5953ECE3
 P 9950 3950
 F 0 "J301" H 10477 3892 45  0000 L CNN
@@ -518,7 +512,7 @@ Wire Wire Line
 Text HLabel 4800 2150 0    60   Input ~ 0
 VDD_SENSE
 $Comp
-L LPC1549JBD64 U302
+L usevolt:LPC1549JBD64 U302
 U 1 1 59C4D0FB
 P 5700 2750
 F 0 "U302" H 6100 3826 45  0000 C CNN
@@ -539,7 +533,7 @@ Wire Wire Line
 Wire Wire Line
 	9150 3650 9150 3950
 $Comp
-L MCP2551_SOIC8 U301
+L usevolt:MCP2551_SOIC8 U301
 U 1 1 5A102A85
 P 2350 2950
 F 0 "U301" H 2400 3254 45  0000 C CNN
@@ -566,7 +560,7 @@ OILC
 Text HLabel 4600 5050 0    60   Input ~ 0
 OILC_SENSE
 $Comp
-L 10K R302
+L yageo:10K R302
 U 1 1 5A533409
 P 9500 3600
 F 0 "R302" V 9508 3658 45  0000 L CNN
@@ -581,7 +575,7 @@ F 7 "YAGEO" H 9569 3739 60  0001 C CNN "Manufacturer"
 	0    1    1    0   
 $EndComp
 $Comp
-L 10K R301
+L yageo:10K R301
 U 1 1 5A533486
 P 9250 3550
 F 0 "R301" V 9258 3608 45  0000 L CNN

@@ -1,10 +1,4 @@
-EESchema Schematic File Version 2
-LIBS:esb-rescue
-LIBS:kemet
-LIBS:usevolt
-LIBS:wurth_elektronik_LED
-LIBS:power
-LIBS:yageo
+EESchema Schematic File Version 4
 LIBS:esb-cache
 EELAYER 26 0
 EELAYER END
@@ -21,7 +15,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L 1K R?
+L yageo:1K R?
 U 1 1 58998C01
 P 3800 3000
 AR Path="/58998C01" Ref="R?"  Part="1" 
@@ -41,7 +35,7 @@ F 7 "MULTICOMP" H 3869 3139 60  0001 C CNN "Manufacturer"
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR024
+L power:GND #PWR024
 U 1 1 58998C09
 P 4300 3400
 AR Path="/58997FA7/58998C09" Ref="#PWR024"  Part="1" 
@@ -56,7 +50,7 @@ F 3 "" H 4300 3400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR025
+L power:GND #PWR025
 U 1 1 58998C1A
 P 5000 3400
 AR Path="/58997FA7/58998C1A" Ref="#PWR025"  Part="1" 
@@ -89,7 +83,7 @@ VOUT
 Text HLabel 3300 3000 0    60   Input ~ 0
 VIN
 $Comp
-L OPTOCOUPLER_HCPL-181-000E CP401
+L usevolt:OPTOCOUPLER_HCPL-181-000E CP401
 U 1 1 597BAFD2
 P 4600 3100
 AR Path="/58997FA7/597BAFD2" Ref="CP401"  Part="1" 

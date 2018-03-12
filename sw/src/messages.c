@@ -219,6 +219,13 @@ canopen_object_st obj_dict[] = {
 				.data_ptr = &this->vdd
 		},
 		{
+				.main_index = ESB_HOUR_INDEX,
+				.sub_index = ESB_HOUR_SUBINDEX,
+				.type = ESB_HOUR_TYPE,
+				.permissions = ESB_HOUR_PERMISSIONS,
+				.data_ptr = &this->hour_counter
+		},
+		{
 				.main_index = ESB_DITHER_FREQ_INDEX,
 				.sub_index = ESB_DITHER_FREQ_SUBINDEX,
 				.type = ESB_DITHER_FREQ_TYPE,
@@ -362,6 +369,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	printf("Vdd: %u mV\n", this->vdd);
 	printf("FSB ignkey state: %u, emcy: %u\n", this->fsb.ignkey_state, this->fsb.emcy);
 	printf("CSB ac req: %u\n", this->csb.ac_req);
+
 }
 
 

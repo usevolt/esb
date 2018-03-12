@@ -15,6 +15,8 @@
 
 #include <uv_utilities.h>
 #include <uv_rtos.h>
+#include <uv_eeprom.h>
+#include <string.h>
 
 dev_st dev = {};
 #define this ((dev_st*) &dev)
@@ -24,6 +26,7 @@ bool adc_get_temp(uv_adc_channels_e adc_chn, int16_t *dest);
 bool adc_get_level(uv_adc_channels_e adc_chn, int16_t *dest);
 uint16_t adc_get_voltage_mv(const uv_adc_channels_e adc_chn);
 void rpm_callb(uv_gpios_e);
+void sdo_callback(uint16_t mindex, uint8_t sindex);
 
 
 #define GET_MOTOR_WATER()	(!uv_gpio_get(MOTOR_WATER_TEMP_I))
@@ -156,8 +159,11 @@ void init(dev_st* me) {
 
 	this->ac_override = false;
 
-	uv_canopen_set_state(CANOPEN_OPERATIONAL);
+	// fetch the display hour counter value from EEPROM
+	uv_eeprom_read(&this->hour_counter, sizeof(this->hour_counter), HOUR_ADDR);
 
+	uv_canopen_set_state(CANOPEN_OPERATIONAL);
+	uv_canopen_set_sdo_write_callback(&sdo_callback);
 }
 
 
@@ -451,6 +457,12 @@ void step(void* me) {
 }
 
 
+void sdo_callback(uint16_t mindex, uint8_t sindex) {
+	if ((mindex == ESB_HOUR_INDEX) && (sindex == ESB_HOUR_SUBINDEX)) {
+		// hour counter value updated, save the value to EEPROM
+		uv_eeprom_write(&this->hour_counter, sizeof(this->hour_counter), HOUR_ADDR);
+	}
+}
 
 
 

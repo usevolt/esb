@@ -73,6 +73,8 @@
 #define PWR_RISING_P_DEFAULT		10
 #define PWR_USAGE_MAX				1000
 
+/// @brief: EEPROM address for the hour counter
+#define HOUR_ADDR					0
 
 
 /// @brief: main data structure.
@@ -89,8 +91,11 @@ typedef struct _dev_st {
 	uv_output_st oilcooler;
 	uv_solenoid_output_st pump;
 
-
 	uint16_t total_current;
+
+	/// @brief: Hour counter multiplexed with
+	/// uw_display.
+	uint32_t hour_counter;
 
 	sensor_st motor_temp;
 	sensor_st oil_temp;
