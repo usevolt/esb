@@ -42,7 +42,7 @@
 
 /// @brief: Fuel level min limit in percents.
 /// Warning is generated after this has been exceeded
-#define FUEL_LEVEL_WARN_VALUE		30
+#define FUEL_LEVEL_WARN_VALUE		20
 /// @brief: fuel level min limit in percents.
 /// Error is generated after this has been exceeded
 #define FUEL_LEVEL_ERR_VALUE		5
@@ -62,12 +62,12 @@
 #define VDD_WARN_VALUE_MV			11000
 #define VDD_WARN_HYSTERESIS_MV		500
 
-#define OUTPUT_MOVING_AVG_COUNT		10
+#define OUTPUT_MOVING_AVG_COUNT		50
 
 #define OIL_TEMP_HYSTERESIS_C				10
 #define OIL_TEMP_DEFAULT_TRIGGER_VALUE_C	70
 
-#define ENGINE_POWER_USAGE_DEFAULT	50
+#define ENGINE_POWER_USAGE_DEFAULT	25
 #define PUMP_CURRENT_MIN_MA			200
 #define PUMP_CURRENT_MAX_MA			600
 #define PWR_RISING_P_DEFAULT		10
@@ -116,10 +116,11 @@ typedef struct _dev_st {
 	bool vdd_warn_req;
 
 	struct {
-		// stores the current power usage calculated from rpm and pressure
-		int16_t usage;
+		// stores the current power limit from rpm and pressure.
+		// Machine shouldnt draw more power than this
+		int32_t limit;
 		// last calculated value
-		int16_t last_usage;
+		int32_t last_limit;
 		// rising value pid controller
 		uv_pid_st pid;
 		// result value of the controller. 0...1000

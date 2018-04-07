@@ -204,29 +204,29 @@ Text Label 9350 4450 0    60   ~ 0
 RESET
 Text Label 4800 1950 0    60   ~ 0
 RESET
-Text HLabel 7500 2050 2    60   Input ~ 0
+Text HLabel 7400 1950 2    60   Input ~ 0
 ALT_P/RPM
-Text HLabel 4800 2250 0    60   Input ~ 0
+Text HLabel 4800 3050 0    60   Input ~ 0
 GLOW_PLUGS_SENSE
-Text HLabel 7300 5750 2    60   Output ~ 0
+Text HLabel 4800 2950 0    60   Output ~ 0
 GLOW_PLUGS
 Wire Wire Line
-	5000 4400 5000 4900
+	5000 4400 5000 4500
 Wire Wire Line
-	5000 4500 5200 4500
+	5000 4500 5100 4500
 Wire Wire Line
 	5200 4400 5100 4400
 Wire Wire Line
 	5100 4400 5100 4500
 Connection ~ 5100 4500
 Wire Wire Line
-	3250 4100 5200 4100
+	3250 4100 3600 4100
 Connection ~ 5000 4100
 Connection ~ 4650 4100
 Connection ~ 4300 4100
 Connection ~ 3950 4100
 Wire Wire Line
-	3250 4400 5000 4400
+	3250 4400 3600 4400
 Connection ~ 3950 4400
 Connection ~ 4300 4400
 Connection ~ 4650 4400
@@ -264,9 +264,9 @@ Wire Wire Line
 	5200 3550 5000 3550
 Connection ~ 5000 3550
 Wire Wire Line
-	5000 3450 5000 4100
+	5000 3450 5000 3550
 Wire Wire Line
-	7100 3050 7450 3050
+	7100 3050 7250 3050
 Wire Wire Line
 	7100 3050 7100 2950
 Wire Wire Line
@@ -277,12 +277,12 @@ Wire Wire Line
 Wire Wire Line
 	7100 2850 7100 2750
 Wire Wire Line
-	7100 2750 7450 2750
+	7100 2750 7250 2750
 Connection ~ 7250 2750
 Wire Wire Line
 	7750 2750 8000 2750
 Wire Wire Line
-	8000 2750 8000 3100
+	8000 2750 8000 3050
 Wire Wire Line
 	8000 3050 7750 3050
 Connection ~ 8000 3050
@@ -291,19 +291,19 @@ Wire Wire Line
 Wire Wire Line
 	7300 3250 7000 3250
 Wire Wire Line
-	7500 2550 7000 2550
+	4700 5050 5200 5050
 Wire Wire Line
 	7000 5250 7600 5250
 Wire Wire Line
 	7600 5150 7000 5150
 Wire Wire Line
-	7000 2650 7500 2650
+	5200 5150 4700 5150
 Wire Wire Line
-	9150 3950 9850 3950
+	9150 3950 9500 3950
 Wire Wire Line
-	7000 3750 9850 3750
+	7000 3750 9250 3750
 Wire Wire Line
-	9700 3850 9700 4500
+	9700 3850 9700 4050
 Wire Wire Line
 	9700 4050 9850 4050
 Wire Wire Line
@@ -322,19 +322,19 @@ Wire Wire Line
 	9500 3800 9500 3950
 Connection ~ 9500 3950
 Wire Wire Line
-	9250 3450 9750 3450
+	9250 3450 9500 3450
 Wire Wire Line
 	9500 3500 9500 3450
 Connection ~ 9500 3450
 Connection ~ 9750 3450
 Wire Wire Line
-	7000 2050 7500 2050
+	7000 1950 7400 1950
 Wire Wire Line
-	7000 2350 7500 2350
+	5200 5550 4700 5550
 Wire Wire Line
-	7000 5750 7300 5750
+	5200 2950 4800 2950
 Wire Wire Line
-	7000 1950 7500 1950
+	5200 5650 4800 5650
 $Comp
 L power:+5V #PWR022
 U 1 1 58C01582
@@ -375,13 +375,13 @@ F 7 "KEMET" H 2904 3059 60  0001 C CNN "Manufacturer"
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	2650 2850 2900 2850
+	2650 2850 2800 2850
 Wire Wire Line
 	2800 2850 2800 2750
 Wire Wire Line
-	2650 3150 2900 3150
+	2650 3150 2800 3150
 Wire Wire Line
-	2800 3050 2800 3300
+	2800 3050 2800 3150
 Connection ~ 2800 3150
 Connection ~ 2800 2850
 Wire Wire Line
@@ -403,64 +403,64 @@ CAN_TX
 Text Label 7600 5150 2    60   ~ 0
 CAN_RX
 Wire Wire Line
-	7000 5650 7300 5650
-Text HLabel 7300 5650 2    60   Output ~ 0
+	5200 2750 4800 2750
+Text HLabel 4800 2750 0    60   Output ~ 0
 STARTER
 Wire Wire Line
-	5200 5750 4700 5750
-Text HLabel 4800 2350 0    60   Input ~ 0
+	5200 5750 4800 5750
+Text HLabel 4800 2850 0    60   Input ~ 0
 STARTER_SENSE
 Wire Wire Line
-	5200 5550 4700 5550
+	5200 5250 4700 5250
 Wire Wire Line
-	5200 2950 4800 2950
-Text HLabel 4800 2950 0    60   Output ~ 0
+	7000 2150 7400 2150
+Text HLabel 7400 2150 2    60   Output ~ 0
 ALT_IG
-Text HLabel 4700 5550 0    60   Input ~ 0
+Text HLabel 4700 5250 0    60   Input ~ 0
 ALT_L
-Text HLabel 7500 2650 2    60   Input ~ 0
+Text HLabel 4700 5150 0    60   Input ~ 0
 MOTOR_TEMP
-Text HLabel 7500 2550 2    60   Input ~ 0
+Text HLabel 4700 5050 0    60   Input ~ 0
 HYDR_OIL_TEMP
 Wire Wire Line
-	5200 2250 4800 2250
-Text HLabel 7500 2350 2    60   Input ~ 0
+	5200 3050 4800 3050
+Text HLabel 4700 5550 0    60   Input ~ 0
 FUEL_LEVEL
 Wire Wire Line
-	5200 2350 4800 2350
-Text HLabel 4700 5750 0    60   Input ~ 0
+	5200 2850 4800 2850
+Text HLabel 4800 5750 0    60   Input ~ 0
 MOTOR_OIL_PRESS
 Wire Wire Line
-	7000 5450 7300 5450
-Text HLabel 4800 2650 0    60   Output ~ 0
+	5200 2350 4800 2350
+Text HLabel 4800 2150 0    60   Output ~ 0
 MOTOR_START
 Wire Wire Line
-	5200 2650 4800 2650
-Text HLabel 7300 5450 2    60   Output ~ 0
+	5200 2150 4800 2150
+Text HLabel 4800 2350 0    60   Output ~ 0
 MOTOR_ON
-Text HLabel 4800 2550 0    60   Input ~ 0
+Text HLabel 4800 2450 0    60   Input ~ 0
 MOTOR_ON_SENSE
-Text HLabel 4800 2750 0    60   Input ~ 0
+Text HLabel 4800 2250 0    60   Input ~ 0
 MOTOR_START_SENSE
 Wire Wire Line
 	1800 2950 1950 2950
-Text HLabel 7500 1950 2    60   Input ~ 0
+Text HLabel 4800 5650 0    60   Input ~ 0
 MOTOR_WATER_TEMP
 Wire Wire Line
-	5200 2850 4800 2850
-Text HLabel 4800 3050 0    60   Input ~ 0
+	7000 2050 7400 2050
+Text HLabel 7400 2350 2    60   Input ~ 0
 ALT_IG_SENSE
 Wire Wire Line
-	5200 2550 4800 2550
+	5200 2450 4800 2450
 Wire Wire Line
-	4800 2750 5200 2750
+	4800 2250 5200 2250
 Wire Wire Line
-	5200 3050 4800 3050
+	7000 2350 7400 2350
 Wire Wire Line
-	4800 3150 5200 3150
-Text HLabel 4800 2850 0    60   Output ~ 0
+	7400 2450 7000 2450
+Text HLabel 7400 2050 2    60   Output ~ 0
 PUMP
-Text HLabel 4800 3150 0    60   Input ~ 0
+Text HLabel 7400 2450 2    60   Input ~ 0
 PUMP_SENSE
 $Comp
 L kemet:100nF C302
@@ -481,16 +481,16 @@ Connection ~ 3600 4400
 Connection ~ 3600 4100
 Connection ~ 5000 4400
 Wire Wire Line
-	7000 2450 7500 2450
-Text HLabel 7500 2450 2    60   Input ~ 0
+	5200 5350 4700 5350
+Text HLabel 4700 5350 0    60   Input ~ 0
 OIL_LEVEL
 Wire Wire Line
-	5200 2450 4800 2450
-Text HLabel 4800 2450 0    60   Input ~ 0
+	5200 2650 4800 2650
+Text HLabel 4800 2650 0    60   Input ~ 0
 AC_SENSE
 Wire Wire Line
-	7000 5550 7300 5550
-Text HLabel 7300 5550 2    60   Output ~ 0
+	5200 2550 4800 2550
+Text HLabel 4800 2550 0    60   Output ~ 0
 AC
 $Comp
 L usevolt:ARM_JTAG_SWD_HEADER_10_PINSMD J301
@@ -508,8 +508,8 @@ F 7 "Digikey" H 10250 4690 60  0001 C CNN "1st Source"
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5200 2150 4800 2150
-Text HLabel 4800 2150 0    60   Input ~ 0
+	7000 2650 7400 2650
+Text HLabel 7400 2650 2    60   Input ~ 0
 VDD_SENSE
 $Comp
 L usevolt:LPC1549JBD64 U302
@@ -552,12 +552,12 @@ $EndComp
 Wire Wire Line
 	2650 3050 2800 3050
 Wire Wire Line
-	5200 5150 4600 5150
+	7000 4750 7300 4750
 Wire Wire Line
-	5200 5050 4600 5050
-Text HLabel 4600 5150 0    60   Output ~ 0
+	7000 2550 7400 2550
+Text HLabel 7300 4750 2    60   Output ~ 0
 OILC
-Text HLabel 4600 5050 0    60   Input ~ 0
+Text HLabel 7400 2550 2    60   Input ~ 0
 OILC_SENSE
 $Comp
 L yageo:10K R302
@@ -589,4 +589,62 @@ F 7 "YAGEO" H 9319 3689 60  0001 C CNN "Manufacturer"
 	1    9250 3550
 	0    1    1    0   
 $EndComp
+Wire Wire Line
+	5100 4500 5200 4500
+Wire Wire Line
+	5000 4100 5200 4100
+Wire Wire Line
+	4650 4100 5000 4100
+Wire Wire Line
+	4300 4100 4650 4100
+Wire Wire Line
+	3950 4100 4300 4100
+Wire Wire Line
+	3950 4400 4300 4400
+Wire Wire Line
+	4300 4400 4650 4400
+Wire Wire Line
+	4650 4400 5000 4400
+Wire Wire Line
+	5000 4500 5000 4600
+Wire Wire Line
+	5000 4600 5000 4700
+Wire Wire Line
+	5000 4700 5000 4800
+Wire Wire Line
+	5000 4800 5000 4900
+Wire Wire Line
+	5000 4000 5000 4100
+Wire Wire Line
+	5000 3900 5000 4000
+Wire Wire Line
+	5000 3800 5000 3900
+Wire Wire Line
+	5000 3700 5000 3800
+Wire Wire Line
+	5000 3550 5000 3700
+Wire Wire Line
+	7250 3050 7450 3050
+Wire Wire Line
+	7250 2750 7450 2750
+Wire Wire Line
+	8000 3050 8000 3100
+Wire Wire Line
+	9700 4050 9700 4500
+Wire Wire Line
+	9250 3750 9850 3750
+Wire Wire Line
+	9500 3950 9850 3950
+Wire Wire Line
+	9500 3450 9750 3450
+Wire Wire Line
+	2800 3150 2900 3150
+Wire Wire Line
+	2800 3150 2800 3300
+Wire Wire Line
+	2800 2850 2900 2850
+Wire Wire Line
+	3600 4400 3950 4400
+Wire Wire Line
+	3600 4100 3950 4100
 $EndSCHEMATC

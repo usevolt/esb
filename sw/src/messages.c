@@ -247,6 +247,15 @@ canopen_object_st obj_dict[] = {
 				.data_ptr = &this->engine_power_usage
 		},
 		{
+				.main_index = ESB_PUMP_ANGLE_INDEX,
+				.sub_index = ESB_PUMP_ANGLE_SUBINDEX,
+				.type = ESB_PUMP_ANGLE_TYPE,
+				.permissions = ESB_PUMP_ANGLE_PERMISSIONS,
+				.data_ptr = &this->pwr.pump_angle
+		},
+
+		// other node's parameters
+		{
 				.main_index = ESB_FSB_IGNKEY_INDEX,
 				.sub_index = ESB_FSB_IGNKEY_SUBINDEX,
 				.type = FSB_IGNKEY_TYPE,
@@ -266,6 +275,13 @@ canopen_object_st obj_dict[] = {
 				.type = FSB_EMCY_TYPE,
 				.permissions = ESB_CSB_COOLER_P_PERMISSIONS,
 				.data_ptr = &this->csb.ac_req
+		},
+		{
+				.main_index = ESB_ECU_HYDR_PRESSURE_INDEX,
+				.sub_index = ESB_ECU_HYDR_PRESSURE_SUBINDEX,
+				.type = ESB_ECU_HYDR_PRESSURE_TYPE,
+				.permissions = ESB_ECU_HYDR_PRESSURE_PERMISSIONS,
+				.data_ptr = &this->ecu.hydr_pressure
 		}
 };
 
@@ -364,11 +380,13 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	stat_output(&this->engine_start1, "Engine start 1");
 	stat_output(&this->engine_start2, "Engine start 2");
 	stat_output((uv_output_st *) &this->pump, "Hydr Pump");
+	printf("Engine power usage: %u\n", this->engine_power_usage);
 	stat_output(&this->alt_ig, "Alt IG");
 	stat_output(&this->oilcooler, "OilC");
 	printf("Vdd: %u mV\n", this->vdd);
 	printf("FSB ignkey state: %u, emcy: %u\n", this->fsb.ignkey_state, this->fsb.emcy);
 	printf("CSB ac req: %u\n", this->csb.ac_req);
+	printf("ECU hydr pressure: %u\n", this->ecu.hydr_pressure);
 
 }
 

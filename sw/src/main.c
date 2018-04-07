@@ -36,6 +36,8 @@ void sdo_callback(uint16_t mindex, uint8_t sindex);
 #define VND5050_CURRENT_AMPL_UA		4173
 #define VN5E01_CURRENT_AMPL_UA		13923
 
+#define PWR_LIMIT_DIVIDER			20
+
 void init(dev_st* me) {
 	uv_gpio_add_interrupt_callback(&rpm_callb);
 
@@ -142,9 +144,9 @@ void init(dev_st* me) {
 
 	uv_delay_init(&this->motor_delay, MOTOR_DELAY_MS);
 
-	this->pwr.last_usage = 0;
-	this->pwr.usage = 0;
-	uv_pid_init(&this->pwr.pid, this->pwr_rising_p, 0, 0);
+	this->pwr.last_limit = 0;
+	this->pwr.limit = 0;
+	uv_pid_init(&this->pwr.pid, this->pwr_rising_p, 3, 0);
 	this->pwr.pump_angle = PWR_USAGE_MAX;
 
 
@@ -310,36 +312,44 @@ void step(void* me) {
 
 		// **** power usage ****
 
-		if (this->ecu.hydr_pressure == 0) {
+		uint16_t pressure = this->ecu.hydr_pressure;
+		if (pressure == 0) {
 			// prevent dividing with zero
-			this->ecu.hydr_pressure = 1;
+			pressure = 1;
 		}
-		this->pwr.usage = (int32_t) this->alt_p_rpm * this->alt_p_rpm / this->ecu.hydr_pressure;
+		this->pwr.limit = (int64_t) this->alt_p_rpm * this->alt_p_rpm / pressure;
+		// scale value to predefined range
+		this->pwr.limit /= PWR_LIMIT_DIVIDER;
 		// add user calibration parameter into calculations
-		this->pwr.usage = this->pwr.usage * this->engine_power_usage / ENGINE_POWER_USAGE_DEFAULT;
-		if (this->pwr.usage > PWR_USAGE_MAX) {
-			this->pwr.usage = PWR_USAGE_MAX;
+		this->pwr.limit = this->pwr.limit * this->engine_power_usage / ENGINE_POWER_USAGE_DEFAULT;
+		if (this->pwr.limit > PWR_USAGE_MAX) {
+			this->pwr.limit = PWR_USAGE_MAX;
 		}
-		if (this->pwr.usage < this->pwr.last_usage) {
-			this->pwr.pump_angle = this->pwr.usage;
+		if (this->pwr.limit < this->pwr.last_limit) {
+			this->pwr.pump_angle = this->pwr.limit;
 		}
 		else {
 			// slow P controller
 			uv_pid_set_p(&this->pwr.pid, this->pwr_rising_p);
-			uv_pid_set_target(&this->pwr.pid, this->pwr.usage);
+			uv_pid_set_target(&this->pwr.pid, this->pwr.limit);
 			uv_pid_step(&this->pwr.pid, step_ms, this->pwr.pump_angle);
 			this->pwr.pump_angle += uv_pid_get_output(&this->pwr.pid);
 		}
 		if (this->pwr.pump_angle > PWR_USAGE_MAX) {
 			this->pwr.pump_angle = PWR_USAGE_MAX;
 		}
+		else if (this->pwr.pump_angle < 0) {
+			this->pwr.pump_angle = 0;
+		}
 		int32_t rel = uv_reli(this->pwr.pump_angle, 0, PWR_USAGE_MAX);
 		int32_t result = uv_lerpi(rel, PUMP_CURRENT_MIN_MA, PUMP_CURRENT_MAX_MA);
+//		static uint8_t u = 0;
+//		if (u++ == 100) {
+//			printf("result: %i, pwr limit: %u, pump angle: %i\n", result, this->pwr.limit, this->pwr.pump_angle);
+//		}
 		// set the pump solenoid output based on the power usage calculations
-//		uv_solenoid_output_set(&this->pump, result);
-		this->pwr.last_usage = this->pwr.usage;
-
-
+		uv_solenoid_output_set(&this->pump, result);
+		this->pwr.last_limit = this->pwr.limit;
 
 
 		// **** ignition key states ****
@@ -442,14 +452,24 @@ void step(void* me) {
 
 		// emcy
 		if (this->fsb.emcy) {
-			uv_output_set_state(&this->glow, OUTPUT_STATE_OFF);
-			uv_output_set_state(&this->starter, OUTPUT_STATE_OFF);
-			uv_output_set_state(&this->ac, OUTPUT_STATE_OFF);
-			uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
-			uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
-			uv_output_set_state(&this->alt_ig, OUTPUT_STATE_OFF);
-			uv_output_set_state(&this->oilcooler, OUTPUT_STATE_OFF);
-			uv_solenoid_output_set_state(&this->pump, OUTPUT_STATE_OFF);
+			uv_output_disable(&this->glow);
+			uv_output_disable(&this->starter);
+			uv_output_disable(&this->ac);
+			uv_output_disable(&this->engine_start1);
+			uv_output_disable(&this->engine_start2);
+			uv_output_disable(&this->alt_ig);
+			uv_output_disable(&this->oilcooler);
+			uv_solenoid_output_disable(&this->pump);
+		}
+		else {
+			uv_output_enable(&this->glow);
+			uv_output_enable(&this->starter);
+			uv_output_enable(&this->ac);
+			uv_output_enable(&this->engine_start1);
+			uv_output_enable(&this->engine_start2);
+			uv_output_enable(&this->alt_ig);
+			uv_output_enable(&this->oilcooler);
+			uv_solenoid_output_enable(&this->pump);
 		}
 
 		uv_rtos_task_delay(step_ms);
