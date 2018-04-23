@@ -270,8 +270,8 @@ void step(void* me) {
 				uv_solenoid_output_get_current(&this->pump);
 
 		// motor temperature
-		sensor_step(&this->motor_temp, step_ms);
-		sensor_step(&this->oil_temp, step_ms);
+		//sensor_step(&this->motor_temp, step_ms);
+		//sensor_step(&this->oil_temp, step_ms);
 		sensor_step(&this->fuel_level, step_ms);
 		sensor_step(&this->oil_level, step_ms);
 
@@ -438,14 +438,14 @@ void step(void* me) {
 
 		// oil cooler control
 		uv_hysteresis_set_trigger_value(&this->oil_temp_hyst, this->oilcooler_trigger_temp);
-		if (sensor_get_state(&this->oil_temp) == SENSOR_STATE_OK) {
+//		if (sensor_get_state(&this->oil_temp) == SENSOR_STATE_OK) {
 			uv_hysteresis_step(&this->oil_temp_hyst, sensor_get_value(&this->oil_temp));
 			uv_output_set_state(&this->oilcooler, (uv_hysteresis_get_output(&this->oil_temp_hyst)) ?
 					OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
-		}
-		else {
-			uv_output_set_state(&this->oilcooler, OUTPUT_STATE_OFF);
-		}
+//		}
+//		else {
+//			uv_output_set_state(&this->oilcooler, OUTPUT_STATE_OFF);
+//		}
 
 		// if FSB heartbeat message is not received in a given time,
 		// it indicates that FSB is not in the system. As FSB takes care of the EMCY switch,
