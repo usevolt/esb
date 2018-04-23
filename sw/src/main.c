@@ -22,8 +22,8 @@ dev_st dev = {};
 #define this ((dev_st*) &dev)
 
 
-bool adc_get_temp(uv_adc_channels_e adc_chn, int16_t *dest);
-bool adc_get_level(uv_adc_channels_e adc_chn, int16_t *dest);
+bool adc_get_temp(uv_adc_channels_e adc_chn, int8_t *dest);
+bool adc_get_level(uv_adc_channels_e adc_chn, int8_t *dest);
 uint16_t adc_get_voltage_mv(const uv_adc_channels_e adc_chn);
 void rpm_callb(uv_gpios_e);
 void sdo_callback(uint16_t mindex, uint8_t sindex);
@@ -181,7 +181,7 @@ void init(dev_st* me) {
 #define PT100_ADC_0C			2816
 #define PT100_ADC_100C			3821
 /// @brief: Returns the ADC's read value as celsius degrees
-bool adc_get_temp(uv_adc_channels_e adc_chn, int16_t *dest) {
+bool adc_get_temp(uv_adc_channels_e adc_chn, int8_t *dest) {
 	int32_t adc = uv_adc_read(adc_chn);
 	bool ret = true;
 	if (!dest) {
@@ -190,7 +190,7 @@ bool adc_get_temp(uv_adc_channels_e adc_chn, int16_t *dest) {
 	else {
 		int32_t t = uv_reli(adc, PT100_ADC_0C, PT100_ADC_100C);
 		int16_t result_c = uv_lerpi(t, 0, 100);
-		if ((result_c > -50) && (result_c < 200)) {
+		if ((result_c > -50) && (result_c < 120)) {
 			*dest = result_c;
 		}
 		else {
@@ -206,7 +206,7 @@ bool adc_get_temp(uv_adc_channels_e adc_chn, int16_t *dest) {
 #define LEVEL_0_MV				0
 #define LEVEL_100_MV			500
 /// @brief: Reads the adc channel and converts it to liquid level percentage
-bool adc_get_level(uv_adc_channels_e adc_chn, int16_t *dest) {
+bool adc_get_level(uv_adc_channels_e adc_chn, int8_t *dest) {
 	bool ret = true;
 	int64_t mv = adc_get_voltage_mv(adc_chn);
 	if ((mv >= (LEVEL_100_MV * 2)) || (!dest)) {
@@ -438,9 +438,14 @@ void step(void* me) {
 
 		// oil cooler control
 		uv_hysteresis_set_trigger_value(&this->oil_temp_hyst, this->oilcooler_trigger_temp);
-		uv_hysteresis_step(&this->oil_temp_hyst, sensor_get_value(&this->oil_temp));
-		uv_output_set_state(&this->oilcooler, (uv_hysteresis_get_output(&this->oil_temp_hyst)) ?
-				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
+		if (sensor_get_state(&this->oil_temp) == SENSOR_STATE_OK) {
+			uv_hysteresis_step(&this->oil_temp_hyst, sensor_get_value(&this->oil_temp));
+			uv_output_set_state(&this->oilcooler, (uv_hysteresis_get_output(&this->oil_temp_hyst)) ?
+					OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
+		}
+		else {
+			uv_output_set_state(&this->oilcooler, OUTPUT_STATE_OFF);
+		}
 
 		// if FSB heartbeat message is not received in a given time,
 		// it indicates that FSB is not in the system. As FSB takes care of the EMCY switch,

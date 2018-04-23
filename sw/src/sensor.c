@@ -12,7 +12,7 @@
 
 
 void sensor_init(sensor_st *this, uv_adc_channels_e adc_chn, uint16_t avg_count,
-		esb_emcy_e emcy_fault, bool (*get_data_ptr)(uv_adc_channels_e chn, int16_t *dest)) {
+		esb_emcy_e emcy_fault, bool (*get_data_ptr)(uv_adc_channels_e chn, int8_t *dest)) {
 	this->value = 0;
 	this->adc = adc_chn;
 	uv_moving_aver_init(&this->avg, avg_count);
@@ -26,7 +26,7 @@ void sensor_init(sensor_st *this, uv_adc_channels_e adc_chn, uint16_t avg_count,
 }
 
 
-void sensor_set_warning(sensor_st *this, int16_t trigger_value, int16_t hysteresis,
+void sensor_set_warning(sensor_st *this, int8_t trigger_value, int8_t hysteresis,
 		bool invert, esb_emcy_e emcy_warning) {
 	uv_hysteresis_init(&this->hyst_warning, trigger_value, hysteresis, invert);
 	this->emcy_warning = emcy_warning;
@@ -34,7 +34,7 @@ void sensor_set_warning(sensor_st *this, int16_t trigger_value, int16_t hysteres
 }
 
 
-void sensor_set_error(sensor_st *this, int16_t trigger_value, int16_t hysteresis,
+void sensor_set_error(sensor_st *this, int8_t trigger_value, int8_t hysteresis,
 		bool invert, esb_emcy_e emcy_error) {
 	uv_hysteresis_init(&this->hyst_error, trigger_value, hysteresis, invert);
 	this->emcy_error = emcy_error;
