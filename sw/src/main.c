@@ -343,10 +343,10 @@ void step(void* me) {
 		}
 		int32_t rel = uv_reli(this->pwr.pump_angle, 0, PWR_USAGE_MAX);
 		int32_t result = uv_lerpi(rel, PUMP_CURRENT_MIN_MA, PUMP_CURRENT_MAX_MA);
-//		static uint8_t u = 0;
-//		if (u++ == 100) {
-//			printf("result: %i, pwr limit: %u, pump angle: %i\n", result, this->pwr.limit, this->pwr.pump_angle);
-//		}
+		// pump control is disabled if alternator signals an error. This is to make sure that
+		// the machine works (more or less) even if alternator is not working, otherwise
+		// the RPM would seem to be 0 and thus pump angle would also be 0.
+		result = (this->alt_l) ? PUMP_CURRENT_MAX_MA : result;
 		// set the pump solenoid output based on the power usage calculations
 		uv_solenoid_output_set(&this->pump, result);
 		this->pwr.last_limit = this->pwr.limit;

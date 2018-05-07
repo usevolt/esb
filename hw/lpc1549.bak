@@ -4,7 +4,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 3 13
+Sheet 3 14
 Title ""
 Date ""
 Rev ""
@@ -334,7 +334,7 @@ Wire Wire Line
 Wire Wire Line
 	5200 2950 4800 2950
 Wire Wire Line
-	7000 2050 7400 2050
+	5200 5650 4800 5650
 $Comp
 L power:+5V #PWR022
 U 1 1 58C01582
@@ -407,14 +407,14 @@ Wire Wire Line
 Text HLabel 4800 2750 0    60   Output ~ 0
 STARTER
 Wire Wire Line
-	7000 2150 7400 2150
+	5200 5750 4800 5750
 Text HLabel 4800 2850 0    60   Input ~ 0
 STARTER_SENSE
 Wire Wire Line
 	5200 5250 4700 5250
 Wire Wire Line
-	5200 5750 4800 5750
-Text HLabel 4800 5750 0    60   Output ~ 0
+	7000 2150 7400 2150
+Text HLabel 7400 2150 2    60   Output ~ 0
 ALT_IG
 Text HLabel 4700 5250 0    60   Input ~ 0
 ALT_L
@@ -428,7 +428,7 @@ Text HLabel 4700 5550 0    60   Input ~ 0
 FUEL_LEVEL
 Wire Wire Line
 	5200 2850 4800 2850
-Text HLabel 7400 2150 2    60   Input ~ 0
+Text HLabel 4800 5750 0    60   Input ~ 0
 MOTOR_OIL_PRESS
 Wire Wire Line
 	5200 2350 4800 2350
@@ -444,10 +444,10 @@ Text HLabel 4800 2250 0    60   Input ~ 0
 MOTOR_START_SENSE
 Wire Wire Line
 	1800 2950 1950 2950
-Text HLabel 7400 2050 2    60   Input ~ 0
+Text HLabel 4800 5650 0    60   Input ~ 0
 MOTOR_WATER_TEMP
 Wire Wire Line
-	5200 5650 4800 5650
+	7000 2050 7400 2050
 Text HLabel 7400 2350 2    60   Input ~ 0
 ALT_IG_SENSE
 Wire Wire Line
@@ -458,7 +458,7 @@ Wire Wire Line
 	7000 2350 7400 2350
 Wire Wire Line
 	7400 2450 7000 2450
-Text HLabel 4800 5650 0    60   Output ~ 0
+Text HLabel 7400 2050 2    60   Output ~ 0
 PUMP
 Text HLabel 7400 2450 2    60   Input ~ 0
 PUMP_SENSE

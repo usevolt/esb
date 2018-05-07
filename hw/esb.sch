@@ -4,7 +4,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A3 16535 11693
 encoding utf-8
-Sheet 1 13
+Sheet 1 14
 Title "ESB version 1"
 Date "2017-02-02"
 Rev "2"
@@ -848,15 +848,6 @@ F 7 "YAGEO" H 11819 6139 60  0001 C CNN "Manufacturer"
 	1    11750 6000
 	1    0    0    -1  
 $EndComp
-$Sheet
-S 11150 6800 1100 300 
-U 5A120DD2
-F0 "Sheet5A120DD1" 60
-F1 "vn5e010ah.sch" 60
-F2 "OUT1" O R 12250 6900 60 
-F3 "IN1" I L 11150 6900 60 
-F4 "SENSE1" O L 11150 7000 60 
-$EndSheet
 Wire Wire Line
 	11150 6900 9850 6900
 Wire Wire Line
@@ -1138,4 +1129,13 @@ Wire Wire Line
 Wire Wire Line
 	2250 3400 1650 3400
 Connection ~ 2250 2950
+$Sheet
+S 11150 6800 1100 300 
+U 5B1A3D6E
+F0 "Sheet5B1A3D6D" 60
+F1 "vn5e010ah_double.sch" 60
+F2 "OUT1" O R 12250 6900 60 
+F3 "IN1" I L 11150 6900 60 
+F4 "SENSE1" O L 11150 7000 60 
+$EndSheet
 $EndSCHEMATC
