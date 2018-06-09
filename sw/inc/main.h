@@ -23,10 +23,10 @@
 
 /// @brief: Motor temperature max limit in celsius.
 /// Warning is generated after this has been exceeded
-#define MOTOR_TEMP_WARN_VALUE		90
+#define MOTOR_TEMP_WARN_VALUE		96
 /// @brief: Motor temperature max limit in celsius.
 /// Error is generated after this has been exceeded
-#define MOTOR_TEMP_ERR_VALUE		95
+#define MOTOR_TEMP_ERR_VALUE		100
 #define MOTOR_TEMP_HYSTERESIS		2
 #define MOTOR_TEMP_AVG_COUNT		100
 
