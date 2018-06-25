@@ -4,7 +4,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A3 16535 11693
 encoding utf-8
-Sheet 1 14
+Sheet 1 13
 Title "ESB version 1"
 Date "2017-02-02"
 Rev "2"

@@ -4,7 +4,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 14 14
+Sheet 13 13
 Title ""
 Date ""
 Rev ""
@@ -29,10 +29,10 @@ Wire Wire Line
 Wire Wire Line
 	5200 4100 5450 4100
 $Comp
-L power:VDD #PWR?
+L power:VDD #PWR0108
 U 1 1 5B1A4079
 P 5450 3300
-F 0 "#PWR?" H 5450 3150 50  0001 C CNN
+F 0 "#PWR0108" H 5450 3150 50  0001 C CNN
 F 1 "VDD" H 5467 3473 50  0000 C CNN
 F 2 "" H 5450 3300 50  0000 C CNN
 F 3 "" H 5450 3300 50  0000 C CNN
@@ -54,10 +54,10 @@ Wire Wire Line
 	5450 4100 5450 3600
 Connection ~ 5450 3600
 $Comp
-L power:GND #PWR?
+L power:GND #PWR0109
 U 1 1 5B1A4087
 P 4700 3900
-F 0 "#PWR?" H 4700 3650 50  0001 C CNN
+F 0 "#PWR0109" H 4700 3650 50  0001 C CNN
 F 1 "GND" H 4705 3727 50  0000 C CNN
 F 2 "" H 4700 3900 50  0000 C CNN
 F 3 "" H 4700 3900 50  0000 C CNN
@@ -81,7 +81,8 @@ AR Path="/5A1349CF/5B1A4092" Ref="R?"  Part="1"
 AR Path="/5A1358B0/5B1A4092" Ref="R?"  Part="1" 
 AR Path="/5A13680F/5B1A4092" Ref="R?"  Part="1" 
 AR Path="/5A14370A/5B1A4092" Ref="R?"  Part="1" 
-F 0 "R?" V 4458 3708 45  0000 L CNN
+AR Path="/5B1A3D6E/5B1A4092" Ref="R1302"  Part="1" 
+F 0 "R1302" V 4458 3708 45  0000 L CNN
 F 1 "1K" V 4542 3708 45  0000 L CNN
 F 2 "yageo:0603" H 4480 3800 20  0001 C CNN
 F 3 "" H 4419 3689 60  0001 C CNN
@@ -99,32 +100,10 @@ Wire Wire Line
 	4450 3850 4700 3850
 Connection ~ 4700 3850
 $Comp
-L yageo:390 R?
-U 1 1 5B1A40A1
-P 5000 3600
-AR Path="/5A1349CF/5B1A40A1" Ref="R?"  Part="1" 
-AR Path="/5A14370A/5B1A40A1" Ref="R?"  Part="1" 
-AR Path="/5A120DD2/5B1A40A1" Ref="R?"  Part="1" 
-AR Path="/5A12FF64/5B1A40A1" Ref="R?"  Part="1" 
-AR Path="/5A130D3E/5B1A40A1" Ref="R?"  Part="1" 
-AR Path="/5A1358B0/5B1A40A1" Ref="R?"  Part="1" 
-AR Path="/5A13680F/5B1A40A1" Ref="R?"  Part="1" 
-F 0 "R?" H 5050 3784 45  0000 C CNN
-F 1 "390" H 5050 3700 45  0000 C CNN
-F 2 "yageo:0603" H 5030 3750 20  0001 C CNN
-F 3 "" H 4969 3639 60  0001 C CNN
-F 4 "" H 5369 4039 60  0001 C CNN "1st Source Part Number"
-F 5 "Digikey" H 5269 3939 60  0001 C CNN "1st Source"
-F 6 "RC0603FR-07390RL" H 5169 3839 60  0001 C CNN "Manufacturer Part Number"
-F 7 "YAGEO" H 5069 3739 60  0001 C CNN "Manufacturer"
-	1    5000 3600
-	1    0    0    -1  
-$EndComp
-$Comp
-L usevolt:VN5E010AH U?
+L usevolt:VN5E010AH U1303
 U 1 1 5B1A40AC
 P 6700 3600
-F 0 "U?" H 6650 4047 60  0000 C CNN
+F 0 "U1303" H 6650 4047 60  0000 C CNN
 F 1 "VN5E010AH" H 6650 3941 60  0000 C CNN
 F 2 "usevolt:HPAK" H 6350 4550 60  0001 C CNN
 F 3 "http://www.st.com/content/ccc/resource/technical/document/datasheet/1e/52/ef/e0/cc/90/4e/2e/CD00240716.pdf/files/CD00240716.pdf/jcr:content/translations/en.CD00240716.pdf" H 6450 4650 60  0001 C CNN
@@ -136,10 +115,10 @@ F 7 "497-10505-2-ND" H 6850 5050 60  0001 C CNN "1st Source Part Number"
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR?
+L power:GND #PWR0110
 U 1 1 5B1A40B3
 P 5650 3900
-F 0 "#PWR?" H 5650 3650 50  0001 C CNN
+F 0 "#PWR0110" H 5650 3650 50  0001 C CNN
 F 1 "GND" H 5655 3727 50  0000 C CNN
 F 2 "" H 5650 3900 50  0000 C CNN
 F 3 "" H 5650 3900 50  0000 C CNN
@@ -164,10 +143,10 @@ Wire Wire Line
 Wire Wire Line
 	5650 3800 5650 3900
 $Comp
-L usevolt:VN5E010AH U?
+L usevolt:VN5E010AH U1302
 U 1 1 5B1A4293
 P 6700 2800
-F 0 "U?" H 6650 3247 60  0000 C CNN
+F 0 "U1302" H 6650 3247 60  0000 C CNN
 F 1 "VN5E010AH" H 6650 3141 60  0000 C CNN
 F 2 "usevolt:HPAK" H 6350 3750 60  0001 C CNN
 F 3 "http://www.st.com/content/ccc/resource/technical/document/datasheet/1e/52/ef/e0/cc/90/4e/2e/CD00240716.pdf/files/CD00240716.pdf/jcr:content/translations/en.CD00240716.pdf" H 6450 3850 60  0001 C CNN
@@ -213,4 +192,52 @@ Wire Wire Line
 Wire Wire Line
 	6150 2900 6150 3000
 Connection ~ 6150 3000
+$Comp
+L yageo:1K R1303
+U 1 1 5B2322BF
+P 5000 3600
+F 0 "R1303" H 5050 3784 45  0000 C CNN
+F 1 "1K" H 5050 3700 45  0000 C CNN
+F 2 "yageo:0603" H 5030 3750 20  0001 C CNN
+F 3 "" H 4969 3639 60  0001 C CNN
+F 4 "" H 5369 4039 60  0001 C CNN "1st Source Part Number"
+F 5 "Digikey" H 5269 3939 60  0001 C CNN "1st Source"
+F 6 "RC0603FR-071KL" H 5169 3839 60  0001 C CNN "Manufacturer Part Number"
+F 7 "YAGEO" H 5069 3739 60  0001 C CNN "Manufacturer"
+	1    5000 3600
+	1    0    0    -1  
+$EndComp
+$Comp
+L usevolt:DIODE_RS07J-GS18 D1301
+U 1 1 5B2324C2
+P 5250 4400
+F 0 "D1301" H 5200 4260 45  0000 C CNN
+F 1 "DIODE_RS07J-GS18" H 5270 4340 45  0001 L BNN
+F 2 "usevolt:DO219AB" H 5280 4550 20  0001 C CNN
+F 3 "http://www.vishay.com/docs/85742/rs07b.pdf" H 5270 4420 60  0001 C CNN
+F 4 "1864882" H 5870 5020 60  0001 C CNN "2nd Source Part Number"
+F 5 "Digi-Key" H 5570 4720 60  0001 C CNN "1st Source"
+F 6 "Farnell" H 5770 4920 60  0001 C CNN "2nd Source"
+F 7 "RS07J-GS18" H 5470 4620 60  0001 C CNN "Manufacturer Part Number"
+F 8 "RS07J-GS18-ND" H 5670 4820 60  0001 C CNN "1st Source Part Number"
+F 9 "Vishay Semiconductor Diodes Division" H 5370 4520 60  0001 C CNN "Manufacturer"
+	1    5250 4400
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:+3V3 #PWR0111
+U 1 1 5B2325C0
+P 4950 4400
+F 0 "#PWR0111" H 4950 4250 50  0001 C CNN
+F 1 "+3V3" H 4965 4573 50  0000 C CNN
+F 2 "" H 4950 4400 50  0000 C CNN
+F 3 "" H 4950 4400 50  0000 C CNN
+	1    4950 4400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4950 4400 5150 4400
+Wire Wire Line
+	5450 4400 5450 4100
+Connection ~ 5450 4100
 $EndSCHEMATC

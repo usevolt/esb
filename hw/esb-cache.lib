@@ -673,10 +673,12 @@ F0 "CP" 0 200 60 H V C CNN
 F1 "usevolt_OPTOCOUPLER_HCPL-181-000E" 0 200 60 H V C CNN
 F2 "usevolt:HCPL-181-000E" 0 200 60 H I C CNN
 F3 "http://www.farnell.com/datasheets/317140.pdf?_ga=1.164840831.1561825231.1484148445" 0 200 60 H I C CNN
-F4 "1244525" 400 600 60 H I C CNN "1st Source Part Number"
-F5 "BROADCOM LIMITED" 100 300 60 H I C CNN "Manufacturer"
+F4 "BROADCOM LIMITED" 100 300 60 H I C CNN "Manufacturer"
+F5 "HCPL-181-000E" 200 400 60 H I C CNN "Manufacturer Part Number"
 F6 "Farnell" 300 500 60 H I C CNN "1st Source"
-F7 "HCPL-181-000E" 200 400 60 H I C CNN "Manufacturer Part Number"
+F7 "1244525" 400 600 60 H I C CNN "1st Source Part Number"
+F8 "Digikey" 500 700 50 H I C CNN "2nd Source"
+F9 "516-1646-1-ND" 600 800 50 H I C CNN "2nd Source Part Number"
 DRAW
 S -100 150 200 -250 0 1 0 N
 P 2 0 1 0 -100 -50 0 -50 N
@@ -862,33 +864,6 @@ F2 "yageo:0603" 30 150 20 H I C CNN
 F3 "" -31 39 60 H I C CNN
 F4 "Digikey" 269 339 60 H I C CNN "1st Source"
 F5 "RC0603FR-071K5L" 169 239 60 H I C CNN "Manufacturer Part Number"
-F6 "YAGEO" 69 139 60 H I C CNN "Manufacturer"
-$FPLIST
- *RESC1608X60N*
-$ENDFPLIST
-DRAW
-P 2 1 0 0 -30 -30 130 -30 N
-P 2 1 0 0 -30 0 -100 0 N
-P 2 1 0 0 -30 0 -30 -30 N
-P 2 1 0 0 -30 30 -30 0 N
-P 2 1 0 0 130 -30 130 0 N
-P 2 1 0 0 130 0 130 30 N
-P 2 1 0 0 130 0 200 0 N
-P 2 1 0 0 130 30 -30 30 N
-X R1 1 200 0 0 L 40 40 1 1 P
-X R2 2 -100 0 0 R 40 40 1 1 P
-ENDDRAW
-ENDDEF
-#
-# yageo_390
-#
-DEF yageo_390 R 0 40 N N 1 L N
-F0 "R" -31 39 45 H V L BNN
-F1 "yageo_390" -33 -84 45 H V L BNN
-F2 "yageo:0603" 30 150 20 H I C CNN
-F3 "" -31 39 60 H I C CNN
-F4 "Digikey" 269 339 60 H I C CNN "1st Source"
-F5 "RC0603FR-07390RL" 169 239 60 H I C CNN "Manufacturer Part Number"
 F6 "YAGEO" 69 139 60 H I C CNN "Manufacturer"
 $FPLIST
  *RESC1608X60N*
