@@ -23,20 +23,20 @@
 
 /// @brief: Motor temperature max limit in celsius.
 /// Warning is generated after this has been exceeded
-#define MOTOR_TEMP_WARN_VALUE		96
+#define MOTOR_TEMP_WARN_VALUE		100
 /// @brief: Motor temperature max limit in celsius.
 /// Error is generated after this has been exceeded
-#define MOTOR_TEMP_ERR_VALUE		100
-#define MOTOR_TEMP_HYSTERESIS		2
+#define MOTOR_TEMP_ERR_VALUE		108
+#define MOTOR_TEMP_HYSTERESIS		4
 #define MOTOR_TEMP_AVG_COUNT		100
 
 
 /// @brief: Hydraulic oil temperature max limit in celsius.
 /// Warning is generated after this has been exceeded
-#define OIL_TEMP_WARN_VALUE			80
+#define OIL_TEMP_WARN_VALUE			90
 /// @brief: Motor temperature max limit in celsius.
 /// Error is generated after this has been exceeded
-#define OIL_TEMP_ERR_VALUE			90
+#define OIL_TEMP_ERR_VALUE			98
 #define OIL_TEMP_HYSTERESIS			4
 #define OIL_TEMP_AVG_COUNT			100
 
