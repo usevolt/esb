@@ -30,6 +30,7 @@ typedef enum {
 	CMD_CLEAR,
 	CMD_OILC,
 	CMD_AC,
+	CMD_HOUR,
 	CMD_COUNT
 } gsm_commands_e;
 
