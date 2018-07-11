@@ -295,6 +295,7 @@ void pump_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv
 void clear_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 void oilc_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 void ac_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
+void hour_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 
 
 
@@ -339,6 +340,13 @@ const uv_command_st terminal_commands[] = {
 				.instructions = "Forces the air conditioner compressor on or off.\n"
 						"Usage: ac <1/0>",
 				.callback = &ac_callb
+		},
+		{
+				.id = CMD_HOUR,
+				.str = "hour",
+				.instructions = "Sets or gets the usage hours on the machine.\n"
+						"Usage: hour (value)",
+				.callback = &hour_callb
 		}
 };
 
@@ -384,6 +392,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	stat_output(&this->alt_ig, "Alt IG");
 	stat_output(&this->oilcooler, "OilC");
 	printf("Vdd: %u mV\n", this->vdd);
+	printf("hours: %u\n", (unsigned int) this->hour_counter);
 	printf("FSB ignkey state: %u, emcy: %u\n", this->fsb.ignkey_state, this->fsb.emcy);
 	printf("CSB ac req: %u\n", this->csb.ac_req);
 	printf("ECU hydr pressure: %u\n", this->ecu.hydr_pressure);
@@ -471,6 +480,14 @@ void ac_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) 
 		this->ac_override = argv[0].number;
 	}
 	printf("ac override: %u\n", this->ac_override);
+}
+
+
+void hour_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) {
+	if (args && (argv[0].type == ARG_INTEGER)) {
+		this->hour_counter = argv[0].number;
+	}
+	printf("Hour counter: %u\n", (unsigned int) this->hour_counter);
 }
 
 
