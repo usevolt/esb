@@ -27,7 +27,7 @@
 /// @brief: Motor temperature max limit in celsius.
 /// Error is generated after this has been exceeded
 #define MOTOR_TEMP_ERR_VALUE		108
-#define MOTOR_TEMP_HYSTERESIS		4
+#define MOTOR_TEMP_HYSTERESIS		10
 #define MOTOR_TEMP_AVG_COUNT		100
 
 
@@ -37,7 +37,7 @@
 /// @brief: Motor temperature max limit in celsius.
 /// Error is generated after this has been exceeded
 #define OIL_TEMP_ERR_VALUE			98
-#define OIL_TEMP_HYSTERESIS			4
+#define OIL_TEMP_HYSTERESIS			10
 #define OIL_TEMP_AVG_COUNT			100
 
 /// @brief: Fuel level min limit in percents.
@@ -46,7 +46,7 @@
 /// @brief: fuel level min limit in percents.
 /// Error is generated after this has been exceeded
 #define FUEL_LEVEL_ERR_VALUE		5
-#define FUEL_LEVEL_HYSTERESIS		10
+#define FUEL_LEVEL_HYSTERESIS		15
 #define FUEL_LEVEL_AVG_COUNT		100
 
 /// @brief: Oil level min limit in percents.
@@ -55,7 +55,7 @@
 /// @brief: oil level min limit in percents.
 /// Error is generated after this has been exceeded
 #define OIL_LEVEL_ERR_VALUE			30
-#define OIL_LEVEL_HYSTERESIS		10
+#define OIL_LEVEL_HYSTERESIS		15
 #define OIL_LEVEL_AVG_COUNT			100
 
 #define VDD_AVG_COUNT				10
@@ -64,7 +64,7 @@
 
 #define OUTPUT_MOVING_AVG_COUNT		50
 
-#define OIL_TEMP_HYSTERESIS_C				10
+#define OIL_TEMP_HYSTERESIS_C				15
 #define OIL_TEMP_DEFAULT_TRIGGER_VALUE_C	70
 
 #define ENGINE_POWER_USAGE_DEFAULT	25
