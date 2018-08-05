@@ -13,13 +13,15 @@
 #include <uv_filters.h>
 #include <uv_output.h>
 #include <uv_solenoid_output.h>
-#include "sensor.h"
+#include <uv_sensor.h>
 #include "can_fsb.h"
 
 /// brief: Delay for motor_oil_press and motor_water_temp
 /// warning signals
-#define MOTOR_DELAY_MS			2000
+#define MOTOR_DELAY_MS				2000
 
+#define TEMP_FAULT_MAX_VAL			130
+#define TEMP_FAULT_MIN_VAL			-50
 
 /// @brief: Motor temperature max limit in celsius.
 /// Warning is generated after this has been exceeded
@@ -40,14 +42,9 @@
 #define OIL_TEMP_HYSTERESIS			10
 #define OIL_TEMP_AVG_COUNT			100
 
-/// @brief: Fuel level min limit in percents.
-/// Warning is generated after this has been exceeded
-#define FUEL_LEVEL_WARN_VALUE		20
-/// @brief: fuel level min limit in percents.
-/// Error is generated after this has been exceeded
-#define FUEL_LEVEL_ERR_VALUE		5
-#define FUEL_LEVEL_HYSTERESIS		15
-#define FUEL_LEVEL_AVG_COUNT		100
+
+#define LEVEL_FAULT_MAX_VAL			150
+#define LEVEL_FAULT_MIN_VAL			0
 
 /// @brief: Oil level min limit in percents.
 /// Warning is generated after this has been exceeded
@@ -68,6 +65,7 @@
 #define OIL_TEMP_DEFAULT_TRIGGER_VALUE_C	70
 
 #define ENGINE_POWER_USAGE_DEFAULT	25
+#define ENGINE_POWER_ENABLE_DEFAULT	1
 #define PUMP_CURRENT_MIN_MA			200
 #define PUMP_CURRENT_MAX_MA			600
 #define PWR_RISING_P_DEFAULT		10
@@ -97,10 +95,9 @@ typedef struct _dev_st {
 	/// uw_display.
 	uint32_t hour_counter;
 
-	sensor_st motor_temp;
-	sensor_st oil_temp;
-	sensor_st fuel_level;
-	sensor_st oil_level;
+	uv_sensor_st motor_temp;
+	uv_sensor_st oil_temp;
+	uv_sensor_st oil_level;
 
 	uv_hysteresis_st oil_temp_hyst;
 
@@ -147,13 +144,12 @@ typedef struct _dev_st {
 
 	int8_t oilcooler_trigger_temp;
 
+	// flag for enabling pump output
+	uint8_t engine_power_enable;
+
 	uint8_t engine_power_usage;
 	// Kp factor for increasing the pump angle
 	uint16_t pwr_rising_p;
-
-	// PID Kp and Ki factors for the pump solenoid output
-	uint16_t pump_i;
-	uint16_t pump_p;
 
 	/// @brief: Proportional solenoid dither frequency
 	uint8_t dither_freq;

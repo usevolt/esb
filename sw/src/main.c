@@ -22,8 +22,8 @@ dev_st dev = {};
 #define this ((dev_st*) &dev)
 
 
-bool adc_get_temp(uv_adc_channels_e adc_chn, int8_t *dest);
-bool adc_get_level(uv_adc_channels_e adc_chn, int8_t *dest);
+int16_t adc_get_temp(uv_adc_channels_e adc_chn);
+int16_t adc_get_level(uv_adc_channels_e adc_chn);
 uint16_t adc_get_voltage_mv(const uv_adc_channels_e adc_chn);
 void rpm_callb(uv_gpios_e);
 void sdo_callback(uint16_t mindex, uint8_t sindex);
@@ -39,7 +39,7 @@ void sdo_callback(uint16_t mindex, uint8_t sindex);
 #define PWR_LIMIT_DIVIDER			20
 
 void init(dev_st* me) {
-	uv_gpio_add_interrupt_callback(&rpm_callb);
+	uv_gpio_interrupt_init(&rpm_callb);
 
 	// load non-volatile data
 	if (uv_memory_load()) {
@@ -48,9 +48,8 @@ void init(dev_st* me) {
 		// initialize non-volatile memory to default settings
 		this->dither_ampl = 0;
 		this->dither_freq = 50;
-		this->pump_i = CONFIG_SOLENOID_MA_I;
-		this->pump_p = CONFIG_SOLENOID_MA_P;
 		this->engine_power_usage = ENGINE_POWER_USAGE_DEFAULT;
+		this->engine_power_enable = ENGINE_POWER_ENABLE_DEFAULT;
 		this->pwr_rising_p = PWR_RISING_P_DEFAULT;
 		uv_memory_save();
 	}
@@ -82,8 +81,6 @@ void init(dev_st* me) {
 			DUTY_CYCLEPPT(this->dither_ampl), PUMP_SENSE_AIN,
 			VND5050_CURRENT_AMPL_UA, 3500, 5000,
 			ESB_EMCY_PUMP_OVERLOAD, ESB_EMCY_PUMP_FAULT);
-	uv_pid_set_p(uv_solenoid_output_get_ma_pid(&this->pump), this->pump_p);
-	uv_pid_set_i(uv_solenoid_output_get_ma_pid(&this->pump), this->pump_i);
 
 	// initialize inputs
 	UV_GPIO_INIT_INPUT(ALT_L_I, PULL_UP_ENABLED);
@@ -97,36 +94,25 @@ void init(dev_st* me) {
 
 
 	// motor temp
-	sensor_init(&this->motor_temp, MOTOR_TEMP_AIN, MOTOR_TEMP_AVG_COUNT,
-			ESB_EMCY_MTEMP_SENSOR_FAULT, &adc_get_temp);
-	sensor_set_warning(&this->motor_temp, MOTOR_TEMP_WARN_VALUE,
+	uv_sensor_init(&this->motor_temp, MOTOR_TEMP_AIN, MOTOR_TEMP_AVG_COUNT, &adc_get_temp);
+	uv_sensor_set_warning(&this->motor_temp, MOTOR_TEMP_WARN_VALUE,
 			MOTOR_TEMP_HYSTERESIS, false, ESB_EMCY_MTEMP_WARNING);
-	sensor_set_error(&this->motor_temp, MOTOR_TEMP_ERR_VALUE,
-			MOTOR_TEMP_HYSTERESIS, false, ESB_EMCY_MTEMP_ERROR);
+	uv_sensor_set_fault(&this->motor_temp, TEMP_FAULT_MIN_VAL, TEMP_FAULT_MAX_VAL,
+			MOTOR_TEMP_HYSTERESIS, ESB_EMCY_MTEMP_SENSOR_FAULT);
 
 	// oil temp
-	sensor_init(&this->oil_temp, OIL_TEMP_AIN, OIL_TEMP_AVG_COUNT,
-			ESB_EMCY_OTEMP_SENSOR_FAULT, &adc_get_temp);
-	sensor_set_warning(&this->oil_temp, OIL_TEMP_WARN_VALUE,
+	uv_sensor_init(&this->oil_temp, OIL_TEMP_AIN, OIL_TEMP_AVG_COUNT, &adc_get_temp);
+	uv_sensor_set_warning(&this->oil_temp, OIL_TEMP_WARN_VALUE,
 			OIL_TEMP_HYSTERESIS, false, ESB_EMCY_OTEMP_WARNING);
-	sensor_set_error(&this->oil_temp, OIL_TEMP_ERR_VALUE,
-			OIL_TEMP_HYSTERESIS, false, ESB_EMCY_OTEMP_ERROR);
-
-	// fuel level
-	sensor_init(&this->fuel_level, FUEL_LEVEL_AIN, FUEL_LEVEL_AVG_COUNT,
-			ESB_EMCY_FLEVEL_FAULT, &adc_get_level);
-	sensor_set_warning(&this->fuel_level, FUEL_LEVEL_WARN_VALUE,
-			FUEL_LEVEL_HYSTERESIS, true, ESB_EMCY_FLEVEL_WARNING);
-	sensor_set_error(&this->fuel_level, FUEL_LEVEL_ERR_VALUE,
-			FUEL_LEVEL_HYSTERESIS, true, ESB_EMCY_FLEVEL_ERROR);
+	uv_sensor_set_fault(&this->oil_temp, TEMP_FAULT_MIN_VAL, TEMP_FAULT_MAX_VAL,
+			OIL_TEMP_HYSTERESIS, ESB_EMCY_OTEMP_SENSOR_FAULT);
 
 	// oil level
-	sensor_init(&this->oil_level, OIL_LEVEL_AIN, OIL_LEVEL_AVG_COUNT,
-			ESB_EMCY_OLEVEL_SENSOR_FAULT, &adc_get_level);
-	sensor_set_warning(&this->oil_level, OIL_LEVEL_WARN_VALUE,
+	uv_sensor_init(&this->oil_level, OIL_LEVEL_AIN, OIL_LEVEL_AVG_COUNT, &adc_get_level);
+	uv_sensor_set_warning(&this->oil_level, OIL_LEVEL_WARN_VALUE,
 			OIL_LEVEL_HYSTERESIS, true, ESB_EMCY_OLEVEL_WARNING);
-	sensor_set_error(&this->oil_level, OIL_LEVEL_ERR_VALUE,
-			OIL_LEVEL_HYSTERESIS, true, ESB_EMCY_OLEVEL_ERROR);
+	uv_sensor_set_fault(&this->oil_level, LEVEL_FAULT_MIN_VAL, LEVEL_FAULT_MAX_VAL,
+			OIL_LEVEL_HYSTERESIS, ESB_EMCY_OLEVEL_SENSOR_FAULT);
 
 	// vdd
 	uv_moving_aver_init(&this->vdd_avg, VDD_AVG_COUNT);
@@ -181,21 +167,19 @@ void init(dev_st* me) {
 #define PT100_ADC_0C			2816
 #define PT100_ADC_100C			3821
 /// @brief: Returns the ADC's read value as celsius degrees
-bool adc_get_temp(uv_adc_channels_e adc_chn, int8_t *dest) {
+int16_t adc_get_temp(uv_adc_channels_e adc_chn) {
+	int16_t ret;
 	int32_t adc = uv_adc_read(adc_chn);
-	bool ret = true;
-	if (!dest) {
-		ret = false;
+	int32_t t = uv_reli(adc, PT100_ADC_0C, PT100_ADC_100C);
+	int16_t result_c = uv_lerpi(t, 0, 100);
+	if (result_c < TEMP_FAULT_MIN_VAL) {
+		ret = TEMP_FAULT_MIN_VAL;
+	}
+	else if (result_c > TEMP_FAULT_MAX_VAL) {
+		ret = TEMP_FAULT_MAX_VAL;
 	}
 	else {
-		int32_t t = uv_reli(adc, PT100_ADC_0C, PT100_ADC_100C);
-		int16_t result_c = uv_lerpi(t, 0, 100);
-		if ((result_c > -50) && (result_c < 120)) {
-			*dest = result_c;
-		}
-		else {
-			ret = false;
-		}
+		ret = result_c;
 	}
 	return ret;
 }
@@ -206,15 +190,23 @@ bool adc_get_temp(uv_adc_channels_e adc_chn, int8_t *dest) {
 #define LEVEL_0_MV				0
 #define LEVEL_100_MV			500
 /// @brief: Reads the adc channel and converts it to liquid level percentage
-bool adc_get_level(uv_adc_channels_e adc_chn, int8_t *dest) {
-	bool ret = true;
+int16_t adc_get_level(uv_adc_channels_e adc_chn) {
+	int16_t ret;
 	int64_t mv = adc_get_voltage_mv(adc_chn);
-	if ((mv >= (LEVEL_100_MV * 2)) || (!dest)) {
-		ret = false;
+	int32_t t = uv_reli(mv, LEVEL_0_MV, LEVEL_100_MV);
+	int32_t result = uv_lerpi(t, 0, 100);
+
+	if (result < LEVEL_FAULT_MIN_VAL) {
+		ret = LEVEL_FAULT_MIN_VAL;
+	}
+	else if (result > LEVEL_FAULT_MAX_VAL) {
+		ret = LEVEL_FAULT_MAX_VAL;
 	}
 	else {
-		int32_t t = uv_reli(mv, LEVEL_0_MV, LEVEL_100_MV);
-		*dest = uv_lerpi(t, 0, 100);
+		if (result > 100) {
+			result = 100;
+		}
+		ret = result;
 	}
 	return ret;
 }
@@ -270,10 +262,9 @@ void step(void* me) {
 				uv_solenoid_output_get_current(&this->pump);
 
 		// motor temperature
-		sensor_step(&this->motor_temp, step_ms);
-		sensor_step(&this->oil_temp, step_ms);
-		sensor_step(&this->fuel_level, step_ms);
-		sensor_step(&this->oil_level, step_ms);
+		uv_sensor_step(&this->motor_temp, step_ms);
+		uv_sensor_step(&this->oil_temp, step_ms);
+		uv_sensor_step(&this->oil_level, step_ms);
 
 		// kubota sensors
 		this->motor_water_temp = GET_MOTOR_WATER();
@@ -348,7 +339,7 @@ void step(void* me) {
 		// the RPM would seem to be 0 and thus pump angle would also be 0.
 		result = (this->alt_l) ? PUMP_CURRENT_MAX_MA : result;
 		// set the pump solenoid output based on the power usage calculations
-		uv_solenoid_output_set(&this->pump, result);
+			uv_solenoid_output_set(&this->pump, (this->engine_power_enable) ? result : 0);
 		this->pwr.last_limit = this->pwr.limit;
 
 
@@ -438,8 +429,8 @@ void step(void* me) {
 
 		// oil cooler control
 		uv_hysteresis_set_trigger_value(&this->oil_temp_hyst, this->oilcooler_trigger_temp);
-		if (sensor_get_state(&this->oil_temp) == SENSOR_STATE_OK) {
-			uv_hysteresis_step(&this->oil_temp_hyst, sensor_get_value(&this->oil_temp));
+		if (uv_sensor_get_state(&this->oil_temp) == SENSOR_STATE_OK) {
+			uv_hysteresis_step(&this->oil_temp_hyst, uv_sensor_get_value(&this->oil_temp));
 			uv_output_set_state(&this->oilcooler, (uv_hysteresis_get_output(&this->oil_temp_hyst)) ?
 					OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
 		}

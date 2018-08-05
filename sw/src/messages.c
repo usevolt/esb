@@ -205,13 +205,6 @@ canopen_object_st obj_dict[] = {
 				.data_ptr = &this->oil_level.value
 		},
 		{
-				.main_index = ESB_FUEL_LEVEL_INDEX,
-				.sub_index = ESB_FUEL_LEVEL_SUBINDEX,
-				.type = ESB_FUEL_LEVEL_TYPE,
-				.permissions = ESB_FUEL_LEVEL_PERMISSIONS,
-				.data_ptr = &this->fuel_level.value
-		},
-		{
 				.main_index = ESB_VDD_INDEX,
 				.sub_index = ESB_VDD_SUBINDEX,
 				.type = ESB_VDD_TYPE,
@@ -252,6 +245,13 @@ canopen_object_st obj_dict[] = {
 				.type = ESB_PUMP_ANGLE_TYPE,
 				.permissions = ESB_PUMP_ANGLE_PERMISSIONS,
 				.data_ptr = &this->pwr.pump_angle
+		},
+		{
+				.main_index = ESB_ENGINE_POWER_ENABLE_INDEX,
+				.sub_index = ESB_ENGINE_POWER_ENABLE_SUBINDEX,
+				.type = ESB_ENGINE_POWER_ENABLE_TYPE,
+				.permissions = ESB_ENGINE_POWER_ENABLE_PERMISSIONS,
+				.data_ptr = &this->engine_power_enable
 		},
 
 		// other node's parameters
@@ -363,12 +363,10 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	printf("Total current: %u mA\n", (unsigned int) this->total_current);
 	printf("Motor temperature: %i C, state: %u\n"
 			"Hydraulic oil temperature: %i C, state: %u\n"
-			"Fuel level: %u %%, state: %u\n"
 			"Oil level: %u %%, state: %u\n",
-			sensor_get_value(&this->motor_temp), sensor_get_state(&this->motor_temp),
-			sensor_get_value(&this->oil_temp), sensor_get_state(&this->oil_temp),
-			sensor_get_value(&this->fuel_level), sensor_get_state(&this->fuel_level),
-			sensor_get_value(&this->oil_level), sensor_get_state(&this->oil_level));
+			uv_sensor_get_value(&this->motor_temp), uv_sensor_get_state(&this->motor_temp),
+			uv_sensor_get_value(&this->oil_temp), uv_sensor_get_state(&this->oil_temp),
+			uv_sensor_get_value(&this->oil_level), uv_sensor_get_state(&this->oil_level));
 	printf("Rpm: %u\nAlt L: %u\n, Motor Water Temp: %u\nMotor Oil Pressure: %u\n",
 			this->alt_p_rpm,
 			this->alt_l,
@@ -380,7 +378,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	stat_output(&this->engine_start1, "Engine start 1");
 	stat_output(&this->engine_start2, "Engine start 2");
 	stat_output((uv_output_st *) &this->pump, "Hydr Pump");
-	printf("Engine power usage: %u\n", this->engine_power_usage);
+	printf("Engine power usage: %u, enabled: %u\n", this->engine_power_usage, this->engine_power_enable);
 	stat_output(&this->alt_ig, "Alt IG");
 	stat_output(&this->oilcooler, "OilC");
 	printf("Vdd: %u mV\n", this->vdd);
@@ -423,37 +421,10 @@ void engine_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 void pump_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) {
 	if (args) {
 		if (argv[0].type == ARG_INTEGER) {
-			uv_solenoid_output_set(&this->pump, argv[0].number);
-		}
-		else if (argv[0].type == ARG_STRING) {
-			if (strcmp(argv[0].str, "p") == 0) {
-				if (args >= 2) {
-					dev.pump_p = argv[1].number;
-					uv_pid_set_p(uv_solenoid_output_get_ma_pid(&dev.pump), dev.pump_p);
-				}
-				printf("Kp: %u\n", dev.pump_p);
-			}
-			else if (strcmp(argv[0].str, "i") == 0) {
-				if (args >= 2) {
-					dev.pump_i = argv[1].number;
-					uv_pid_set_i(uv_solenoid_output_get_ma_pid(&dev.pump), dev.pump_i);
-				}
-				printf("Ki: %u\n", dev.pump_i);
-			}
-			else if (strcmp(argv[0].str, "pwrp") == 0) {
-				if (args >= 2) {
-					dev.pwr_rising_p = argv[1].number;
-				}
-				printf("PwrP: %u\n", dev.pwr_rising_p);
-			}
-			else {
-				printf("Unknown argument\n");
-			}
-		}
-		else {
-
+			this->engine_power_enable = argv[0].number ? 1 : 0;
 		}
 	}
+	printf("Engine power usage enabled: %u\n", this->engine_power_enable);
 }
 
 
