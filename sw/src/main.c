@@ -99,6 +99,7 @@ void init(dev_st* me) {
 			MOTOR_TEMP_HYSTERESIS, false, ESB_EMCY_MTEMP_WARNING);
 	uv_sensor_set_fault(&this->motor_temp, TEMP_FAULT_MIN_VAL, TEMP_FAULT_MAX_VAL,
 			MOTOR_TEMP_HYSTERESIS, ESB_EMCY_MTEMP_SENSOR_FAULT);
+	this->motor_temp_value = 0;
 
 	// oil temp
 	uv_sensor_init(&this->oil_temp, OIL_TEMP_AIN, OIL_TEMP_AVG_COUNT, &adc_get_temp);
@@ -106,6 +107,7 @@ void init(dev_st* me) {
 			OIL_TEMP_HYSTERESIS, false, ESB_EMCY_OTEMP_WARNING);
 	uv_sensor_set_fault(&this->oil_temp, TEMP_FAULT_MIN_VAL, TEMP_FAULT_MAX_VAL,
 			OIL_TEMP_HYSTERESIS, ESB_EMCY_OTEMP_SENSOR_FAULT);
+	this->oil_temp_value = 0;
 
 	// oil level
 	uv_sensor_init(&this->oil_level, OIL_LEVEL_AIN, OIL_LEVEL_AVG_COUNT, &adc_get_level);
@@ -113,6 +115,7 @@ void init(dev_st* me) {
 			OIL_LEVEL_HYSTERESIS, true, ESB_EMCY_OLEVEL_WARNING);
 	uv_sensor_set_fault(&this->oil_level, LEVEL_FAULT_MIN_VAL, LEVEL_FAULT_MAX_VAL,
 			OIL_LEVEL_HYSTERESIS, ESB_EMCY_OLEVEL_SENSOR_FAULT);
+	this->oil_level_value = 0;
 
 	// vdd
 	uv_moving_aver_init(&this->vdd_avg, VDD_AVG_COUNT);
@@ -263,8 +266,11 @@ void step(void* me) {
 
 		// motor temperature
 		uv_sensor_step(&this->motor_temp, step_ms);
+		this->motor_temp_value = (int8_t) uv_sensor_get_value(&this->motor_temp);
 		uv_sensor_step(&this->oil_temp, step_ms);
+		this->oil_temp_value = (int8_t) uv_sensor_get_value(&this->oil_temp);
 		uv_sensor_step(&this->oil_level, step_ms);
+		this->oil_level_value = (uint8_t) uv_sensor_get_value(&this->oil_level);
 
 		// kubota sensors
 		this->motor_water_temp = GET_MOTOR_WATER();

@@ -188,21 +188,21 @@ canopen_object_st obj_dict[] = {
 				.sub_index = ESB_MOTOR_TEMP_SUBINDEX,
 				.type = ESB_MOTOR_TEMP_TYPE,
 				.permissions = ESB_MOTOR_TEMP_PERMISSIONS,
-				.data_ptr = &this->motor_temp.value
+				.data_ptr = &this->motor_temp_value
 		},
 		{
 				.main_index = ESB_OIL_TEMP_INDEX,
 				.sub_index = ESB_OIL_TEMP_SUBINDEX,
 				.type = ESB_OIL_TEMP_TYPE,
 				.permissions = ESB_OIL_TEMP_PERMISSIONS,
-				.data_ptr = &this->oil_temp.value
+				.data_ptr = &this->oil_temp_value
 		},
 		{
 				.main_index = ESB_OIL_LEVEL_INDEX,
 				.sub_index = ESB_OIL_LEVEL_SUBINDEX,
 				.type = ESB_OIL_LEVEL_TYPE,
 				.permissions = ESB_OIL_LEVEL_PERMISSIONS,
-				.data_ptr = &this->oil_level.value
+				.data_ptr = &this->oil_level_value
 		},
 		{
 				.main_index = ESB_VDD_INDEX,

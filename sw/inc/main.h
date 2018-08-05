@@ -20,7 +20,7 @@
 /// warning signals
 #define MOTOR_DELAY_MS				2000
 
-#define TEMP_FAULT_MAX_VAL			130
+#define TEMP_FAULT_MAX_VAL			125
 #define TEMP_FAULT_MIN_VAL			-50
 
 /// @brief: Motor temperature max limit in celsius.
@@ -43,7 +43,7 @@
 #define OIL_TEMP_AVG_COUNT			100
 
 
-#define LEVEL_FAULT_MAX_VAL			150
+#define LEVEL_FAULT_MAX_VAL			125
 #define LEVEL_FAULT_MIN_VAL			0
 
 /// @brief: Oil level min limit in percents.
@@ -96,8 +96,11 @@ typedef struct _dev_st {
 	uint32_t hour_counter;
 
 	uv_sensor_st motor_temp;
+	int8_t motor_temp_value;
 	uv_sensor_st oil_temp;
+	int8_t oil_temp_value;
 	uv_sensor_st oil_level;
+	uint8_t oil_level_value;
 
 	uv_hysteresis_st oil_temp_hyst;
 
