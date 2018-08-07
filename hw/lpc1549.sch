@@ -4,7 +4,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 3 13
+Sheet 3 12
 Title ""
 Date ""
 Rev ""
@@ -204,11 +204,11 @@ Text Label 9350 4450 0    60   ~ 0
 RESET
 Text Label 4800 1950 0    60   ~ 0
 RESET
-Text HLabel 7400 1950 2    60   Input ~ 0
-ALT_P/RPM
 Text HLabel 4800 3050 0    60   Input ~ 0
+ALT_P/RPM
+Text HLabel 4800 2950 0    60   Input ~ 0
 GLOW_PLUGS_SENSE
-Text HLabel 4800 2950 0    60   Output ~ 0
+Text HLabel 4800 2850 0    60   Output ~ 0
 GLOW_PLUGS
 Wire Wire Line
 	5000 4400 5000 4500
@@ -291,13 +291,13 @@ Wire Wire Line
 Wire Wire Line
 	7300 3250 7000 3250
 Wire Wire Line
-	4700 5050 5200 5050
+	4700 5150 5200 5150
 Wire Wire Line
 	7000 5250 7600 5250
 Wire Wire Line
 	7600 5150 7000 5150
 Wire Wire Line
-	5200 5150 4700 5150
+	5200 5350 4700 5350
 Wire Wire Line
 	9150 3950 9500 3950
 Wire Wire Line
@@ -328,13 +328,11 @@ Wire Wire Line
 Connection ~ 9500 3450
 Connection ~ 9750 3450
 Wire Wire Line
-	7000 1950 7400 1950
+	5200 3050 4800 3050
 Wire Wire Line
-	5200 5550 4700 5550
+	5200 2850 4800 2850
 Wire Wire Line
-	5200 2950 4800 2950
-Wire Wire Line
-	5200 5650 4800 5650
+	5200 3250 4800 3250
 $Comp
 L power:+5V #PWR022
 U 1 1 58C01582
@@ -403,12 +401,12 @@ CAN_TX
 Text Label 7600 5150 2    60   ~ 0
 CAN_RX
 Wire Wire Line
-	5200 2750 4800 2750
-Text HLabel 4800 2750 0    60   Output ~ 0
+	5200 2650 4800 2650
+Text HLabel 4800 2650 0    60   Output ~ 0
 STARTER
 Wire Wire Line
-	5200 5750 4800 5750
-Text HLabel 4800 2850 0    60   Input ~ 0
+	5200 3150 4800 3150
+Text HLabel 4800 2750 0    60   Input ~ 0
 STARTER_SENSE
 Wire Wire Line
 	5200 5250 4700 5250
@@ -418,42 +416,40 @@ Text HLabel 7400 2150 2    60   Output ~ 0
 ALT_IG
 Text HLabel 4700 5250 0    60   Input ~ 0
 ALT_L
-Text HLabel 4700 5150 0    60   Input ~ 0
+Text HLabel 4700 5350 0    60   Input ~ 0
 MOTOR_TEMP
-Text HLabel 4700 5050 0    60   Input ~ 0
+Text HLabel 4700 5150 0    60   Input ~ 0
 HYDR_OIL_TEMP
 Wire Wire Line
-	5200 3050 4800 3050
-Text HLabel 4700 5550 0    60   Input ~ 0
-FUEL_LEVEL
+	5200 2950 4800 2950
 Wire Wire Line
-	5200 2850 4800 2850
-Text HLabel 4800 5750 0    60   Input ~ 0
+	5200 2750 4800 2750
+Text HLabel 4800 3150 0    60   Input ~ 0
 MOTOR_OIL_PRESS
 Wire Wire Line
-	5200 2350 4800 2350
-Text HLabel 4800 2150 0    60   Output ~ 0
+	7000 5750 7400 5750
+Text HLabel 7400 5650 2    60   Output ~ 0
 MOTOR_START
 Wire Wire Line
-	5200 2150 4800 2150
-Text HLabel 4800 2350 0    60   Output ~ 0
+	7000 5650 7400 5650
+Text HLabel 7400 5750 2    60   Output ~ 0
 MOTOR_ON
-Text HLabel 4800 2450 0    60   Input ~ 0
-MOTOR_ON_SENSE
 Text HLabel 4800 2250 0    60   Input ~ 0
+MOTOR_ON_SENSE
+Text HLabel 4800 2150 0    60   Input ~ 0
 MOTOR_START_SENSE
 Wire Wire Line
 	1800 2950 1950 2950
-Text HLabel 4800 5650 0    60   Input ~ 0
+Text HLabel 4800 3250 0    60   Input ~ 0
 MOTOR_WATER_TEMP
 Wire Wire Line
 	7000 2050 7400 2050
 Text HLabel 7400 2350 2    60   Input ~ 0
 ALT_IG_SENSE
 Wire Wire Line
-	5200 2450 4800 2450
+	5200 2250 4800 2250
 Wire Wire Line
-	4800 2250 5200 2250
+	4800 2150 5200 2150
 Wire Wire Line
 	7000 2350 7400 2350
 Wire Wire Line
@@ -481,16 +477,16 @@ Connection ~ 3600 4400
 Connection ~ 3600 4100
 Connection ~ 5000 4400
 Wire Wire Line
-	5200 5350 4700 5350
-Text HLabel 4700 5350 0    60   Input ~ 0
+	5200 5050 4700 5050
+Text HLabel 4700 5050 0    60   Input ~ 0
 OIL_LEVEL
 Wire Wire Line
-	5200 2650 4800 2650
-Text HLabel 4800 2650 0    60   Input ~ 0
+	5200 2550 4800 2550
+Text HLabel 4800 2550 0    60   Input ~ 0
 AC_SENSE
 Wire Wire Line
-	5200 2550 4800 2550
-Text HLabel 4800 2550 0    60   Output ~ 0
+	5200 2450 4800 2450
+Text HLabel 4800 2450 0    60   Output ~ 0
 AC
 $Comp
 L usevolt:ARM_JTAG_SWD_HEADER_10_PINSMD J301
