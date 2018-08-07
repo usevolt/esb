@@ -18,61 +18,61 @@
 
 /// brief: Delay for motor_oil_press and motor_water_temp
 /// warning signals
-#define MOTOR_DELAY_MS				2000
+#define MOTOR_DELAY_MS						2000
 
-#define TEMP_FAULT_MAX_VAL			125
-#define TEMP_FAULT_MIN_VAL			-50
+#define TEMP_FAULT_MAX_VAL					125
+#define TEMP_FAULT_MIN_VAL					-50
 
 /// @brief: Motor temperature max limit in celsius.
 /// Warning is generated after this has been exceeded
-#define MOTOR_TEMP_WARN_VALUE		100
+#define MOTOR_TEMP_WARN_VALUE				100
 /// @brief: Motor temperature max limit in celsius.
 /// Error is generated after this has been exceeded
-#define MOTOR_TEMP_ERR_VALUE		108
-#define MOTOR_TEMP_HYSTERESIS		10
-#define MOTOR_TEMP_AVG_COUNT		100
+#define MOTOR_TEMP_ERR_VALUE				108
+#define MOTOR_TEMP_HYSTERESIS				10
+#define MOTOR_TEMP_AVG_COUNT				100
 
 
 /// @brief: Hydraulic oil temperature max limit in celsius.
 /// Warning is generated after this has been exceeded
-#define OIL_TEMP_WARN_VALUE			90
+#define OIL_TEMP_WARN_VALUE					90
 /// @brief: Motor temperature max limit in celsius.
 /// Error is generated after this has been exceeded
-#define OIL_TEMP_ERR_VALUE			98
-#define OIL_TEMP_HYSTERESIS			10
-#define OIL_TEMP_AVG_COUNT			100
+#define OIL_TEMP_ERR_VALUE					98
+#define OIL_TEMP_HYSTERESIS					10
+#define OIL_TEMP_AVG_COUNT					100
 
 
-#define LEVEL_FAULT_MAX_VAL			125
-#define LEVEL_FAULT_MIN_VAL			0
+#define LEVEL_FAULT_MAX_VAL					125
+#define LEVEL_FAULT_MIN_VAL					0
 
 /// @brief: Oil level min limit in percents.
 /// Warning is generated after this has been exceeded
-#define OIL_LEVEL_WARN_VALUE		50
+#define OIL_LEVEL_WARN_VALUE				50
 /// @brief: oil level min limit in percents.
 /// Error is generated after this has been exceeded
-#define OIL_LEVEL_ERR_VALUE			30
-#define OIL_LEVEL_HYSTERESIS		15
-#define OIL_LEVEL_AVG_COUNT			100
+#define OIL_LEVEL_ERR_VALUE					30
+#define OIL_LEVEL_HYSTERESIS				15
+#define OIL_LEVEL_AVG_COUNT					100
 
-#define VDD_AVG_COUNT				10
-#define VDD_WARN_VALUE_MV			11000
-#define VDD_WARN_HYSTERESIS_MV		500
+#define VDD_AVG_COUNT						10
+#define VDD_WARN_VALUE_MV					11500
+#define VDD_WARN_HYSTERESIS_MV				500
 
-#define OUTPUT_MOVING_AVG_COUNT		50
+#define OUTPUT_MOVING_AVG_COUNT				50
 
 #define OIL_TEMP_HYSTERESIS_C				15
 #define OIL_TEMP_DEFAULT_TRIGGER_VALUE_C	70
 
-#define ENGINE_POWER_USAGE_DEFAULT	25
-#define ENGINE_POWER_ENABLE_DEFAULT	1
-#define PUMP_CURRENT_MIN_MA			200
-#define PUMP_CURRENT_MAX_MA			600
-#define PWR_RISING_P_DEFAULT		10
-#define PWR_USAGE_MAX				1000
+#define ENGINE_POWER_USAGE_DEFAULT			25
+#define ENGINE_POWER_ENABLE_DEFAULT			1
+#define PUMP_CURRENT_MIN_MA					200
+#define PUMP_CURRENT_MAX_MA					1200
+#define PWR_RISING_P_DEFAULT				10
+#define PWR_USAGE_MAX						1000
 
 /// @brief: EEPROM address for the hour counter
-#define HOUR_ADDR					0
+#define HOUR_ADDR							0
 
 
 /// @brief: main data structure.

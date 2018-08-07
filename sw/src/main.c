@@ -59,7 +59,7 @@ void init(dev_st* me) {
 			OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_GLOW_OVERLOAD, ESB_EMCY_GLOW_FAULT);
 	uv_output_init(&this->starter, STARTER_SENSE_AIN,
-			STARTER_O, VN5E01_CURRENT_AMPL_UA, 15000, 30000,
+			STARTER_O, VN5E01_CURRENT_AMPL_UA, 30000, 45000,
 			OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_STARTER_OVERLOAD, ESB_EMCY_STARTER_FAULT);
 	uv_output_init(&this->ac, AC_SENSE_AIN,
@@ -81,6 +81,8 @@ void init(dev_st* me) {
 			DUTY_CYCLEPPT(this->dither_ampl), PUMP_SENSE_AIN,
 			VND5050_CURRENT_AMPL_UA, 3500, 5000,
 			ESB_EMCY_PUMP_OVERLOAD, ESB_EMCY_PUMP_FAULT);
+	uv_solenoid_output_get_conf(&this->pump)->max_ma = PUMP_CURRENT_MAX_MA;
+	uv_solenoid_output_get_conf(&this->pump)->min_ma = PUMP_CURRENT_MIN_MA;
 
 	// initialize inputs
 	UV_GPIO_INIT_INPUT(ALT_L_I, PULL_UP_ENABLED);
@@ -343,11 +345,19 @@ void step(void* me) {
 		// pump control is disabled if alternator signals an error. This is to make sure that
 		// the machine works (more or less) even if alternator is not working, otherwise
 		// the RPM would seem to be 0 and thus pump angle would also be 0.
-		result = (this->alt_l) ? PUMP_CURRENT_MAX_MA : result;
+		result = (this->alt_l) ? 0 : result;
 		// set the pump solenoid output based on the power usage calculations
+		if (this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) {
 			uv_solenoid_output_set(&this->pump, (this->engine_power_enable) ? result : 0);
+		}
+		else if (this->fsb.ignkey_state == FSB_IGNKEY_STATE_PREHEAT ||
+				this->fsb.ignkey_state == FSB_IGNKEY_STATE_START) {
+			uv_solenoid_output_set(&this->pump, PUMP_CURRENT_MIN_MA);
+		}
+		else {
+			uv_solenoid_output_set(&this->pump, 0);
+		}
 		this->pwr.last_limit = this->pwr.limit;
-
 
 		// **** ignition key states ****
 
