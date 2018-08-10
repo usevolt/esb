@@ -277,11 +277,11 @@ canopen_object_st obj_dict[] = {
 				.data_ptr = &this->csb.ac_req
 		},
 		{
-				.main_index = ESB_ECU_HYDR_PRESSURE_INDEX,
-				.sub_index = ESB_ECU_HYDR_PRESSURE_SUBINDEX,
-				.type = ESB_ECU_HYDR_PRESSURE_TYPE,
-				.permissions = ESB_ECU_HYDR_PRESSURE_PERMISSIONS,
-				.data_ptr = &this->ecu.hydr_pressure
+				.main_index = ESB_HCU_INDEX_OFFSET + HCU_PRESSURE_INDEX,
+				.sub_index = HCU_PRESSURE_SUBINDEX,
+				.type = HCU_PRESSURE_TYPE,
+				.permissions = HCU_PRESSURE_PERMISSIONS,
+				.data_ptr = &this->hcu.hydr_pressure
 		}
 };
 
@@ -320,10 +320,8 @@ const uv_command_st terminal_commands[] = {
 		{
 				.id = CMD_PUMP,
 				.str = "pump",
-				.instructions = "Sets the hydraulic pump output state or PID controller's\n"
-						"Kp and Ki factors. Can also be used to set the power compensation\n"
-						"P factor.\n"
-						"Usage: pump (milliamps/\"p\"/\"i\"/\"pwrp\") (p_value/i_value/pwrp_value)",
+				.instructions = "Sets the hydraulic pump output parameters\n"
+						"Usage: pump (enabled/\"usage\") (usage)",
 				.callback = &pump_callb
 		},
 		{
@@ -384,7 +382,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	printf("Vdd: %u mV\n", this->vdd);
 	printf("FSB ignkey state: %u, emcy: %u\n", this->fsb.ignkey_state, this->fsb.emcy);
 	printf("CSB ac req: %u\n", this->csb.ac_req);
-	printf("ECU hydr pressure: %u\n", this->ecu.hydr_pressure);
+	printf("HCU hydr pressure: %u\n", this->hcu.hydr_pressure);
 
 }
 
@@ -423,8 +421,17 @@ void pump_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv
 		if (argv[0].type == ARG_INTEGER) {
 			this->engine_power_enable = argv[0].number ? 1 : 0;
 		}
+		else if (argv[0].type == ARG_STRING && args > 1) {
+			if (strcmp(argv[0].str, "usage") == 0) {
+				this->engine_power_usage = argv[1].number;
+			}
+		}
+		else {
+
+		}
 	}
-	printf("Engine power usage enabled: %u\n", this->engine_power_enable);
+	printf("Engine power usage enabled: %u, usage: %u\n",
+			this->engine_power_enable, this->engine_power_usage);
 }
 
 

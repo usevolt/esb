@@ -134,7 +134,7 @@ typedef struct _dev_st {
 	} fsb;
 	struct {
 		uint16_t hydr_pressure;
-	} ecu;
+	} hcu;
 	struct {
 		uint8_t ac_req;
 	} csb;

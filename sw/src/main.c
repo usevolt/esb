@@ -147,7 +147,7 @@ void init(dev_st* me) {
 
 	this->fsb.ignkey_state = FSB_IGNKEY_STATE_OFF;
 	this->fsb.emcy = 0;
-	this->ecu.hydr_pressure = 0;
+	this->hcu.hydr_pressure = 0;
 	this->csb.ac_req = 0;
 
 	this->ac_override = false;
@@ -311,7 +311,7 @@ void step(void* me) {
 
 		// **** power usage ****
 
-		uint16_t pressure = this->ecu.hydr_pressure;
+		uint16_t pressure = this->hcu.hydr_pressure;
 		if (pressure == 0) {
 			// prevent dividing with zero
 			pressure = 1;
@@ -337,27 +337,28 @@ void step(void* me) {
 		if (this->pwr.pump_angle > PWR_USAGE_MAX) {
 			this->pwr.pump_angle = PWR_USAGE_MAX;
 		}
-		else if (this->pwr.pump_angle < 0) {
-			this->pwr.pump_angle = 0;
+		if (this->pwr.pump_angle < 1) {
+			this->pwr.pump_angle = 1;
 		}
-		int32_t rel = uv_reli(this->pwr.pump_angle, 0, PWR_USAGE_MAX);
-		int32_t result = uv_lerpi(rel, PUMP_CURRENT_MIN_MA, PUMP_CURRENT_MAX_MA);
 		// pump control is disabled if alternator signals an error. This is to make sure that
 		// the machine works (more or less) even if alternator is not working, otherwise
 		// the RPM would seem to be 0 and thus pump angle would also be 0.
-		result = (this->alt_l) ? 0 : result;
-		// set the pump solenoid output based on the power usage calculations
-		if (this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) {
-			uv_solenoid_output_set(&this->pump, (this->engine_power_enable) ? result : 0);
+		if (this->alt_l || !this->engine_power_enable) {
+			this->pwr.pump_angle = 0;
 		}
-		else if (this->fsb.ignkey_state == FSB_IGNKEY_STATE_PREHEAT ||
-				this->fsb.ignkey_state == FSB_IGNKEY_STATE_START) {
-			uv_solenoid_output_set(&this->pump, PUMP_CURRENT_MIN_MA);
+		else if (this->fsb.ignkey_state != FSB_IGNKEY_STATE_ON) {
+			this->pwr.pump_angle = 1;
 		}
 		else {
-			uv_solenoid_output_set(&this->pump, 0);
+
 		}
+
+		// set the pump solenoid output based on the power usage calculations
+		uv_solenoid_output_set(&this->pump, this->pwr.pump_angle);
 		this->pwr.last_limit = this->pwr.limit;
+
+//		printf("%i %i\n", this->pwr.pump_angle, uv_solenoid_output_get_current(&this->pump));
+
 
 		// **** ignition key states ****
 
