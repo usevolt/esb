@@ -63,7 +63,7 @@ void init(dev_st* me) {
 			OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_STARTER_OVERLOAD, ESB_EMCY_STARTER_FAULT);
 	uv_output_init(&this->ac, AC_SENSE_AIN,
-			AC_O, VN5E01_CURRENT_AMPL_UA, 10000, 15000, OUTPUT_MOVING_AVG_COUNT,
+			AC_O, VN5E01_CURRENT_AMPL_UA, 50000, 60000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_AC_OVERLOAD, ESB_EMCY_AC_FAULT);
 	uv_output_init(&this->engine_start1, ENGINE_START1_SENSE_AIN,
 			ENGINE_START_1_O, VN5E01_CURRENT_AMPL_UA, 30000, 40000, OUTPUT_MOVING_AVG_COUNT,
@@ -151,6 +151,7 @@ void init(dev_st* me) {
 	this->csb.ac_req = 0;
 
 	this->ac_override = false;
+	uv_delay_init(&this->ac_delay, AC_START_DELAY_MS);
 
 	// fetch the display hour counter value from EEPROM
 	uv_eeprom_read(&this->hour_counter, sizeof(this->hour_counter), HOUR_ADDR);
@@ -357,8 +358,6 @@ void step(void* me) {
 		uv_solenoid_output_set(&this->pump, this->pwr.pump_angle);
 		this->pwr.last_limit = this->pwr.limit;
 
-//		printf("%i %i\n", this->pwr.pump_angle, uv_solenoid_output_get_current(&this->pump));
-
 
 		// **** ignition key states ****
 
@@ -423,21 +422,34 @@ void step(void* me) {
 				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_START) ?
 				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
 
-		// ac is controlled by CSB when ignition key is in ON position
-		uv_output_state_e state;
-		if (this->ac_override) {
-			// state machine override from terminal
-			state = OUTPUT_STATE_ON;
-		}
-		else if (this->fsb.ignkey_state != FSB_IGNKEY_STATE_ON) {
-			// ignition key state
-			state = OUTPUT_STATE_OFF;
+//		// ac is controlled by CSB when ignition key is in ON position
+//		uv_output_state_e state;
+//		if (this->ac_override) {
+//			// state machine override from terminal
+//			state = OUTPUT_STATE_ON;
+//		}
+//		else if (this->fsb.ignkey_state != FSB_IGNKEY_STATE_ON) {
+//			// ignition key state
+//			state = OUTPUT_STATE_OFF;
+//		}
+//		else {
+//			// csb request
+//			state = (this->csb.ac_req) ? OUTPUT_STATE_ON : OUTPUT_STATE_OFF;
+//		}
+//		todo: On LM_6.0.1 (Kikepera), AC controls the motor radiator which should be on
+		// all the time when the engine is running
+		uv_delay(&this->ac_delay, step_ms);
+		if (uv_delay_has_ended(&this->ac_delay) &&
+				this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) {
+			uv_output_set_state(&this->ac, OUTPUT_STATE_ON);
 		}
 		else {
-			// csb request
-			state = (this->csb.ac_req) ? OUTPUT_STATE_ON : OUTPUT_STATE_OFF;
+			if (this->fsb.ignkey_state != FSB_IGNKEY_STATE_ON) {
+				uv_delay_init(&this->ac_delay, AC_START_DELAY_MS);
+			}
+			uv_output_set_state(&this->ac, OUTPUT_STATE_OFF);
 		}
-		uv_output_set_state(&this->ac, state);
+
 
 		// alternator ignition is on if engine is running and starter is not running
 		uv_output_set_state(&this->alt_ig,
@@ -446,7 +458,7 @@ void step(void* me) {
 
 		// oil cooler control
 		uv_hysteresis_set_trigger_value(&this->oil_temp_hyst, this->oilcooler_trigger_temp);
-		if (uv_sensor_get_state(&this->oil_temp) == SENSOR_STATE_OK) {
+		if (uv_sensor_get_state(&this->oil_temp) != SENSOR_STATE_FAULT) {
 			uv_hysteresis_step(&this->oil_temp_hyst, uv_sensor_get_value(&this->oil_temp));
 			uv_output_set_state(&this->oilcooler, (uv_hysteresis_get_output(&this->oil_temp_hyst)) ?
 					OUTPUT_STATE_ON : OUTPUT_STATE_OFF);

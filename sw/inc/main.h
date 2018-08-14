@@ -74,6 +74,7 @@
 /// @brief: EEPROM address for the hour counter
 #define HOUR_ADDR							0
 
+#define AC_START_DELAY_MS					2000
 
 /// @brief: main data structure.
 /// This struct can be save to non-volatile flash memory with
@@ -140,6 +141,8 @@ typedef struct _dev_st {
 	} csb;
 
 	uint8_t ac_override;
+
+	uv_delay_st ac_delay;
 
 
 	// non-volatile data start
