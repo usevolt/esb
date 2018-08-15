@@ -268,10 +268,8 @@ void step(void* me) {
 				uv_solenoid_output_get_current(&this->pump);
 
 		// motor temperature
-		uv_sensor_step(&this->motor_temp, step_ms);
-		this->motor_temp_value = (int8_t) uv_sensor_get_value(&this->motor_temp);
-		uv_sensor_step(&this->oil_temp, step_ms);
-		this->oil_temp_value = (int8_t) uv_sensor_get_value(&this->oil_temp);
+//		uv_sensor_step(&this->motor_temp, step_ms);
+//		uv_sensor_step(&this->oil_temp, step_ms);
 		uv_sensor_step(&this->oil_level, step_ms);
 		this->oil_level_value = (uint8_t) uv_sensor_get_value(&this->oil_level);
 
@@ -306,7 +304,7 @@ void step(void* me) {
 		uint32_t val = uv_timer_get_us(RPM_TIMER);
 		// more than second has passed since last pulse
 		if (val > 1000000) {
-			this->alt_p_rpm = 0;
+			this->alt_p_rpm = 1;
 			uv_timer_clear(RPM_TIMER);
 		}
 

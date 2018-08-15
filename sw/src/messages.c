@@ -282,6 +282,13 @@ canopen_object_st obj_dict[] = {
 				.type = HCU_PRESSURE_TYPE,
 				.permissions = HCU_PRESSURE_PERMISSIONS,
 				.data_ptr = &this->hcu.hydr_pressure
+		},
+		{
+				.main_index = 0x5FFF,
+				.sub_index = 0,
+				.type = FSB_FUEL_LEVEL_TYPE,
+				.permissions = CANOPEN_RW,
+				.data_ptr = &this->fsb.fuel_level
 		}
 };
 
@@ -362,9 +369,9 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	printf("Motor temperature: %i C, state: %u\n"
 			"Hydraulic oil temperature: %i C, state: %u\n"
 			"Oil level: %u %%, state: %u\n",
-			uv_sensor_get_value(&this->motor_temp), uv_sensor_get_state(&this->motor_temp),
-			uv_sensor_get_value(&this->oil_temp), uv_sensor_get_state(&this->oil_temp),
-			uv_sensor_get_value(&this->oil_level), uv_sensor_get_state(&this->oil_level));
+			this->motor_temp_value, uv_sensor_get_state(&this->motor_temp),
+			this->oil_temp_value, uv_sensor_get_state(&this->oil_temp),
+			this->oil_level_value, uv_sensor_get_state(&this->oil_level));
 	printf("Rpm: %u\nAlt L: %u\n, Motor Water Temp: %u\nMotor Oil Pressure: %u\n",
 			this->alt_p_rpm,
 			this->alt_l,

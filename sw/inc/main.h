@@ -132,6 +132,7 @@ typedef struct _dev_st {
 	struct {
 		fsb_ignkey_states_e ignkey_state;
 		uint8_t emcy;
+		int8_t fuel_level;
 	} fsb;
 	struct {
 		uint16_t hydr_pressure;
