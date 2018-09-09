@@ -251,7 +251,7 @@ canopen_object_st obj_dict[] = {
 				.sub_index = ESB_ENGINE_POWER_ENABLE_SUBINDEX,
 				.type = ESB_ENGINE_POWER_ENABLE_TYPE,
 				.permissions = ESB_ENGINE_POWER_ENABLE_PERMISSIONS,
-				.data_ptr = &this->engine_power_enable
+				.data_ptr = &this->pump_enabled
 		},
 
 		// other node's parameters
@@ -295,6 +295,7 @@ void pump_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv
 void clear_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 void oilc_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 void ac_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
+void enable_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 
 
 
@@ -337,6 +338,13 @@ const uv_command_st terminal_commands[] = {
 				.instructions = "Forces the air conditioner compressor on or off.\n"
 						"Usage: ac <1/0>",
 				.callback = &ac_callb
+		},
+		{
+				.id = CMD_ENABLE,
+				.str = "enable",
+				.instructions = "Enabled or disables output modules. Overrides module functionality.\n"
+						"Usage: enable <\"pump\"/\"glow\"/\"starter\"/\"altig\"/\"oilc\"/\"estart\"/\"ac\"> <1/0>",
+				.callback = &enable_callb
 		}
 };
 
@@ -350,9 +358,9 @@ unsigned int commands_size(void) {
 
 
 
-static void stat_output(uv_output_st *output, const char *output_name) {
-	printf("%s state: %u, current: %u mA\n",
-			output_name, uv_output_get_state(output), uv_output_get_current(output));
+static void stat_output(uv_output_st *output, bool enabled, const char *output_name) {
+	printf("%s state: %u, enabled: %u, current: %u mA\n",
+			output_name, uv_output_get_state(output), enabled, uv_output_get_current(output));
 }
 
 
@@ -370,15 +378,15 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 			this->alt_l,
 			this->motor_water_temp,
 			this->motor_oil_press);
-	stat_output(&this->glow, "Glow Plugs");
-	stat_output(&this->starter, "Starter");
-	stat_output(&this->ac, "AC compressor");
-	stat_output(&this->engine_start1, "Engine start 1");
-	stat_output(&this->engine_start2, "Engine start 2");
-	stat_output((uv_output_st *) &this->pump, "Hydr Pump");
-	printf("Engine power usage: %u, enabled: %u\n", this->engine_power_usage, this->engine_power_enable);
-	stat_output(&this->alt_ig, "Alt IG");
-	stat_output(&this->oilcooler, "OilC");
+	stat_output(&this->glow, this->glow_enabled, "Glow Plugs");
+	stat_output(&this->starter, this->starter_enabled, "Starter");
+	stat_output(&this->ac, this->ac_enabled, "AC compressor");
+	stat_output(&this->engine_start1, this->engine_start_enabled, "Engine start 1");
+	stat_output(&this->engine_start2, this->engine_start_enabled, "Engine start 2");
+	stat_output((uv_output_st *) &this->pump, this->pump_enabled, "Hydr Pump");
+	printf("Engine power usage: %u, enabled: %u\n", this->engine_power_usage, this->pump_enabled);
+	stat_output(&this->alt_ig, this->alt_ig_enabled, "Alt IG");
+	stat_output(&this->oilcooler, this->oilcooler_enabled, "OilC");
 	printf("Vdd: %u mV\n", this->vdd);
 	printf("FSB ignkey state: %u, emcy: %u\n", this->fsb.ignkey_state, this->fsb.emcy);
 	printf("CSB ac req: %u\n", this->csb.ac_req);
@@ -418,10 +426,7 @@ void engine_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 
 void pump_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) {
 	if (args) {
-		if (argv[0].type == ARG_INTEGER) {
-			this->engine_power_enable = argv[0].number ? 1 : 0;
-		}
-		else if (argv[0].type == ARG_STRING && args > 1) {
+		if (argv[0].type == ARG_STRING && args > 1) {
 			if (strcmp(argv[0].str, "usage") == 0) {
 				this->engine_power_usage = argv[1].number;
 			}
@@ -431,7 +436,7 @@ void pump_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv
 		}
 	}
 	printf("Engine power usage enabled: %u, usage: %u\n",
-			this->engine_power_enable, this->engine_power_usage);
+			this->pump_enabled, this->engine_power_usage);
 }
 
 
@@ -444,11 +449,70 @@ void oilc_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv
 }
 
 
+
 void ac_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) {
 	if (args) {
 		this->ac_override = argv[0].number;
 	}
 	printf("ac override: %u\n", this->ac_override);
+}
+
+
+void enable_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) {
+	if (args >= 2 &&
+			(argv[0].type == ARG_STRING) &&
+			(argv[1].type == ARG_INTEGER)) {
+		char *str = argv[0].str;
+		int value = argv[1].number ? true : false;
+		if (strcmp(str, "starter") == 0) {
+			this->starter_enabled = value;
+		}
+		else if (strcmp(str, "glow") == 0) {
+			this->glow_enabled = value;
+		}
+		else if (strcmp(str, "ac") == 0) {
+			this->ac_enabled = value;
+		}
+		else if (strcmp(str, "estart") == 0) {
+			this->engine_start_enabled = value;
+		}
+		else if (strcmp(str, "altig") == 0) {
+			this->alt_ig_enabled = value;
+		}
+		else if (strcmp(str, "oilc") == 0) {
+			this->oilcooler_enabled = value;
+		}
+		else if (strcmp(str, "pump") == 0) {
+			this->pump_enabled = value;
+		}
+		else if (strcmp(str, "all") == 0) {
+			this->starter_enabled = value;
+			this->glow_enabled = value;
+			this->ac_enabled = value;
+			this->engine_start_enabled = value;
+			this->alt_ig_enabled = value;
+			this->oilcooler_enabled = value;
+			this->pump_enabled = value;
+		}
+		else {
+			printf("Unknown module '%s'\n", str);
+		}
+	}
+	printf("Module enable states:\n"
+			"   Starter: %u\n"
+			"   Glow: %u\n"
+			"   AC: %u\n"
+			"   Engine start: %u\n"
+			"   Alt IG: %u\n"
+			"   Oil Cooler: %u\n"
+			"   Pump: %u\n",
+			this->starter_enabled,
+			this->glow_enabled,
+			this->ac_enabled,
+			this->engine_start_enabled,
+			this->alt_ig_enabled,
+			this->oilcooler_enabled,
+			this->pump_enabled);
 }
 
 

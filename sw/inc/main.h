@@ -65,7 +65,6 @@
 #define OIL_TEMP_DEFAULT_TRIGGER_VALUE_C	70
 
 #define ENGINE_POWER_USAGE_DEFAULT			25
-#define ENGINE_POWER_ENABLE_DEFAULT			1
 #define PUMP_CURRENT_MIN_MA					200
 #define PUMP_CURRENT_MAX_MA					1200
 #define PWR_RISING_P_DEFAULT				10
@@ -145,10 +144,17 @@ typedef struct _dev_st {
 	// non-volatile data start
 	uv_data_start_t data_start;
 
-	int8_t oilcooler_trigger_temp;
+	uint8_t starter_enabled;
+	uint8_t glow_enabled;
+	uint8_t ac_enabled;
+	uint8_t engine_start_enabled;
+	uint8_t alt_ig_enabled;
+	uint8_t oilcooler_enabled;
+	uint8_t pump_enabled;
 
-	// flag for enabling pump output
-	uint8_t engine_power_enable;
+	uv_solenoid_output_conf_st pump_conf;
+
+	int8_t oilcooler_trigger_temp;
 
 	uint8_t engine_power_usage;
 	// Kp factor for increasing the pump angle

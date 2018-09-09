@@ -44,12 +44,20 @@ void init(dev_st* me) {
 	// load non-volatile data
 	if (uv_memory_load()) {
 		this->oilcooler_trigger_temp = OIL_TEMP_DEFAULT_TRIGGER_VALUE_C;
+		uv_solenoid_output_conf_init(&this->pump_conf);
 
 		// initialize non-volatile memory to default settings
+		this->starter_enabled = true;
+		this->glow_enabled = true;
+		this->ac_enabled = true;
+		this->engine_start_enabled = true;
+		this->alt_ig_enabled = true;
+		this->oilcooler_enabled = true;
+		this->pump_enabled = true;
+
 		this->dither_ampl = 0;
 		this->dither_freq = 50;
 		this->engine_power_usage = ENGINE_POWER_USAGE_DEFAULT;
-		this->engine_power_enable = ENGINE_POWER_ENABLE_DEFAULT;
 		this->pwr_rising_p = PWR_RISING_P_DEFAULT;
 		uv_memory_save();
 	}
@@ -77,7 +85,7 @@ void init(dev_st* me) {
 	uv_output_init(&this->oilcooler, OILCOOLER_AIN, OILCOOLER_O,
 			VN5E01_CURRENT_AMPL_UA, 15000, 30000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_OILCOOLER_OVERCURRENT, ESB_EMCY_OILCOOLER_FAULT);
-	uv_solenoid_output_init(&this->pump, PUMP_PWM, this->dither_freq,
+	uv_solenoid_output_init(&this->pump, &this->pump_conf, PUMP_PWM, this->dither_freq,
 			DUTY_CYCLEPPT(this->dither_ampl), PUMP_SENSE_AIN,
 			VND5050_CURRENT_AMPL_UA, 3500, 5000,
 			ESB_EMCY_PUMP_OVERLOAD, ESB_EMCY_PUMP_FAULT);
@@ -343,7 +351,8 @@ void step(void* me) {
 		// pump control is disabled if alternator signals an error. This is to make sure that
 		// the machine works (more or less) even if alternator is not working, otherwise
 		// the RPM would seem to be 0 and thus pump angle would also be 0.
-		if (this->alt_l || !this->engine_power_enable) {
+		if (this->alt_l ||
+				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_OFF)) {
 			this->pwr.pump_angle = 0;
 		}
 		else if (this->fsb.ignkey_state != FSB_IGNKEY_STATE_ON) {
@@ -475,14 +484,14 @@ void step(void* me) {
 			uv_solenoid_output_disable(&this->pump);
 		}
 		else {
-			uv_output_enable(&this->glow);
-			uv_output_enable(&this->starter);
-			uv_output_enable(&this->ac);
-			uv_output_enable(&this->engine_start1);
-			uv_output_enable(&this->engine_start2);
-			uv_output_enable(&this->alt_ig);
-			uv_output_enable(&this->oilcooler);
-			uv_solenoid_output_enable(&this->pump);
+			uv_output_set_enabled(&this->glow, this->glow_enabled);
+			uv_output_set_enabled(&this->starter, this->starter_enabled);
+			uv_output_set_enabled(&this->ac, this->ac_enabled);
+			uv_output_set_enabled(&this->engine_start1, this->engine_start_enabled);
+			uv_output_set_enabled(&this->engine_start2, this->engine_start_enabled);
+			uv_output_set_enabled(&this->alt_ig, this->alt_ig_enabled);
+			uv_output_set_enabled(&this->oilcooler, this->oilcooler_enabled);
+			uv_output_set_enabled((uv_output_st*) &this->pump, this->pump_enabled);
 		}
 
 		uv_rtos_task_delay(step_ms);
