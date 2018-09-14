@@ -77,12 +77,12 @@ void init(dev_st* me) {
 	uv_output_init(&this->oilcooler, OILCOOLER_AIN, OILCOOLER_O,
 			VN5E01_CURRENT_AMPL_UA, 15000, 30000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_OILCOOLER_OVERCURRENT, ESB_EMCY_OILCOOLER_FAULT);
-	uv_solenoid_output_init(&this->pump, PUMP_PWM, this->dither_freq,
-			DUTY_CYCLEPPT(this->dither_ampl), PUMP_SENSE_AIN,
-			VND5050_CURRENT_AMPL_UA, 3500, 5000,
-			ESB_EMCY_PUMP_OVERLOAD, ESB_EMCY_PUMP_FAULT);
-	uv_solenoid_output_get_conf(&this->pump)->max_ma = PUMP_CURRENT_MAX_MA;
-	uv_solenoid_output_get_conf(&this->pump)->min_ma = PUMP_CURRENT_MIN_MA;
+//	uv_solenoid_output_init(&this->pump, PUMP_PWM, this->dither_freq,
+//			DUTY_CYCLEPPT(this->dither_ampl), PUMP_SENSE_AIN,
+//			VND5050_CURRENT_AMPL_UA, 3500, 5000,
+//			ESB_EMCY_PUMP_OVERLOAD, ESB_EMCY_PUMP_FAULT);
+//	uv_solenoid_output_get_conf(&this->pump)->max_ma = PUMP_CURRENT_MAX_MA;
+//	uv_solenoid_output_get_conf(&this->pump)->min_ma = PUMP_CURRENT_MIN_MA;
 
 	// initialize inputs
 	UV_GPIO_INIT_INPUT(ALT_L_I, PULL_UP_ENABLED);
@@ -310,51 +310,51 @@ void step(void* me) {
 
 		// **** power usage ****
 
-		uint16_t pressure = this->hcu.hydr_pressure;
-		if (pressure == 0) {
-			// prevent dividing with zero
-			pressure = 1;
-		}
-		this->pwr.limit = (int64_t) this->alt_p_rpm * this->alt_p_rpm / pressure;
-		// scale value to predefined range
-		this->pwr.limit /= PWR_LIMIT_DIVIDER;
-		// add user calibration parameter into calculations
-		this->pwr.limit = this->pwr.limit * this->engine_power_usage / ENGINE_POWER_USAGE_DEFAULT;
-		if (this->pwr.limit > PWR_USAGE_MAX) {
-			this->pwr.limit = PWR_USAGE_MAX;
-		}
-		if (this->pwr.limit < this->pwr.last_limit) {
-			this->pwr.pump_angle = this->pwr.limit;
-		}
-		else {
-			// slow P controller
-			uv_pid_set_p(&this->pwr.pid, this->pwr_rising_p);
-			uv_pid_set_target(&this->pwr.pid, this->pwr.limit);
-			uv_pid_step(&this->pwr.pid, step_ms, this->pwr.pump_angle);
-			this->pwr.pump_angle += uv_pid_get_output(&this->pwr.pid);
-		}
-		if (this->pwr.pump_angle > PWR_USAGE_MAX) {
-			this->pwr.pump_angle = PWR_USAGE_MAX;
-		}
-		if (this->pwr.pump_angle < 1) {
-			this->pwr.pump_angle = 1;
-		}
-		// pump control is disabled if alternator signals an error. This is to make sure that
-		// the machine works (more or less) even if alternator is not working, otherwise
-		// the RPM would seem to be 0 and thus pump angle would also be 0.
-		if (this->alt_l || !this->engine_power_enable) {
-			this->pwr.pump_angle = 0;
-		}
-		else if (this->fsb.ignkey_state != FSB_IGNKEY_STATE_ON) {
-			this->pwr.pump_angle = 1;
-		}
-		else {
-
-		}
-
-		// set the pump solenoid output based on the power usage calculations
-		uv_solenoid_output_set(&this->pump, this->pwr.pump_angle);
-		this->pwr.last_limit = this->pwr.limit;
+//		uint16_t pressure = this->hcu.hydr_pressure;
+//		if (pressure == 0) {
+//			// prevent dividing with zero
+//			pressure = 1;
+//		}
+//		this->pwr.limit = (int64_t) this->alt_p_rpm * this->alt_p_rpm / pressure;
+//		// scale value to predefined range
+//		this->pwr.limit /= PWR_LIMIT_DIVIDER;
+//		// add user calibration parameter into calculations
+//		this->pwr.limit = this->pwr.limit * this->engine_power_usage / ENGINE_POWER_USAGE_DEFAULT;
+//		if (this->pwr.limit > PWR_USAGE_MAX) {
+//			this->pwr.limit = PWR_USAGE_MAX;
+//		}
+//		if (this->pwr.limit < this->pwr.last_limit) {
+//			this->pwr.pump_angle = this->pwr.limit;
+//		}
+//		else {
+//			// slow P controller
+//			uv_pid_set_p(&this->pwr.pid, this->pwr_rising_p);
+//			uv_pid_set_target(&this->pwr.pid, this->pwr.limit);
+//			uv_pid_step(&this->pwr.pid, step_ms, this->pwr.pump_angle);
+//			this->pwr.pump_angle += uv_pid_get_output(&this->pwr.pid);
+//		}
+//		if (this->pwr.pump_angle > PWR_USAGE_MAX) {
+//			this->pwr.pump_angle = PWR_USAGE_MAX;
+//		}
+//		if (this->pwr.pump_angle < 1) {
+//			this->pwr.pump_angle = 1;
+//		}
+//		// pump control is disabled if alternator signals an error. This is to make sure that
+//		// the machine works (more or less) even if alternator is not working, otherwise
+//		// the RPM would seem to be 0 and thus pump angle would also be 0.
+//		if (this->alt_l || !this->engine_power_enable) {
+//			this->pwr.pump_angle = 0;
+//		}
+//		else if (this->fsb.ignkey_state != FSB_IGNKEY_STATE_ON) {
+//			this->pwr.pump_angle = 1;
+//		}
+//		else {
+//
+//		}
+//
+//		// set the pump solenoid output based on the power usage calculations
+//		uv_solenoid_output_set(&this->pump, this->pwr.pump_angle);
+//		this->pwr.last_limit = this->pwr.limit;
 
 
 		// **** ignition key states ****
@@ -456,14 +456,14 @@ void step(void* me) {
 
 		// oil cooler control
 		uv_hysteresis_set_trigger_value(&this->oil_temp_hyst, this->oilcooler_trigger_temp);
-		if (uv_sensor_get_state(&this->oil_temp) != SENSOR_STATE_FAULT) {
-			uv_hysteresis_step(&this->oil_temp_hyst, uv_sensor_get_value(&this->oil_temp));
+//		if (uv_sensor_get_state(&this->oil_temp) != SENSOR_STATE_FAULT) {
+			uv_hysteresis_step(&this->oil_temp_hyst, this->oil_temp_value);
 			uv_output_set_state(&this->oilcooler, (uv_hysteresis_get_output(&this->oil_temp_hyst)) ?
 					OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
-		}
-		else {
-			uv_output_set_state(&this->oilcooler, OUTPUT_STATE_OFF);
-		}
+//		}
+//		else {
+//			uv_output_set_state(&this->oilcooler, OUTPUT_STATE_OFF);
+//		}
 
 		// if FSB heartbeat message is not received in a given time,
 		// it indicates that FSB is not in the system. As FSB takes care of the EMCY switch,
