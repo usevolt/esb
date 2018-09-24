@@ -141,7 +141,7 @@ Wire Wire Line
 	6300 3700 5650 3700
 Connection ~ 5650 3800
 Wire Wire Line
-	7100 3500 7600 3500
+	7100 3500 7300 3500
 Wire Wire Line
 	5450 3600 6300 3600
 Wire Wire Line
@@ -256,4 +256,37 @@ Wire Wire Line
 Wire Wire Line
 	5450 4400 5450 4100
 Connection ~ 5450 4100
+$Comp
+L yageo:10K R?
+U 1 1 5BA96DF9
+P 7300 3700
+F 0 "R?" V 7308 3758 45  0000 L CNN
+F 1 "10K" V 7392 3758 45  0000 L CNN
+F 2 "yageo:0603" H 7330 3850 20  0001 C CNN
+F 3 "" H 7269 3739 60  0001 C CNN
+F 4 "" H 7669 4139 60  0001 C CNN "1st Source Part Number"
+F 5 "Digikey" H 7569 4039 60  0001 C CNN "1st Source"
+F 6 "RC0603FR-0710KL" H 7469 3939 60  0001 C CNN "Manufacturer Part Number"
+F 7 "YAGEO" H 7369 3839 60  0001 C CNN "Manufacturer"
+	1    7300 3700
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7300 3600 7300 3500
+Connection ~ 7300 3500
+Wire Wire Line
+	7300 3500 7600 3500
+$Comp
+L power:GND #PWR?
+U 1 1 5BA9746E
+P 7300 4000
+F 0 "#PWR?" H 7300 3750 50  0001 C CNN
+F 1 "GND" H 7305 3827 50  0000 C CNN
+F 2 "" H 7300 4000 50  0000 C CNN
+F 3 "" H 7300 4000 50  0000 C CNN
+	1    7300 4000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7300 4000 7300 3900
 $EndSCHEMATC
