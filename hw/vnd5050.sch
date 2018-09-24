@@ -284,9 +284,9 @@ Wire Wire Line
 Wire Wire Line
 	2950 4100 2950 4300
 Wire Wire Line
-	3500 4100 4300 4100
+	3500 4100 3650 4100
 Wire Wire Line
-	3500 3550 4150 3550
+	3500 3550 3900 3550
 Wire Wire Line
 	2650 3450 4300 3450
 Wire Wire Line
@@ -332,59 +332,63 @@ $EndComp
 Connection ~ 3350 4100
 Connection ~ 3050 4100
 $Comp
-L usevolt:DIODE_RS07J-GS18 D602
-U 1 1 5B239934
-P 3700 4200
-F 0 "D602" H 3650 4340 45  0000 C CNN
-F 1 "DIODE_RS07J-GS18" H 3720 4140 45  0001 L BNN
-F 2 "usevolt:DO219AB" H 3730 4350 20  0001 C CNN
-F 3 "http://www.vishay.com/docs/85742/rs07b.pdf" H 3720 4220 60  0001 C CNN
-F 4 "1864882" H 4320 4820 60  0001 C CNN "2nd Source Part Number"
-F 5 "Digi-Key" H 4020 4520 60  0001 C CNN "1st Source"
-F 6 "Farnell" H 4220 4720 60  0001 C CNN "2nd Source"
-F 7 "RS07J-GS18" H 3920 4420 60  0001 C CNN "Manufacturer Part Number"
-F 8 "RS07J-GS18-ND" H 4120 4620 60  0001 C CNN "1st Source Part Number"
-F 9 "Vishay Semiconductor Diodes Division" H 3820 4320 60  0001 C CNN "Manufacturer"
-	1    3700 4200
-	1    0    0    -1  
+L usevolt:ZENER_MM3Z3V6T1G D1
+U 1 1 5BAA330C
+P 3650 4500
+F 0 "D1" V 3575 4422 45  0000 R CNN
+F 1 "ZENER_MM3Z3V6T1G" H 3925 4875 45  0001 L BNN
+F 2 "usevolt:SOD-323" H 3625 4875 20  0001 C CNN
+F 3 "http://www.mouser.com/ds/2/308/MM3Z2V4T1-D-269162.pdf" H 4000 5075 60  0001 C CNN
+F 4 "Mouser" H 3970 4820 60  0001 C CNN "1st Source"
+F 5 "MM3Z3V6T1G" H 3870 4720 60  0001 C CNN "Manufacturer Part Number"
+F 6 "863-MM3Z3V6T1G" H 4070 4920 60  0001 C CNN "1st Source Part Number"
+F 7 "ON Semiconductor" H 3925 4975 60  0001 C CNN "Manufacturer"
+	1    3650 4500
+	0    -1   -1   0   
 $EndComp
-Connection ~ 3500 4200
 $Comp
-L usevolt:DIODE_RS07J-GS18 D601
-U 1 1 5B239A24
-P 3700 3350
-F 0 "D601" H 3650 3490 45  0000 C CNN
-F 1 "DIODE_RS07J-GS18" H 3720 3290 45  0001 L BNN
-F 2 "usevolt:DO219AB" H 3730 3500 20  0001 C CNN
-F 3 "http://www.vishay.com/docs/85742/rs07b.pdf" H 3720 3370 60  0001 C CNN
-F 4 "1864882" H 4320 3970 60  0001 C CNN "2nd Source Part Number"
-F 5 "Digi-Key" H 4020 3670 60  0001 C CNN "1st Source"
-F 6 "Farnell" H 4220 3870 60  0001 C CNN "2nd Source"
-F 7 "RS07J-GS18" H 3920 3570 60  0001 C CNN "Manufacturer Part Number"
-F 8 "RS07J-GS18-ND" H 4120 3770 60  0001 C CNN "1st Source Part Number"
-F 9 "Vishay Semiconductor Diodes Division" H 3820 3470 60  0001 C CNN "Manufacturer"
-	1    3700 3350
-	1    0    0    -1  
+L usevolt:ZENER_MM3Z3V6T1G D2
+U 1 1 5BAA33EF
+P 3900 4500
+F 0 "D2" V 3825 4422 45  0000 R CNN
+F 1 "ZENER_MM3Z3V6T1G" H 4175 4875 45  0001 L BNN
+F 2 "usevolt:SOD-323" H 3875 4875 20  0001 C CNN
+F 3 "http://www.mouser.com/ds/2/308/MM3Z2V4T1-D-269162.pdf" H 4250 5075 60  0001 C CNN
+F 4 "Mouser" H 4220 4820 60  0001 C CNN "1st Source"
+F 5 "MM3Z3V6T1G" H 4120 4720 60  0001 C CNN "Manufacturer Part Number"
+F 6 "863-MM3Z3V6T1G" H 4320 4920 60  0001 C CNN "1st Source Part Number"
+F 7 "ON Semiconductor" H 4175 4975 60  0001 C CNN "Manufacturer"
+	1    3900 4500
+	0    -1   -1   0   
 $EndComp
-Connection ~ 3500 3350
+Wire Wire Line
+	3900 4450 3900 3550
+Connection ~ 3900 3550
+Wire Wire Line
+	3900 3550 4150 3550
+Wire Wire Line
+	3650 4450 3650 4100
+Connection ~ 3650 4100
+Wire Wire Line
+	3650 4100 4300 4100
 $Comp
-L power:+3V3 #PWR0101
-U 1 1 5B239AE4
-P 3900 3200
-F 0 "#PWR0101" H 3900 3050 50  0001 C CNN
-F 1 "+3V3" H 3915 3373 50  0000 C CNN
-F 2 "" H 3900 3200 50  0000 C CNN
-F 3 "" H 3900 3200 50  0000 C CNN
-	1    3900 3200
+L power:GND #PWR0101
+U 1 1 5BAA4BC4
+P 3650 4900
+F 0 "#PWR0101" H 3650 4650 50  0001 C CNN
+F 1 "GND" H 3655 4727 50  0000 C CNN
+F 2 "" H 3650 4900 50  0000 C CNN
+F 3 "" H 3650 4900 50  0000 C CNN
+	1    3650 4900
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3900 3200 3900 3350
+	3650 4900 3650 4800
 Wire Wire Line
-	3900 3350 3800 3350
+	3650 4800 3900 4800
 Wire Wire Line
-	3900 3350 3900 4200
+	3900 4800 3900 4700
+Connection ~ 3650 4800
 Wire Wire Line
-	3900 4200 3800 4200
-Connection ~ 3900 3350
+	3650 4800 3650 4700
 $EndSCHEMATC

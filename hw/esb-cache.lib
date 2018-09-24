@@ -801,6 +801,30 @@ X P$2 P$2 100 0 100 L 40 40 1 1 B
 ENDDRAW
 ENDDEF
 #
+# usevolt_ZENER_MM3Z3V6T1G
+#
+DEF ~usevolt_ZENER_MM3Z3V6T1G D 0 40 N N 1 L N
+F0 "D" -25 25 45 H V L BNN
+F1 "usevolt_ZENER_MM3Z3V6T1G" 275 375 45 H I L BNN
+F2 "usevolt:SOD-323" -25 375 20 H I C CNN
+F3 "http://www.mouser.com/ds/2/308/MM3Z2V4T1-D-269162.pdf" 350 575 60 H I C CNN
+F4 "Mouser" 320 320 60 H I C CNN "1st Source"
+F5 "MM3Z3V6T1G" 220 220 60 H I C CNN "Manufacturer Part Number"
+F6 "863-MM3Z3V6T1G" 420 420 60 H I C CNN "1st Source Part Number"
+F7 "ON Semiconductor" 275 475 60 H I C CNN "Manufacturer"
+$FPLIST
+ *DO219AB*
+$ENDFPLIST
+DRAW
+P 2 1 0 0 -100 -50 -50 0 N
+P 2 1 0 0 -100 50 -100 -50 N
+P 2 1 0 0 -50 0 -100 50 N
+P 4 0 1 0 -25 50 -50 50 -50 -50 -75 -50 N
+X 1 1 50 0 100 L 40 40 1 1 B
+X 2 2 -200 0 100 R 40 40 1 1 B
+ENDDRAW
+ENDDEF
+#
 # yageo_10K
 #
 DEF yageo_10K R 0 40 N N 1 L N
