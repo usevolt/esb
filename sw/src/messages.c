@@ -103,6 +103,13 @@ canopen_object_st obj_dict[] = {
 				.data_ptr = &this->engine_start2.current
 		},
 		{
+				.main_index = ESB_ENGINE_STOP_CAUSE_INDEX,
+				.sub_index = ESB_ENGINE_STOP_CAUSE_SUBINDEX,
+				.type = ESB_ENGINE_STOP_CAUSE_TYPE,
+				.permissions = ESB_ENGINE_STOP_CAUSE_PERMISSIONS,
+				.data_ptr = &this->engine_stop_cause
+		},
+		{
 				.main_index = ESB_PUMP_STATUS_INDEX,
 				.sub_index = ESB_PUMP_STATUS_SUBINDEX,
 				.type = ESB_PUMP_STATUS_TYPE,

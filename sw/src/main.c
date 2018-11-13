@@ -36,7 +36,7 @@ void sdo_callback(uint16_t mindex, uint8_t sindex);
 #define VND5050_CURRENT_AMPL_UA		4173
 #define VN5E01_CURRENT_AMPL_UA		13923
 
-#define PWR_LIMIT_DIVIDER			20
+#define PWR_LIMIT_DIVIDER			50
 
 void init(dev_st* me) {
 	uv_gpio_interrupt_init(&rpm_callb);
@@ -44,7 +44,7 @@ void init(dev_st* me) {
 	// load non-volatile data
 	if (uv_memory_load()) {
 		this->oilcooler_trigger_temp = OIL_TEMP_DEFAULT_TRIGGER_VALUE_C;
-		uv_solenoid_output_conf_init(&this->pump_conf);
+		uv_solenoid_output_conf_reset(&this->pump_conf);
 
 		// initialize non-volatile memory to default settings
 		this->starter_enabled = true;
@@ -148,7 +148,7 @@ void init(dev_st* me) {
 	uv_pid_init(&this->pwr.pid, this->pwr_rising_p, 3, 0);
 	this->pwr.pump_angle = PWR_USAGE_MAX;
 
-
+	this->engine_stop_cause = ESB_STOP_NONE;
 
 	//init terminal and pass application terminal commands array as a parameter
 	uv_terminal_init(terminal_commands, commands_size());
@@ -157,7 +157,6 @@ void init(dev_st* me) {
 	this->fsb.emcy = 0;
 	this->hcu.hydr_pressure = 0;
 	this->csb.ac_req = 0;
-
 	this->ac_override = false;
 
 	// fetch the display hour counter value from EEPROM
@@ -399,8 +398,21 @@ void step(void* me) {
 			uv_output_set_state(&this->engine_start2, OUTPUT_STATE_ON);
 		}
 		else {
+			if (uv_output_get_state(&this->engine_start1) != OUTPUT_STATE_OFF ||
+					uv_output_get_state(&this->engine_start2) != OUTPUT_STATE_OFF) {
+				this->engine_stop_cause = ESB_STOP_IGNKEY;
+			}
 			uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
 			uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
+		}
+		if (uv_output_get_state(&this->engine_start1) == OUTPUT_STATE_OVERLOAD) {
+			this->engine_stop_cause = ESB_STOP_SOLENOID1_OVERCURRENT;
+		}
+		else if (uv_output_get_state(&this->engine_start2) == OUTPUT_STATE_OVERLOAD) {
+			this->engine_stop_cause = ESB_STOP_SOLENOID2_OVERCURRENT;
+		}
+		else {
+
 		}
 
 		// motor sensor shut down
@@ -414,6 +426,16 @@ void step(void* me) {
 					// send EMCY message from motor protection
 					uv_canopen_emcy_send(CANOPEN_EMCY_DEVICE_SPECIFIC,
 							ESB_EMCY_ENGINE_PROTECTION_SHUTDOWN);
+					// store engine stop cause
+					if (this->motor_water_temp) {
+						this->engine_stop_cause = ESB_STOP_WATER_TEMP;
+					}
+					else if (this->motor_oil_press) {
+						this->engine_stop_cause = ESB_STOP_OIL_PRESS;
+					}
+					else {
+
+					}
 				}
 			}
 			else {
@@ -469,7 +491,14 @@ void step(void* me) {
 		// the best practice would be to assume that the EMCY switch is turned on.
 		if (uv_canopen_heartbeat_producer_is_expired(FSB_NODE_ID)) {
 			this->fsb.ignkey_state = FSB_IGNKEY_STATE_OFF;
+			this->engine_stop_cause = ESB_STOP_FSB_DISCONNECTED;
 			this->fsb.emcy = 1;
+		}
+		else if (this->fsb.emcy) {
+			this->engine_stop_cause = ESB_STOP_EMCY;
+		}
+		else {
+
 		}
 
 		// emcy

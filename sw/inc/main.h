@@ -18,7 +18,7 @@
 
 /// brief: Delay for motor_oil_press and motor_water_temp
 /// warning signals
-#define MOTOR_DELAY_MS						2000
+#define MOTOR_DELAY_MS						10000
 
 #define TEMP_FAULT_MAX_VAL					125
 #define TEMP_FAULT_MIN_VAL					-50
@@ -102,6 +102,8 @@ typedef struct _dev_st {
 	uint8_t oil_level_value;
 
 	uv_hysteresis_st oil_temp_hyst;
+
+	CANOPEN_TYPEOF(ESB_ENGINE_STOP_CAUSE_TYPE) engine_stop_cause;
 
 	uint16_t alt_p_rpm;
 	uint8_t alt_l;
