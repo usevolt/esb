@@ -33,8 +33,8 @@ void sdo_callback(uint16_t mindex, uint8_t sindex);
 #define GET_MOTOR_OIL_PRESS() (!uv_gpio_get(MOTOR_OIL_PRESS_I))
 
 
-#define VND5050_CURRENT_AMPL_UA		4173
-#define VN5E01_CURRENT_AMPL_UA		13923
+#define VND5050_CURRENT_AMPL_UA		1619
+#define VN5E01_CURRENT_AMPL_UA		5600
 
 #define PWR_LIMIT_DIVIDER			50
 
