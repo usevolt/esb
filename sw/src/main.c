@@ -16,6 +16,7 @@
 #include <uv_utilities.h>
 #include <uv_rtos.h>
 #include <uv_eeprom.h>
+#include <uv_timer.h>
 #include <string.h>
 
 dev_st dev = {};
