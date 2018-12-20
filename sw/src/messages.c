@@ -394,7 +394,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	printf("Engine power usage: %u, enabled: %u\n", this->engine_power_usage, this->pump_enabled);
 	stat_output(&this->alt_ig, this->alt_ig_enabled, "Alt IG");
 	stat_output(&this->oilcooler, this->oilcooler_enabled, "OilC");
-	printf("Vdd: %u mV\n", this->vdd);
+	printf("Vdd: %u mV (0x%x)\n", this->vdd, uv_adc_read(VDD_SENSE_AIN));
 	printf("FSB ignkey state: %u, emcy: %u\n", this->fsb.ignkey_state, this->fsb.emcy);
 	printf("CSB ac req: %u\n", this->csb.ac_req);
 	printf("HCU hydr pressure: %u\n", this->hcu.hydr_pressure);

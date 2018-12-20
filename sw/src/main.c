@@ -159,6 +159,7 @@ void init(dev_st* me) {
 	this->hcu.hydr_pressure = 0;
 	this->csb.ac_req = 0;
 	this->ac_override = false;
+	uv_delay_init(&this->ac_delay, AC_DELAY_MS);
 
 	// fetch the display hour counter value from EEPROM
 	uv_eeprom_read(&this->hour_counter, sizeof(this->hour_counter), HOUR_ADDR);
@@ -289,9 +290,8 @@ void step(void* me) {
 
 		// vdd voltage
 		// note: Multiplier 11 comes from 10k/1k voltage divider resistors
-		// note2: Add 0.7 V since voltage is measured after diode
 		this->vdd = uv_moving_aver_step(&this->vdd_avg,
-				adc_get_voltage_mv(VDD_SENSE_AIN) * 11) + 700;
+				adc_get_voltage_mv(VDD_SENSE_AIN) * 11);
 		// round vdd up
 		this->vdd /= 100;
 		this->vdd *= 100;
@@ -464,10 +464,18 @@ void step(void* me) {
 		else if (this->fsb.ignkey_state != FSB_IGNKEY_STATE_ON) {
 			// ignition key state
 			state = OUTPUT_STATE_OFF;
+			uv_delay_init(&this->ac_delay, AC_DELAY_MS);
 		}
 		else {
+			if (this->alt_p_rpm != 0) {
+				uv_delay(&this->ac_delay, step_ms);
+			}
 			// csb request
-			state = (this->csb.ac_req) ? OUTPUT_STATE_ON : OUTPUT_STATE_OFF;
+			// AC controls the radiator and its set ON when ignkey has been ON for
+			// a lttle while and engine is running
+			state = uv_delay_has_ended(&this->ac_delay) ?
+							OUTPUT_STATE_ON : OUTPUT_STATE_OFF;
+//			state = (this->csb.ac_req) ? OUTPUT_STATE_ON : OUTPUT_STATE_OFF;
 		}
 		uv_output_set_state(&this->ac, state);
 
