@@ -64,10 +64,10 @@
 #define OIL_TEMP_HYSTERESIS_C				15
 #define OIL_TEMP_DEFAULT_TRIGGER_VALUE_C	70
 
-#define ENGINE_POWER_USAGE_DEFAULT			25
+#define ENGINE_POWER_USAGE_DEFAULT			55
 #define PUMP_CURRENT_MIN_MA					200
 #define PUMP_CURRENT_MAX_MA					1200
-#define PWR_RISING_P_DEFAULT				10
+#define PWR_RISING_P_DEFAULT				1
 #define PWR_USAGE_MAX						1000
 
 /// @brief: EEPROM address for the hour counter
