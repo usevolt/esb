@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /home/usevolt/uw/project/esb/hw/esb.sch)
-    (date "la 22. joulukuuta 2018 17.34.41")
+    (date "ti  8. tammikuuta 2019 14.21.42")
     (tool "Eeschema (5.0.0-rc2-dev-130-g0bdae22af-dirty)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
