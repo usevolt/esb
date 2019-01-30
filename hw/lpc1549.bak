@@ -4,7 +4,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 3 12
+Sheet 3 13
 Title ""
 Date ""
 Rev ""
@@ -643,4 +643,12 @@ Wire Wire Line
 	3600 4400 3950 4400
 Wire Wire Line
 	3600 4100 3950 4100
+Wire Wire Line
+	5200 5750 4700 5750
+Wire Wire Line
+	5200 5650 4700 5650
+Text HLabel 4700 5750 0    60   Input ~ 0
+RADIATOR_SENSE
+Text HLabel 4700 5650 0    60   Output ~ 0
+RADIATOR
 $EndSCHEMATC
