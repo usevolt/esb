@@ -37,7 +37,7 @@ void sdo_callback(uint16_t mindex, uint8_t sindex);
 #define VND5050_CURRENT_AMPL_UA		1619
 #define VN5E01_CURRENT_AMPL_UA		5600
 
-#define PWR_LIMIT_DIVIDER			50
+#define PWR_LIMIT_DIVIDER			25
 
 void init(dev_st* me) {
 	uv_gpio_interrupt_init(&rpm_callb);
@@ -146,7 +146,7 @@ void init(dev_st* me) {
 
 	this->pwr.last_limit = 0;
 	this->pwr.limit = 0;
-	uv_pid_init(&this->pwr.pid, this->pwr_rising_p, 3, 0);
+	uv_pid_init(&this->pwr.pid, this->pwr_rising_p, 10, 0);
 	this->pwr.pump_angle = PWR_USAGE_MAX;
 
 	this->engine_stop_cause = ESB_STOP_NONE;
@@ -249,7 +249,7 @@ void step(void* me) {
 	init(this);
 
 	while (true) {
-		unsigned int step_ms = 2;
+		unsigned int step_ms = 10;
 		// update watchdog timer value to prevent a hard reset
 		// uw_wdt_update();
 
@@ -342,6 +342,7 @@ void step(void* me) {
 			uv_pid_step(&this->pwr.pid, step_ms, this->pwr.pump_angle);
 			this->pwr.pump_angle += uv_pid_get_output(&this->pwr.pid);
 		}
+
 		if (this->pwr.pump_angle > PWR_USAGE_MAX) {
 			this->pwr.pump_angle = PWR_USAGE_MAX;
 		}

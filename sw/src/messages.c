@@ -391,7 +391,8 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	stat_output(&this->engine_start1, this->engine_start_enabled, "Engine start 1");
 	stat_output(&this->engine_start2, this->engine_start_enabled, "Engine start 2");
 	stat_output((uv_output_st *) &this->pump, this->pump_enabled, "Hydr Pump");
-	printf("Engine power usage: %u, enabled: %u\n", this->engine_power_usage, this->pump_enabled);
+	printf("Engine power usage: %u, enabled: %u\n"
+			"    pump angle: %u\n", this->engine_power_usage, this->pump_enabled, this->pwr.pump_angle);
 	stat_output(&this->alt_ig, this->alt_ig_enabled, "Alt IG");
 	stat_output(&this->oilcooler, this->oilcooler_enabled, "OilC");
 	printf("Vdd: %u mV (0x%x)\n", this->vdd, uv_adc_read(VDD_SENSE_AIN));
