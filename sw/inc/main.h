@@ -43,7 +43,7 @@
 #define OIL_TEMP_AVG_COUNT					100
 
 
-#define LEVEL_FAULT_MAX_VAL					125
+#define LEVEL_FAULT_MAX_VAL					110
 #define LEVEL_FAULT_MIN_VAL					0
 
 /// @brief: Oil level min limit in percents.
@@ -67,7 +67,7 @@
 #define ENGINE_POWER_USAGE_DEFAULT			55
 #define PUMP_CURRENT_MIN_MA					200
 #define PUMP_CURRENT_MAX_MA					1200
-#define PWR_RISING_P_DEFAULT				1
+#define PWR_RISING_P_DEFAULT				10
 #define PWR_USAGE_MAX						1000
 
 /// @brief: EEPROM address for the hour counter

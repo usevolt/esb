@@ -37,13 +37,13 @@ void sdo_callback(uint16_t mindex, uint8_t sindex);
 #define VND5050_CURRENT_AMPL_UA		1619
 #define VN5E01_CURRENT_AMPL_UA		5600
 
-#define PWR_LIMIT_DIVIDER			30
+#define PWR_LIMIT_DIVIDER			20
 
 void init(dev_st* me) {
 	uv_gpio_interrupt_init(&rpm_callb);
 
 	// load non-volatile data
-	if (uv_memory_load()) {
+	if (uv_memory_load(MEMORY_ALL_PARAMS)) {
 		this->oilcooler_trigger_temp = OIL_TEMP_DEFAULT_TRIGGER_VALUE_C;
 		uv_solenoid_output_conf_reset(&this->pump_conf);
 
@@ -146,7 +146,7 @@ void init(dev_st* me) {
 
 	this->pwr.last_limit = 0;
 	this->pwr.limit = 0;
-	uv_pid_init(&this->pwr.pid, this->pwr_rising_p, 0, 0);
+	uv_pid_init(&this->pwr.pid, this->pwr_rising_p, 10, 0);
 	this->pwr.pump_angle = PWR_USAGE_MAX;
 
 	this->engine_stop_cause = ESB_STOP_NONE;
@@ -248,7 +248,7 @@ void step(void* me) {
 	init(this);
 
 	while (true) {
-		unsigned int step_ms = 2;
+		unsigned int step_ms = 10;
 		// update watchdog timer value to prevent a hard reset
 		// uw_wdt_update();
 
@@ -366,7 +366,7 @@ void step(void* me) {
 		uv_solenoid_output_set(&this->pump, this->pwr.pump_angle);
 		this->pwr.last_limit = this->pwr.limit;
 
-//		printf("%i %i\n", this->pwr.pump_angle, uv_solenoid_output_get_current(&this->pump));
+//		printf("%i %i\n", this->pwr.pump_angle, this->pwr.limit);
 
 
 		// **** ignition key states ****
