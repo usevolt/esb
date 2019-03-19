@@ -70,6 +70,9 @@
 #define PWR_RISING_P_DEFAULT				10
 #define PWR_USAGE_MAX						1000
 
+
+#define RADIATOR_DELAY_MS					10000
+
 /// @brief: EEPROM address for the hour counter
 #define HOUR_ADDR							0
 
@@ -87,6 +90,7 @@ typedef struct _dev_st {
 	uv_output_st alt_ig;
 	uv_output_st oilcooler;
 	uv_solenoid_output_st pump;
+	uv_output_st radiator;
 
 	uint16_t total_current;
 
@@ -142,6 +146,7 @@ typedef struct _dev_st {
 
 	uint8_t ac_override;
 
+	uv_delay_st radiator_delay;
 
 	// non-volatile data start
 	uv_data_start_t data_start;
@@ -153,6 +158,8 @@ typedef struct _dev_st {
 	uint8_t alt_ig_enabled;
 	uint8_t oilcooler_enabled;
 	uint8_t pump_enabled;
+	uint8_t radiator_enabled;
+
 
 	uv_solenoid_output_conf_st pump_conf;
 

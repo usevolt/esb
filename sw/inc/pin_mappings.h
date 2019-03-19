@@ -24,6 +24,7 @@
 #define OIL_TEMP_AIN				ADC1_1
 #define OIL_LEVEL_AIN				ADC1_0
 #define OILCOOLER_AIN				ADC1_10
+#define RADIATOR_AIN				ADC1_4
 
 // Digital inputs
 #define ALT_L_I						P0_18
@@ -41,7 +42,7 @@
 #define GLOW_PLUGS_O				P0_4
 #define STARTER_O					P0_2
 #define OILCOOLER_O					P1_7
-
+#define RADIATOR_O					P0_12
 
 // RPM timer
 #define RPM_TIMER					TIMER1

@@ -350,7 +350,8 @@ const uv_command_st terminal_commands[] = {
 				.id = CMD_ENABLE,
 				.str = "enable",
 				.instructions = "Enabled or disables output modules. Overrides module functionality.\n"
-						"Usage: enable <\"pump\"/\"glow\"/\"starter\"/\"altig\"/\"oilc\"/\"estart\"/\"ac\"> <1/0>",
+						"Usage: enable <\"pump\"/\"glow\"/\"starter\"/\"altig\""
+						"/\"oilc\"/\"estart\"/\"ac\"/\"radiator\"> <1/0>",
 				.callback = &enable_callb
 		}
 };
@@ -394,6 +395,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	printf("Engine power usage: %u, enabled: %u\n", this->engine_power_usage, this->pump_enabled);
 	stat_output(&this->alt_ig, this->alt_ig_enabled, "Alt IG");
 	stat_output(&this->oilcooler, this->oilcooler_enabled, "OilC");
+	stat_output(&this->radiator, this->radiator_enabled, "Radiator");
 	printf("Vdd: %u mV\n", this->vdd);
 	printf("FSB ignkey state: %u, emcy: %u\n", this->fsb.ignkey_state, this->fsb.emcy);
 	printf("CSB ac req: %u\n", this->csb.ac_req);
@@ -492,6 +494,9 @@ void enable_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 		else if (strcmp(str, "pump") == 0) {
 			this->pump_enabled = value;
 		}
+		else if (strcmp(str, "radiator") == 0) {
+			this->radiator_enabled = value;
+		}
 		else if (strcmp(str, "all") == 0) {
 			this->starter_enabled = value;
 			this->glow_enabled = value;
@@ -512,14 +517,16 @@ void enable_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 			"   Engine start: %u\n"
 			"   Alt IG: %u\n"
 			"   Oil Cooler: %u\n"
-			"   Pump: %u\n",
+			"   Pump: %u\n"
+			"   Radiator: %u\n",
 			this->starter_enabled,
 			this->glow_enabled,
 			this->ac_enabled,
 			this->engine_start_enabled,
 			this->alt_ig_enabled,
 			this->oilcooler_enabled,
-			this->pump_enabled);
+			this->pump_enabled,
+			this->radiator_enabled	);
 }
 
 

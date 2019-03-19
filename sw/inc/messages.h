@@ -31,6 +31,7 @@ typedef enum {
 	CMD_OILC,
 	CMD_AC,
 	CMD_ENABLE,
+	CMD_RADIATOR,
 	CMD_COUNT
 } gsm_commands_e;
 

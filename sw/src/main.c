@@ -55,6 +55,7 @@ void init(dev_st* me) {
 		this->alt_ig_enabled = true;
 		this->oilcooler_enabled = true;
 		this->pump_enabled = true;
+		this->radiator_enabled = true;
 
 		this->dither_ampl = 0;
 		this->dither_freq = 50;
@@ -92,6 +93,9 @@ void init(dev_st* me) {
 			ESB_EMCY_PUMP_OVERLOAD, ESB_EMCY_PUMP_FAULT);
 	uv_solenoid_output_get_conf(&this->pump)->max_ma = PUMP_CURRENT_MAX_MA;
 	uv_solenoid_output_get_conf(&this->pump)->min_ma = PUMP_CURRENT_MIN_MA;
+	uv_output_init(&this->radiator, RADIATOR_AIN, RADIATOR_O,
+			VN5E01_CURRENT_AMPL_UA, 15000, 30000, OUTPUT_MOVING_AVG_COUNT,
+			ESB_EMCY_RADIATOR_OVERCURRENT, ESB_EMCY_RADIATOR_FAULT);
 
 	// initialize inputs
 	UV_GPIO_INIT_INPUT(ALT_L_I, PULL_UP_ENABLED);
@@ -165,6 +169,7 @@ void init(dev_st* me) {
 
 	uv_canopen_set_state(CANOPEN_OPERATIONAL);
 	uv_canopen_set_sdo_write_callback(&sdo_callback);
+
 }
 
 
@@ -260,6 +265,7 @@ void step(void* me) {
 		uv_output_step(&this->alt_ig, step_ms);
 		uv_output_step(&this->oilcooler, step_ms);
 		uv_solenoid_output_step(&this->pump, step_ms);
+		uv_output_step(&this->radiator, step_ms);
 
 
 		// terminal step function
@@ -272,7 +278,8 @@ void step(void* me) {
 				uv_output_get_current(&this->engine_start2) +
 				uv_output_get_current(&this->alt_ig) +
 				uv_output_get_current(&this->oilcooler) +
-				uv_solenoid_output_get_current(&this->pump);
+				uv_solenoid_output_get_current(&this->pump) +
+				uv_output_get_current(&this->radiator);
 
 		// motor temperature
 		uv_sensor_step(&this->motor_temp, step_ms);
@@ -289,9 +296,8 @@ void step(void* me) {
 
 		// vdd voltage
 		// note: Multiplier 11 comes from 10k/1k voltage divider resistors
-		// note2: Add 0.7 V since voltage is measured after diode
 		this->vdd = uv_moving_aver_step(&this->vdd_avg,
-				adc_get_voltage_mv(VDD_SENSE_AIN) * 11) + 700;
+				adc_get_voltage_mv(VDD_SENSE_AIN) * 11);
 		// round vdd up
 		this->vdd /= 100;
 		this->vdd *= 100;
@@ -455,6 +461,21 @@ void step(void* me) {
 				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_START) ?
 				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
 
+		// radiator logic
+		// radiator should go on little after the engine has been turned on
+		if (this->radiator_enabled &&
+				this->alt_p_rpm &&
+				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON)) {
+			uv_delay(&this->radiator_delay, step_ms);
+			if (uv_delay_has_ended(&this->radiator_delay)) {
+				uv_output_set_state(&this->radiator, OUTPUT_STATE_ON);
+			}
+		}
+		else {
+			uv_output_set_state(&this->radiator, OUTPUT_STATE_OFF);
+			uv_delay_init(&this->radiator_delay, RADIATOR_DELAY_MS);
+		}
+
 		// ac is controlled by CSB when ignition key is in ON position
 		uv_output_state_e state;
 		if (this->ac_override) {
@@ -512,6 +533,7 @@ void step(void* me) {
 			uv_output_disable(&this->alt_ig);
 			uv_output_disable(&this->oilcooler);
 			uv_solenoid_output_disable(&this->pump);
+			uv_output_disable(&this->radiator);
 		}
 		else {
 			uv_output_set_enabled(&this->glow, this->glow_enabled);
@@ -522,6 +544,7 @@ void step(void* me) {
 			uv_output_set_enabled(&this->alt_ig, this->alt_ig_enabled);
 			uv_output_set_enabled(&this->oilcooler, this->oilcooler_enabled);
 			uv_output_set_enabled((uv_output_st*) &this->pump, this->pump_enabled);
+			uv_output_enable(&this->radiator);
 		}
 
 		uv_rtos_task_delay(step_ms);
