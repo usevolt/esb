@@ -548,6 +548,7 @@ void step(void* me) {
 		}
 
 		uv_rtos_task_delay(step_ms);
+
 	}
 }
 
