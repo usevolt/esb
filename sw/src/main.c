@@ -65,7 +65,7 @@ void init(dev_st* me) {
 	}
 	// initialize outputs
 	uv_output_init(&this->glow, GLOW_SENSE_AIN,
-			GLOW_PLUGS_O, VN5E01_CURRENT_AMPL_UA, 50000, 60000,
+			GLOW_PLUGS_O, VN5E01_CURRENT_AMPL_UA * 2, 50000, 60000,
 			OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_GLOW_OVERLOAD, ESB_EMCY_GLOW_FAULT);
 	uv_output_init(&this->starter, STARTER_SENSE_AIN,
@@ -94,7 +94,7 @@ void init(dev_st* me) {
 	uv_solenoid_output_get_conf(&this->pump)->max_ma = PUMP_CURRENT_MAX_MA;
 	uv_solenoid_output_get_conf(&this->pump)->min_ma = PUMP_CURRENT_MIN_MA;
 	uv_output_init(&this->radiator, RADIATOR_AIN, RADIATOR_O,
-			VN5E01_CURRENT_AMPL_UA, 15000, 30000, OUTPUT_MOVING_AVG_COUNT,
+			VN5E01_CURRENT_AMPL_UA * 2, 15000, 30000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_RADIATOR_OVERCURRENT, ESB_EMCY_RADIATOR_FAULT);
 
 	// initialize inputs
@@ -145,6 +145,8 @@ void init(dev_st* me) {
 	// start RPM timer
 	uv_timer_init(RPM_TIMER);
 	uv_timer_start(RPM_TIMER);
+
+	this->radiator_on = false;
 
 	uv_delay_init(&this->motor_delay, MOTOR_DELAY_MS);
 
@@ -463,17 +465,22 @@ void step(void* me) {
 
 		// radiator logic
 		// radiator should go on little after the engine has been turned on
-		if (this->radiator_enabled &&
-				this->alt_p_rpm &&
-				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON)) {
-			uv_delay(&this->radiator_delay, step_ms);
-			if (uv_delay_has_ended(&this->radiator_delay)) {
-				uv_output_set_state(&this->radiator, OUTPUT_STATE_ON);
+		if (!this->radiator_on) {
+			if (this->radiator_enabled &&
+					this->alt_p_rpm &&
+					(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON)) {
+				uv_delay(&this->radiator_delay, step_ms);
+				if (uv_delay_has_ended(&this->radiator_delay)) {
+					uv_output_set_state(&this->radiator, OUTPUT_STATE_ON);
+				}
+			}
+			else {
+				uv_output_set_state(&this->radiator, OUTPUT_STATE_OFF);
+				uv_delay_init(&this->radiator_delay, RADIATOR_DELAY_MS);
 			}
 		}
 		else {
-			uv_output_set_state(&this->radiator, OUTPUT_STATE_OFF);
-			uv_delay_init(&this->radiator_delay, RADIATOR_DELAY_MS);
+			uv_output_set(&this->radiator, OUTPUT_STATE_ON);
 		}
 
 		// ac is controlled by CSB when ignition key is in ON position

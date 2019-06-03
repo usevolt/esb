@@ -303,6 +303,7 @@ void clear_callb(void *me, unsigned int cmd, unsigned int args, argument_st *arg
 void oilc_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 void ac_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 void enable_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
+void rad_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 
 
 
@@ -353,6 +354,12 @@ const uv_command_st terminal_commands[] = {
 						"Usage: enable <\"pump\"/\"glow\"/\"starter\"/\"altig\""
 						"/\"oilc\"/\"estart\"/\"ac\"/\"radiator\"> <1/0>",
 				.callback = &enable_callb
+		},
+		{
+				.id = CMD_RADIATOR,
+				.str = "rad",
+				.instructions = "Sets the radiator on for testing",
+				.callback = &rad_callb
 		}
 };
 
@@ -534,4 +541,11 @@ void enable_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 			this->radiator_enabled	);
 }
 
+
+void rad_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) {
+	if (args && argv[0].type == ARG_INTEGER) {
+		dev.radiator_on = !!argv[0].number;
+	}
+	printf("Radiator: %u\n", dev.radiator_on);
+}
 

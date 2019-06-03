@@ -159,6 +159,7 @@ typedef struct _dev_st {
 	uint8_t oilcooler_enabled;
 	uint8_t pump_enabled;
 	uint8_t radiator_enabled;
+	uint8_t radiator_on;
 
 
 	uv_solenoid_output_conf_st pump_conf;
