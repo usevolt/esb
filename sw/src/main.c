@@ -152,7 +152,7 @@ void init(dev_st* me) {
 
 	this->pwr.last_limit = 0;
 	this->pwr.limit = 0;
-	uv_pid_init(&this->pwr.pid, this->pwr_rising_p, 10, 0);
+	uv_pid_init(&this->pwr.pid, this->pwr_rising_p, 6, 0);
 	this->pwr.pump_angle = PWR_USAGE_MAX;
 
 	this->engine_stop_cause = ESB_STOP_NONE;
@@ -340,7 +340,7 @@ void step(void* me) {
 		if (this->pwr.limit > PWR_USAGE_MAX) {
 			this->pwr.limit = PWR_USAGE_MAX;
 		}
-		if (this->pwr.limit < this->pwr.last_limit) {
+		if (this->pwr.limit < this->pwr.pump_angle) {
 			this->pwr.pump_angle = this->pwr.limit;
 		}
 		else {
