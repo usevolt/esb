@@ -411,7 +411,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	printf("Vdd: %u mV\n", this->vdd);
 	printf("FSB ignkey state: %u, emcy: %u\n", this->fsb.ignkey_state, this->fsb.emcy);
 	printf("CSB ac req: %u\n", this->csb.ac_req);
-	printf("HCU hydr pressure: %u\n", this->hcu.hydr_pressure);
+	printf("HCU hydr pressure: %i\n", (int) this->hcu.hydr_pressure);
 
 }
 

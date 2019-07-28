@@ -94,7 +94,7 @@ void init(dev_st* me) {
 	uv_solenoid_output_get_conf(&this->pump)->max_ma = PUMP_CURRENT_MAX_MA;
 	uv_solenoid_output_get_conf(&this->pump)->min_ma = PUMP_CURRENT_MIN_MA;
 	uv_output_init(&this->radiator, RADIATOR_AIN, RADIATOR_O,
-			VN5E01_CURRENT_AMPL_UA * 2, 15000, 30000, OUTPUT_MOVING_AVG_COUNT,
+			VN5E01_CURRENT_AMPL_UA * 2, 35000, 50000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_RADIATOR_OVERCURRENT, ESB_EMCY_RADIATOR_FAULT);
 
 	// initialize inputs
