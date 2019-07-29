@@ -158,6 +158,20 @@ canopen_object_st obj_dict[] = {
 				.permissions = ESB_OILCOOLER_TRIGGER_PERMISSIONS,
 				.data_ptr = &this->oilcooler_trigger_temp
 		},
+		{
+				.main_index = ESB_RADIATOR_STATUS_INDEX,
+				.sub_index = ESB_RADIATOR_STATUS_SUBINDEX,
+				.type = ESB_RADIATOR_STATUS_TYPE,
+				.permissions = ESB_RADIATOR_STATUS_PERMISSIONS,
+				.data_ptr = &this->radiator.state
+		},
+		{
+				.main_index = ESB_RADIATOR_CURRENT_INDEX,
+				.sub_index = ESB_RADIATOR_CURRENT_SUBINDEX,
+				.type = ESB_RADIATOR_CURRENT_TYPE,
+				.permissions = ESB_RADIATOR_CURRENT_PERMISSIONS,
+				.data_ptr = &this->radiator.current
+		},
 
 
 

@@ -72,6 +72,8 @@
 
 
 #define RADIATOR_DELAY_MS					10000
+#define RADIATOR_TRIGGER_C					85
+#define RADIATOR_HYSTERESIS					5
 
 /// @brief: EEPROM address for the hour counter
 #define HOUR_ADDR							0
@@ -106,6 +108,9 @@ typedef struct _dev_st {
 	uint8_t oil_level_value;
 
 	uv_hysteresis_st oil_temp_hyst;
+
+	uv_hysteresis_st radiator_hyst;
+	uv_delay_st radiator_delay;
 
 	CANOPEN_TYPEOF(ESB_ENGINE_STOP_CAUSE_TYPE) engine_stop_cause;
 
@@ -145,8 +150,6 @@ typedef struct _dev_st {
 	} csb;
 
 	uint8_t ac_override;
-
-	uv_delay_st radiator_delay;
 
 	// non-volatile data start
 	uv_data_start_t data_start;
