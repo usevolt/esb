@@ -72,8 +72,8 @@
 
 
 #define RADIATOR_DELAY_MS					10000
-#define RADIATOR_TRIGGER_C					85
-#define RADIATOR_HYSTERESIS					5
+#define RADIATOR_TRIGGER_C					80
+#define RADIATOR_HYSTERESIS					10
 
 /// @brief: EEPROM address for the hour counter
 #define HOUR_ADDR							0
