@@ -474,7 +474,7 @@ void step(void* me) {
 
 				if (uv_sensor_get_state(&this->motor_temp) == SENSOR_STATE_OK &&
 						!uv_hysteresis_step(&this->radiator_hyst,
-						uv_sensor_get_value(&this->motor_temp))) {
+								uv_sensor_get_value(&this->motor_temp))) {
 					uv_delay_init(&this->radiator_delay, RADIATOR_DELAY_MS);
 					uv_output_set_state(&this->radiator, OUTPUT_STATE_OFF);
 				}

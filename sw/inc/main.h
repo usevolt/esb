@@ -30,7 +30,7 @@
 /// Error is generated after this has been exceeded
 #define MOTOR_TEMP_ERR_VALUE				108
 #define MOTOR_TEMP_HYSTERESIS				10
-#define MOTOR_TEMP_AVG_COUNT				100
+#define MOTOR_TEMP_AVG_COUNT				500
 
 
 /// @brief: Hydraulic oil temperature max limit in celsius.
@@ -72,8 +72,8 @@
 
 
 #define RADIATOR_DELAY_MS					10000
-#define RADIATOR_TRIGGER_C					80
-#define RADIATOR_HYSTERESIS					10
+#define RADIATOR_TRIGGER_C					75
+#define RADIATOR_HYSTERESIS					13
 
 /// @brief: EEPROM address for the hour counter
 #define HOUR_ADDR							0
