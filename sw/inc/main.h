@@ -74,7 +74,7 @@
 /// @brief: EEPROM address for the hour counter
 #define HOUR_ADDR							0
 
-#define AC_START_DELAY_MS					2000
+#define AC_START_DELAY_MS					10000
 
 /// @brief: main data structure.
 /// This struct can be save to non-volatile flash memory with

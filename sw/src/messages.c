@@ -366,11 +366,15 @@ static void stat_output(uv_output_st *output, const char *output_name) {
 void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv) {
 	printf("SYSTEM STATUS:\n");
 	printf("Total current: %u mA\n", (unsigned int) this->total_current);
-	printf("Motor temperature: %i C, state: %u\n"
-			"Hydraulic oil temperature: %i C, state: %u\n"
+	printf("Motor temperature: %i C, state: %u, adc 0x%x\n"
+			"Hydraulic oil temperature: %i C, state: %u, adc 0x%x\n"
 			"Oil level: %u %%, state: %u\n",
-			this->motor_temp_value, uv_sensor_get_state(&this->motor_temp),
-			this->oil_temp_value, uv_sensor_get_state(&this->oil_temp),
+			this->motor_temp_value,
+			uv_sensor_get_state(&this->motor_temp),
+			uv_adc_read(MOTOR_TEMP_AIN),
+			this->oil_temp_value,
+			uv_sensor_get_state(&this->oil_temp),
+			uv_adc_read(OIL_TEMP_AIN),
 			this->oil_level_value, uv_sensor_get_state(&this->oil_level));
 	printf("Rpm: %u\nAlt L: %u\n, Motor Water Temp: %u\nMotor Oil Pressure: %u\n",
 			this->alt_p_rpm,

@@ -42,7 +42,7 @@ void init(dev_st* me) {
 	uv_gpio_interrupt_init(&rpm_callb);
 
 	// load non-volatile data
-	if (uv_memory_load()) {
+	if (uv_memory_load(MEMORY_ALL_PARAMS)) {
 		this->oilcooler_trigger_temp = OIL_TEMP_DEFAULT_TRIGGER_VALUE_C;
 
 		// initialize non-volatile memory to default settings
@@ -252,11 +252,11 @@ void step(void* me) {
 		uv_output_step(&this->engine_start2,step_ms);
 		uv_output_step(&this->alt_ig, step_ms);
 		uv_output_step(&this->oilcooler, step_ms);
-		uv_solenoid_output_step(&this->pump, step_ms);
-
 
 		// terminal step function
 		uv_terminal_step();
+
+//		uv_solenoid_output_step(&this->pump, step_ms);
 
 		this->total_current = uv_output_get_current(&this->glow) +
 				uv_output_get_current(&this->starter) +
@@ -264,8 +264,8 @@ void step(void* me) {
 				uv_output_get_current(&this->engine_start1) +
 				uv_output_get_current(&this->engine_start2) +
 				uv_output_get_current(&this->alt_ig) +
-				uv_output_get_current(&this->oilcooler) +
-				uv_solenoid_output_get_current(&this->pump);
+				uv_output_get_current(&this->oilcooler);
+//				uv_solenoid_output_get_current(&this->pump);
 
 		// motor temperature
 //		uv_sensor_step(&this->motor_temp, step_ms);
@@ -439,7 +439,17 @@ void step(void* me) {
 		uv_delay(&this->ac_delay, step_ms);
 		if (uv_delay_has_ended(&this->ac_delay) &&
 				this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) {
-			uv_output_set_state(&this->ac, OUTPUT_STATE_ON);
+			if (uv_output_get_state(&this->ac) == OUTPUT_STATE_FAULT ||
+					uv_output_get_state(&this->ac) == OUTPUT_STATE_OVERLOAD) {
+				// clear any possible error in the output and init the delay.
+				// the output will be put ON after the delay has passed,
+				// letting the outputs to cool down a little bit
+				uv_output_set_state(&this->ac, OUTPUT_STATE_OFF);
+				uv_delay_init(&this->ac_delay, AC_START_DELAY_MS);
+			}
+			else {
+				uv_output_set_state(&this->ac, OUTPUT_STATE_ON);
+			}
 		}
 		else {
 			if (this->fsb.ignkey_state != FSB_IGNKEY_STATE_ON) {
@@ -482,7 +492,7 @@ void step(void* me) {
 			uv_output_disable(&this->engine_start2);
 			uv_output_disable(&this->alt_ig);
 			uv_output_disable(&this->oilcooler);
-			uv_solenoid_output_disable(&this->pump);
+//			uv_solenoid_output_disable(&this->pump);
 		}
 		else {
 			uv_output_enable(&this->glow);
@@ -492,7 +502,7 @@ void step(void* me) {
 			uv_output_enable(&this->engine_start2);
 			uv_output_enable(&this->alt_ig);
 			uv_output_enable(&this->oilcooler);
-			uv_solenoid_output_enable(&this->pump);
+//			uv_solenoid_output_enable(&this->pump);
 		}
 
 		uv_rtos_task_delay(step_ms);
