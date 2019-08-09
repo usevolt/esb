@@ -18,7 +18,7 @@
 
 /// brief: Delay for motor_oil_press and motor_water_temp
 /// warning signals
-#define MOTOR_DELAY_MS						2000
+#define MOTOR_DELAY_MS						10000
 
 #define TEMP_FAULT_MAX_VAL					125
 #define TEMP_FAULT_MIN_VAL					-50
