@@ -21,7 +21,7 @@
 
 dev_st dev = {};
 #define this ((dev_st*) &dev)
-
+static bool initialized = false;
 
 int16_t adc_get_temp(uv_adc_channels_e adc_chn);
 int16_t adc_get_level(uv_adc_channels_e adc_chn);
@@ -174,6 +174,8 @@ void init(dev_st* me) {
 	uv_canopen_set_state(CANOPEN_OPERATIONAL);
 	uv_canopen_set_sdo_write_callback(&sdo_callback);
 
+	initialized = true;
+
 }
 
 
@@ -251,6 +253,22 @@ void rpm_callb(uv_gpios_e gpio) {
 }
 
 
+void solenoid_step(void* me) {
+
+	// wait until solenoid structures have been initialized
+	while (!initialized) {
+		uv_rtos_task_delay(1);
+	}
+
+	while (true) {
+		uint32_t step_ms = 2;
+
+		uv_solenoid_output_step(&this->pump, step_ms);
+
+		uv_rtos_task_delay(step_ms);
+	}
+}
+
 
 void step(void* me) {
 
@@ -268,7 +286,6 @@ void step(void* me) {
 		uv_output_step(&this->engine_start2,step_ms);
 		uv_output_step(&this->alt_ig, step_ms);
 		uv_output_step(&this->oilcooler, step_ms);
-		uv_solenoid_output_step(&this->pump, step_ms);
 		uv_output_step(&this->radiator, step_ms);
 
 
@@ -583,12 +600,12 @@ void sdo_callback(uint16_t mindex, uint8_t sindex) {
 
 int main(void) {
 
-	// init the watchdog timer
-//	uw_wdt_init(5);
-
 	uv_init(&dev);
 
 	uv_rtos_task_create(step, "step", UV_RTOS_MIN_STACK_SIZE * 5,
+			&dev, UV_RTOS_IDLE_PRIORITY + 1, NULL);
+
+	uv_rtos_task_create(&solenoid_step, "solstep", UV_RTOS_MIN_STACK_SIZE,
 			&dev, UV_RTOS_IDLE_PRIORITY + 1, NULL);
 
 

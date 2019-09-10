@@ -65,7 +65,7 @@
 #define OIL_TEMP_DEFAULT_TRIGGER_VALUE_C	70
 
 #define ENGINE_POWER_USAGE_DEFAULT			55
-#define PUMP_CURRENT_MIN_MA					200
+#define PUMP_CURRENT_MIN_MA					400
 #define PUMP_CURRENT_MAX_MA					1200
 #define PWR_RISING_P_DEFAULT				10
 #define PWR_USAGE_MAX						1000
@@ -143,7 +143,7 @@ typedef struct _dev_st {
 		uint8_t emcy;
 	} fsb;
 	struct {
-		uint16_t hydr_pressure;
+		int16_t hydr_pressure;
 	} hcu;
 	struct {
 		uint8_t ac_req;
