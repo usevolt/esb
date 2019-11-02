@@ -190,11 +190,32 @@ void init(dev_st* me) {
 /// voltage is amplified by 11 (op amp with 10k + 1k negative feedback)
 #define PT100_ADC_0C			2816
 #define PT100_ADC_100C			3821
+
+
+int temp_compare(const void * val1, const void *val2) {
+	int ret;
+	if (*((int32_t*) val1) > *((int32_t*) val2)) {
+		ret = 1;
+	}
+	else if (*((int32_t*) val1) < *((int32_t*) val2)) {
+		ret = -1;
+	}
+	else {
+		ret = 0;
+	}
+	return ret;
+}
+#define ADC_COUNT				5
 /// @brief: Returns the ADC's read value as celsius degrees
 int16_t adc_get_temp(uv_adc_channels_e adc_chn) {
 	int16_t ret;
-	int32_t adc = uv_adc_read(adc_chn);
-	int32_t t = uv_reli(adc, PT100_ADC_0C, PT100_ADC_100C);
+	int32_t adc[ADC_COUNT];
+	for (uint8_t i = 0; i < ADC_COUNT; i++) {
+		adc[i] = uv_adc_read(adc_chn);
+	}
+	qsort(adc, ADC_COUNT, sizeof(adc[0]), &temp_compare);
+
+	int32_t t = uv_reli(adc[ADC_COUNT/2], PT100_ADC_0C, PT100_ADC_100C);
 	int16_t result_c = uv_lerpi(t, 0, 100);
 	if (result_c < TEMP_FAULT_MIN_VAL) {
 		ret = TEMP_FAULT_MIN_VAL;

@@ -423,6 +423,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	stat_output(&this->oilcooler, this->oilcooler_enabled, "OilC");
 	stat_output(&this->radiator, this->radiator_enabled, "Radiator");
 	printf("Vdd: %u mV\n", this->vdd);
+	printf("Hours: %u\n", this->hour_counter);
 	printf("FSB ignkey state: %u, emcy: %u\n", this->fsb.ignkey_state, this->fsb.emcy);
 	printf("CSB ac req: %u\n", this->csb.ac_req);
 	printf("HCU hydr pressure: %i\n", (int) this->hcu.hydr_pressure);
