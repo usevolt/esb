@@ -109,7 +109,6 @@ typedef struct _dev_st {
 
 	uv_hysteresis_st oil_temp_hyst;
 
-	uv_hysteresis_st radiator_hyst;
 	uv_delay_st radiator_delay;
 
 	CANOPEN_TYPEOF(ESB_ENGINE_STOP_CAUSE_TYPE) engine_stop_cause;
@@ -162,7 +161,6 @@ typedef struct _dev_st {
 	uint8_t oilcooler_enabled;
 	uint8_t pump_enabled;
 	uint8_t radiator_enabled;
-	uint8_t radiator_on;
 
 
 	uv_solenoid_output_conf_st pump_conf;

@@ -146,9 +146,7 @@ void init(dev_st* me) {
 	uv_timer_init(RPM_TIMER);
 	uv_timer_start(RPM_TIMER);
 
-	this->radiator_on = false;
 	uv_delay_init(&this->radiator_delay, RADIATOR_DELAY_MS);
-	uv_hysteresis_init(&this->radiator_hyst, RADIATOR_TRIGGER_C, RADIATOR_HYSTERESIS, false);
 
 	uv_delay_init(&this->motor_delay, MOTOR_DELAY_MS);
 
@@ -505,31 +503,18 @@ void step(void* me) {
 
 		// radiator logic
 		// radiator should go on little after the engine has been turned on
-		if (!this->radiator_on) {
-			if (this->radiator_enabled &&
-					this->alt_p_rpm &&
-					(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON)) {
-
-				if (uv_sensor_get_state(&this->motor_temp) == SENSOR_STATE_OK &&
-						!uv_hysteresis_step(&this->radiator_hyst,
-								uv_sensor_get_value(&this->motor_temp))) {
-					uv_delay_init(&this->radiator_delay, RADIATOR_DELAY_MS);
-					uv_output_set_state(&this->radiator, OUTPUT_STATE_OFF);
-				}
-				else {
-					if (uv_delay(&this->radiator_delay, step_ms)) {
-						uv_output_set_state(&this->radiator, OUTPUT_STATE_ON);
-					}
-				}
-			}
-			else {
-				uv_output_set_state(&this->radiator, OUTPUT_STATE_OFF);
-				uv_delay_init(&this->radiator_delay, RADIATOR_DELAY_MS);
+		uv_output_state_e radiator_on = OUTPUT_STATE_OFF;
+		if (this->radiator_enabled &&
+				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON)) {
+			if (uv_delay(&this->radiator_delay, step_ms) ||
+					uv_delay_has_ended(&this->radiator_delay)) {
+				radiator_on = OUTPUT_STATE_ON;
 			}
 		}
 		else {
-			uv_output_set(&this->radiator, OUTPUT_STATE_ON);
+			uv_delay_init(&this->radiator_delay, RADIATOR_DELAY_MS);
 		}
+		uv_output_set(&this->radiator, radiator_on);
 
 		// ac is controlled by CSB when ignition key is in ON position
 		uv_output_state_e state;

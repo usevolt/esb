@@ -172,10 +172,13 @@ canopen_object_st obj_dict[] = {
 				.permissions = ESB_RADIATOR_CURRENT_PERMISSIONS,
 				.data_ptr = &this->radiator.current
 		},
-
-
-
-
+		{
+				.main_index = ESB_RADIATOR_ENABLED_INDEX,
+				.sub_index = ESB_RADIATOR_ENABLED__SUBINDEX,
+				.type = ESB_RADIATOR_ENABLED_TYPE,
+				.permissions = ESB_RADIATOR_ENABLED_PERMISSIONS,
+				.data_ptr = &this->radiator_enabled
+		},
 		{
 				.main_index = ESB_RPM_INDEX,
 				.sub_index = ESB_RPM_SUBINDEX,
@@ -368,12 +371,6 @@ const uv_command_st terminal_commands[] = {
 						"Usage: enable <\"pump\"/\"glow\"/\"starter\"/\"altig\""
 						"/\"oilc\"/\"estart\"/\"ac\"/\"radiator\"> <1/0>",
 				.callback = &enable_callb
-		},
-		{
-				.id = CMD_RADIATOR,
-				.str = "rad",
-				.instructions = "Sets the radiator on for testing",
-				.callback = &rad_callb
 		}
 };
 
@@ -423,7 +420,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	stat_output(&this->oilcooler, this->oilcooler_enabled, "OilC");
 	stat_output(&this->radiator, this->radiator_enabled, "Radiator");
 	printf("Vdd: %u mV\n", this->vdd);
-	printf("Hours: %u\n", this->hour_counter);
+	printf("Hours: %u\n", (unsigned int) this->hour_counter);
 	printf("FSB ignkey state: %u, emcy: %u\n", this->fsb.ignkey_state, this->fsb.emcy);
 	printf("CSB ac req: %u\n", this->csb.ac_req);
 	printf("HCU hydr pressure: %i\n", (int) this->hcu.hydr_pressure);
@@ -556,11 +553,4 @@ void enable_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 			this->radiator_enabled	);
 }
 
-
-void rad_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) {
-	if (args && argv[0].type == ARG_INTEGER) {
-		dev.radiator_on = !!argv[0].number;
-	}
-	printf("Radiator: %u\n", dev.radiator_on);
-}
 
