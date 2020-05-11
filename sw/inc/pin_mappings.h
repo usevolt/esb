@@ -17,35 +17,34 @@
 
 
 // Analog inputs
-#define VDD_SENSE_AIN				ADC0_11
-#define GLOW_SENSE_AIN				ADC0_10
-#define STARTER_SENSE_AIN			ADC0_9
-#define AC_SENSE_AIN				ADC0_8
-#define ENGINE_START1_SENSE_AIN		ADC0_7
-#define ENGINE_START2_SENSE_AIN		ADC0_5
-#define PUMP_SENSE_AIN				ADC0_1
-#define ALT_IG_SENSE_AIN			ADC0_2
-#define MOTOR_TEMP_AIN				ADC1_11
-#define OIL_TEMP_AIN				ADC1_10
-#define FUEL_LEVEL_AIN				ADC1_8
-#define OIL_LEVEL_AIN				ADC1_9
-#define OILCOOLER_AIN				ADC1_0
+#define VDD_SENSE_AIN				ADC1_11
+#define GLOW_SENSE_AIN				ADC0_3
+#define STARTER_SENSE_AIN			ADC0_5
+#define AC_SENSE_AIN				ADC0_7
+#define ENGINE_START1_SENSE_AIN		ADC0_11
+#define ENGINE_START2_SENSE_AIN		ADC0_10
+#define PUMP_SENSE_AIN				ADC1_9
+#define ALT_IG_SENSE_AIN			ADC1_8
+#define MOTOR_TEMP_AIN				ADC1_2
+#define OIL_TEMP_AIN				ADC1_1
+#define OIL_LEVEL_AIN				ADC1_0
+#define OILCOOLER_AIN				ADC1_10
 
 // Digital inputs
-#define ALT_L_I						P0_11
-#define ALT_P_RPM_I					P0_13
-#define MOTOR_WATER_TEMP_I			P1_3
-#define MOTOR_OIL_PRESS_I			P1_2
+#define ALT_L_I						P0_18
+#define ALT_P_RPM_I					P0_6
+#define MOTOR_WATER_TEMP_I			P0_8
+#define MOTOR_OIL_PRESS_I			P0_7
 
 // Digital outputs
 #define PUMP_PWM					PWM0_0
-#define ALT_IG_O					P0_5
-#define AC_O						P0_27
-#define ENGINE_START_1_O			P0_26
-#define ENGINE_START_2_O			P0_2
-#define GLOW_PLUGS_O				P0_29
-#define STARTER_O					P0_28
-#define OILCOOLER_O					P0_9
+#define ALT_IG_O					P0_14
+#define AC_O						P1_0
+#define ENGINE_START_1_O			P0_28
+#define ENGINE_START_2_O			P0_29
+#define GLOW_PLUGS_O				P0_4
+#define STARTER_O					P0_2
+#define OILCOOLER_O					P1_7
 
 
 // RPM timer

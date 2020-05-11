@@ -4,7 +4,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 12
+Sheet 2 13
 Title "Power supply"
 Date "2016-08-20"
 Rev "1"
@@ -81,21 +81,6 @@ F 9 "TEXAS INSTRUMENTS" H 4750 4770 60  0001 C CNN "Manufacturer"
 	1    0    0    -1  
 $EndComp
 $Comp
-L kemet:10nF C203
-U 1 1 57B822C5
-P 5800 3950
-F 0 "C203" H 5850 4149 45  0000 C CNN
-F 1 "10nF" H 5850 4065 45  0000 C CNN
-F 2 "kemet:0603" H 5830 4100 20  0001 C CNN
-F 3 "http://www.farnell.com/datasheets/2064086.pdf?_ga=1.250530118.1948984246.1460023966" H 5704 3959 60  0001 C CNN
-F 4 "1457729" H 6104 4359 60  0001 C CNN "1st Source Part Number"
-F 5 "C0603C103J3GACTU" H 5904 4159 60  0001 C CNN "Manufacturer Part Number"
-F 6 "Farnell" H 6004 4259 60  0001 C CNN "1st Source"
-F 7 "KEMET" H 5804 4059 60  0001 C CNN "Manufacturer"
-	1    5800 3950
-	1    0    0    -1  
-$EndComp
-$Comp
 L usevolt:DIODE_RS07J-GS18 D204
 U 1 1 57B82329
 P 6200 3950
@@ -153,7 +138,7 @@ Text HLabel 7050 3600 2    60   Output ~ 0
 +5V
 Text HLabel 8750 3600 2    60   Output ~ 0
 +3V3
-Text HLabel 3150 2700 2    60   Output ~ 0
+Text HLabel 3150 2650 2    60   Output ~ 0
 VDD
 Text HLabel 2700 4950 0    60   Input ~ 0
 GND
@@ -346,27 +331,27 @@ $EndComp
 $Comp
 L usevolt:DIODE_TVS_TPSMD28A D206
 U 1 1 5A13BC8E
-P 2900 2950
-F 0 "D206" V 2992 2882 45  0000 R CNN
-F 1 "DIODE_TVS_TPSMD28A" V 2908 2882 45  0000 R CNN
-F 2 "usevolt:DO-214AB" H 2930 3100 20  0001 C CNN
-F 3 "http://www.littelfuse.com/~/media/electronics/datasheets/tvs_diodes/littelfuse_tvs_diode_tpsmd_datasheet.pdf.pdf" H 3010 2960 60  0001 C CNN
-F 4 "Digi-Key" H 3310 3260 60  0001 C CNN "1st Source"
-F 5 "Littlefuse" H 3110 3060 60  0001 C CNN "Manufacturer"
-F 6 "TPSMD28A" H 3210 3160 60  0001 C CNN "Manufacturer Part Number"
-F 7 "F6570CT-ND" H 3410 3360 60  0001 C CNN "1st Source Part Number"
-	1    2900 2950
+P 2900 2900
+F 0 "D206" V 2992 2832 45  0000 R CNN
+F 1 "DIODE_TVS_TPSMD28A" V 2908 2832 45  0000 R CNN
+F 2 "usevolt:DO-214AB" H 2930 3050 20  0001 C CNN
+F 3 "http://www.littelfuse.com/~/media/electronics/datasheets/tvs_diodes/littelfuse_tvs_diode_tpsmd_datasheet.pdf.pdf" H 3010 2910 60  0001 C CNN
+F 4 "Digi-Key" H 3310 3210 60  0001 C CNN "1st Source"
+F 5 "Littlefuse" H 3110 3010 60  0001 C CNN "Manufacturer"
+F 6 "TPSMD28A" H 3210 3110 60  0001 C CNN "Manufacturer Part Number"
+F 7 "F6570CT-ND" H 3410 3310 60  0001 C CNN "1st Source Part Number"
+	1    2900 2900
 	0    -1   -1   0   
 $EndComp
 $Comp
 L power:GND #PWR015
 U 1 1 5A13BD77
-P 2900 3150
-F 0 "#PWR015" H 2900 2900 50  0001 C CNN
-F 1 "GND" H 2905 2977 50  0000 C CNN
-F 2 "" H 2900 3150 50  0000 C CNN
-F 3 "" H 2900 3150 50  0000 C CNN
-	1    2900 3150
+P 2900 3100
+F 0 "#PWR015" H 2900 2850 50  0001 C CNN
+F 1 "GND" H 2905 2927 50  0000 C CNN
+F 2 "" H 2900 3100 50  0000 C CNN
+F 3 "" H 2900 3100 50  0000 C CNN
+	1    2900 3100
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -446,9 +431,9 @@ Wire Wire Line
 Connection ~ 1500 4600
 Connection ~ 3800 3850
 Wire Wire Line
-	2900 2750 2900 2700
+	2900 2700 2900 2650
 Wire Wire Line
-	2900 3150 2900 3050
+	2900 3100 2900 3000
 Wire Wire Line
 	8000 4950 8600 4950
 Wire Wire Line
@@ -484,10 +469,80 @@ Wire Wire Line
 Wire Wire Line
 	1500 4600 1500 4650
 Wire Wire Line
-	2900 2700 3150 2700
+	2900 2650 3150 2650
+$Comp
+L usevolt:SCHOTTKY_DIODE_V40PW10C D10
+U 1 1 5C521B18
+P 2200 2250
+F 0 "D10" H 2200 2597 60  0000 C CNN
+F 1 "SCHOTTKY_DIODE_V40PW10C" H 2200 2491 60  0000 C CNN
+F 2 "usevolt:SlimDPAK" H 2000 1900 60  0001 C CNN
+F 3 "http://www.farnell.com/datasheets/2245239.pdf?_ga=2.16591231.874534928.1505194133-1862443086.1504075057" H 2000 1900 60  0001 C CNN
+F 4 "2535169" H 2550 2850 60  0001 C CNN "1st Source Part Number"
+F 5 "Digikey" H 2650 2950 60  0001 C CNN "2nd Source"
+F 6 "Farnell" H 2450 2750 60  0001 C CNN "1st Source"
+F 7 "V40PW10CHM3/I" H 2350 2650 60  0001 C CNN "Manufacturer Part Number"
+F 8 "V40PW10CHM3/IGICT-ND" H 2750 3050 60  0001 C CNN "2nd Source Part Number"
+F 9 "VISHAY" H 2250 2550 60  0001 C CNN "Manufacturer"
+	1    2200 2250
+	1    0    0    -1  
+$EndComp
+$Comp
+L usevolt:SCHOTTKY_DIODE_V40PW10C D11
+U 1 1 5C5227A8
+P 2200 2700
+F 0 "D11" H 2200 3047 60  0000 C CNN
+F 1 "SCHOTTKY_DIODE_V40PW10C" H 2200 2941 60  0000 C CNN
+F 2 "usevolt:SlimDPAK" H 2000 2350 60  0001 C CNN
+F 3 "http://www.farnell.com/datasheets/2245239.pdf?_ga=2.16591231.874534928.1505194133-1862443086.1504075057" H 2000 2350 60  0001 C CNN
+F 4 "2535169" H 2550 3300 60  0001 C CNN "1st Source Part Number"
+F 5 "Digikey" H 2650 3400 60  0001 C CNN "2nd Source"
+F 6 "Farnell" H 2450 3200 60  0001 C CNN "1st Source"
+F 7 "V40PW10CHM3/I" H 2350 3100 60  0001 C CNN "Manufacturer Part Number"
+F 8 "V40PW10CHM3/IGICT-ND" H 2750 3500 60  0001 C CNN "2nd Source Part Number"
+F 9 "VISHAY" H 2250 3000 60  0001 C CNN "Manufacturer"
+	1    2200 2700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1500 2150 1800 2150
+Wire Wire Line
+	1500 2150 1500 2250
+Wire Wire Line
+	1800 2250 1500 2250
+Connection ~ 1500 2250
+Wire Wire Line
+	1500 2250 1500 2600
+Wire Wire Line
+	1800 2600 1500 2600
+Connection ~ 1500 2600
+Wire Wire Line
+	1500 2600 1500 2700
+Wire Wire Line
+	1800 2700 1500 2700
+Connection ~ 1500 2700
 Wire Wire Line
 	1500 2700 1500 3850
 Wire Wire Line
-	1500 2700 2900 2700
-Connection ~ 2900 2700
+	2600 2650 2900 2650
+Connection ~ 2900 2650
+Wire Wire Line
+	2900 2650 2900 2200
+Wire Wire Line
+	2900 2200 2600 2200
+$Comp
+L kemet:100nF C1
+U 1 1 5C52E6DA
+P 5900 3950
+F 0 "C1" V 5908 4023 45  0000 L CNN
+F 1 "100nF" V 5992 4023 45  0000 L CNN
+F 2 "kemet:0603" H 5930 4100 20  0001 C CNN
+F 3 "http://www.farnell.com/datasheets/2062872.pdf?_ga=1.250530118.1948984246.1460023966" H 5804 3959 60  0001 C CNN
+F 4 "1288255" H 6204 4359 60  0001 C CNN "1st Source Part Number"
+F 5 "C0603C104K5RACTU" H 6004 4159 60  0001 C CNN "Manufacturer Part Number"
+F 6 "Farnell" H 6104 4259 60  0001 C CNN "1st Source"
+F 7 "KEMET" H 5904 4059 60  0001 C CNN "Manufacturer"
+	1    5900 3950
+	-1   0    0    1   
+$EndComp
 $EndSCHEMATC
