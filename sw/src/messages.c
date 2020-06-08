@@ -420,6 +420,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	stat_output(&this->oilcooler, this->oilcooler_enabled, "OilC");
 	stat_output(&this->radiator, this->radiator_enabled, "Radiator");
 	printf("Vdd: %u mV 0x%x\n", this->vdd, uv_adc_read(VDD_SENSE_AIN));
+	printf("stop cause: %u\n", this->engine_stop_cause);
 	printf("Hours: %u\n", (unsigned int) this->hour_counter);
 	printf("FSB ignkey state: %u, emcy: %u\n", this->fsb.ignkey_state, this->fsb.emcy);
 	printf("CSB ac req: %u\n", this->csb.ac_req);
