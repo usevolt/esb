@@ -33,6 +33,8 @@ void sdo_callback(uint16_t mindex, uint8_t sindex);
 #define GET_MOTOR_WATER()	(!uv_gpio_get(MOTOR_WATER_TEMP_I))
 #define GET_MOTOR_OIL_PRESS() (!uv_gpio_get(MOTOR_OIL_PRESS_I))
 
+#define OILC_RESTART_DELAY_MS		10000
+
 
 #define VND5050_CURRENT_AMPL_UA		1619
 #define VN5E01_CURRENT_AMPL_UA		5600
@@ -149,6 +151,8 @@ void init(dev_st* me) {
 	uv_delay_init(&this->radiator_delay, RADIATOR_DELAY_MS);
 
 	uv_delay_init(&this->motor_delay, MOTOR_DELAY_MS);
+
+	uv_delay_init(&this->oilc_restart_delay, OILC_RESTART_DELAY_MS);
 
 	this->pwr.last_limit = 0;
 	this->pwr.limit = 0;
@@ -541,9 +545,20 @@ void step(void* me) {
 		uv_hysteresis_set_trigger_value(&this->oil_temp_hyst, this->oilcooler_trigger_temp);
 		if (uv_sensor_get_state(&this->oil_temp) == SENSOR_STATE_OK &&
 				this->fsb.ignkey_state != FSB_IGNKEY_STATE_OFF) {
-			uv_hysteresis_step(&this->oil_temp_hyst, uv_sensor_get_value(&this->oil_temp));
-			uv_output_set_state(&this->oilcooler, (uv_hysteresis_get_output(&this->oil_temp_hyst)) ?
-					OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
+			uv_output_state_e state = uv_output_get_state(&this->oilcooler);
+			if (state == OUTPUT_STATE_FAULT ||
+					state == OUTPUT_STATE_OVERLOAD) {
+				if (uv_delay(&this->oilc_restart_delay, step_ms)) {
+					uv_output_set_state(&this->oilcooler, OUTPUT_STATE_OFF);
+					uv_delay_init(&this->oilc_restart_delay, OILC_RESTART_DELAY_MS);
+				}
+			}
+			else {
+				uv_hysteresis_step(&this->oil_temp_hyst, uv_sensor_get_value(&this->oil_temp));
+				uv_output_set_state(&this->oilcooler,
+						(uv_hysteresis_get_output(&this->oil_temp_hyst)) ?
+								OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
+			}
 		}
 		else {
 			uv_output_set_state(&this->oilcooler, OUTPUT_STATE_OFF);

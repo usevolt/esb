@@ -96,6 +96,8 @@ typedef struct _dev_st {
 
 	uint16_t total_current;
 
+	uv_delay_st oilc_restart_delay;
+
 	/// @brief: Hour counter multiplexed with
 	/// uw_display.
 	uint32_t hour_counter;
