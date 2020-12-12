@@ -26,7 +26,6 @@ static bool initialized = false;
 int16_t adc_get_temp(uv_adc_channels_e adc_chn);
 int16_t adc_get_level(uv_adc_channels_e adc_chn);
 uint16_t adc_get_voltage_mv(const uv_adc_channels_e adc_chn);
-void rpm_callb(uv_gpios_e);
 void sdo_callback(uint16_t mindex, uint8_t sindex);
 
 
@@ -41,8 +40,23 @@ void sdo_callback(uint16_t mindex, uint8_t sindex);
 
 #define PWR_LIMIT_DIVIDER			20
 
+
+static bool can_callb(void *user_ptr, uv_can_msg_st *msg) {
+	bool ret = true;
+
+	if (msg->type == CAN_EXT) {
+		if (msg->id == 0x0CF00400 &&
+				msg->data_length >= 5) {
+			uint16_t rpm = msg->data_8bit[3] + (msg->data_8bit[4] << 8);
+			rpm /= 8;
+			this->alt_p_rpm = rpm;
+		}
+	}
+
+	return ret;
+}
+
 void init(dev_st* me) {
-	uv_gpio_interrupt_init(&rpm_callb);
 
 	// load non-volatile data
 	if (uv_memory_load(MEMORY_ALL_PARAMS)) {
@@ -53,11 +67,13 @@ void init(dev_st* me) {
 		this->starter_enabled = true;
 		this->glow_enabled = true;
 		this->ac_enabled = true;
-		this->engine_start_enabled = true;
-		this->alt_ig_enabled = true;
 		this->oilcooler_enabled = true;
 		this->pump_enabled = true;
 		this->radiator_enabled = true;
+
+		this->idle_rpm = IDLE_RPM_DEF;
+		this->work_rpm = WORK_RPM_DEF;
+		this->drive_rpm = DRIVE_RPM_DEF;
 
 		this->dither_ampl = 0;
 		this->dither_freq = 50;
@@ -77,15 +93,6 @@ void init(dev_st* me) {
 	uv_output_init(&this->ac, AC_SENSE_AIN,
 			AC_O, VN5E01_CURRENT_AMPL_UA, 10000, 15000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_AC_OVERLOAD, ESB_EMCY_AC_FAULT);
-	uv_output_init(&this->engine_start1, ENGINE_START1_SENSE_AIN,
-			ENGINE_START_1_O, VN5E01_CURRENT_AMPL_UA, 30000, 40000, OUTPUT_MOVING_AVG_COUNT,
-			ESB_EMCY_ENGINE_STOP_OVERLOAD, ESB_EMCY_ENGINE_STOP_FAULT);
-	uv_output_init(&this->engine_start2, ENGINE_START2_SENSE_AIN,
-			ENGINE_START_2_O, VN5E01_CURRENT_AMPL_UA, 30000, 40000, OUTPUT_MOVING_AVG_COUNT,
-			ESB_EMCY_ENGINE_STOP_OVERLOAD, ESB_EMCY_ENGINE_STOP_FAULT);
-	uv_output_init(&this->alt_ig, ALT_IG_SENSE_AIN,
-			ALT_IG_O, VND5050_CURRENT_AMPL_UA, 2000, 5000, OUTPUT_MOVING_AVG_COUNT,
-			ESB_EMCY_ALT_IG_OVERLOAD, ESB_EMCY_ALT_IG_FAULT);
 	uv_output_init(&this->oilcooler, OILCOOLER_AIN, OILCOOLER_O,
 			VN5E01_CURRENT_AMPL_UA, 15000, 30000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_OILCOOLER_OVERCURRENT, ESB_EMCY_OILCOOLER_FAULT);
@@ -95,16 +102,25 @@ void init(dev_st* me) {
 			ESB_EMCY_PUMP_OVERLOAD, ESB_EMCY_PUMP_FAULT);
 	uv_solenoid_output_get_conf(&this->pump)->max_ma = PUMP_CURRENT_MAX_MA;
 	uv_solenoid_output_get_conf(&this->pump)->min_ma = PUMP_CURRENT_MIN_MA;
+
 	uv_output_init(&this->radiator, RADIATOR_AIN, RADIATOR_O,
 			VN5E01_CURRENT_AMPL_UA * 2, 50000, 60000, OUTPUT_MOVING_AVG_COUNT,
 			ESB_EMCY_RADIATOR_OVERCURRENT, ESB_EMCY_RADIATOR_FAULT);
+	uv_output_init(&this->engine_start, ENGINE_START_SENSE_AIN, ENGINE_START_O,
+			VN5E01_CURRENT_AMPL_UA, 10000, 15000, OUTPUT_MOVING_AVG_COUNT,
+			ESB_EMCY_ENGINE_START_OVERCURRENT, ESB_EMCY_ENGINE_START_FAULT);
+	uv_output_init(&this->engine_ig, ENGINE_IG_SENSE_AIN, ENGINE_IG_O,
+			VND5050_CURRENT_AMPL_UA, 5000, 10000, OUTPUT_MOVING_AVG_COUNT,
+			ESB_EMCY_ENGINE_IG_OVERCURRENT, ESB_EMCY_ENGINE_IG_FAULT);
+	uv_output_init(&this->engine_main, ENGINE_MAIN_SENSE_AIN, ENGINE_MAIN_O,
+			VN5E01_CURRENT_AMPL_UA, 15000, 20000, OUTPUT_MOVING_AVG_COUNT,
+			ESB_EMCY_ENGINE_MAIN_OVERCURRENT, ESB_EMCY_ENGINE_MAIN_FAULT);
 
 	// initialize inputs
 	UV_GPIO_INIT_INPUT(ALT_L_I, PULL_UP_ENABLED);
 	UV_GPIO_INIT_INPUT(ALT_P_RPM_I, PULL_UP_ENABLED);
-	uv_gpio_init_int(ALT_P_RPM_I, INT_RISING_EDGE);
-	UV_GPIO_INIT_INPUT(MOTOR_WATER_TEMP_I, PULL_UP_ENABLED);
-	UV_GPIO_INIT_INPUT(MOTOR_OIL_PRESS_I, PULL_UP_ENABLED);
+	UV_GPIO_INIT_INPUT(ENGINE_MAIN_RELAY_I, PULL_UP_ENABLED);
+	UV_GPIO_INIT_INPUT(STARTER_RELAY_I, PULL_UP_ENABLED);
 
 	uv_hysteresis_init(&this->oil_temp_hyst, this->oilcooler_trigger_temp,
 			OIL_TEMP_HYSTERESIS_C, false);
@@ -143,10 +159,10 @@ void init(dev_st* me) {
 
 	this->motor_water_temp = 0;
 	this->motor_oil_press = 0;
+	this->engine_main_relay_i = 0;
+	this->starter_relay_i = 0;
 	this->alt_p_rpm = 0;
-	// start RPM timer
-	uv_timer_init(RPM_TIMER);
-	uv_timer_start(RPM_TIMER);
+	this->engine_rpm_req = this->idle_rpm;
 
 	uv_delay_init(&this->radiator_delay, RADIATOR_DELAY_MS);
 
@@ -175,6 +191,9 @@ void init(dev_st* me) {
 
 	uv_canopen_set_state(CANOPEN_OPERATIONAL);
 	uv_canopen_set_sdo_write_callback(&sdo_callback);
+
+	uv_can_config_rx_message(CAN0, 0x0CF00400, CAN_ID_MASK_DEFAULT, CAN_EXT);
+	uv_can_add_rx_callback(CAN0, &can_callb);
 
 	initialized = true;
 
@@ -266,15 +285,6 @@ uint16_t adc_get_voltage_mv(const uv_adc_channels_e adc_chn) {
 	return adc * 3300 / ADC_MAX_VALUE;
 }
 
-void rpm_callb(uv_gpios_e gpio) {
-	uint32_t us = uv_timer_get_us(RPM_TIMER);
-	uv_timer_clear(RPM_TIMER);
-	if (us != 0) {
-		uint32_t freq = 1000000 / us;
-		this->alt_p_rpm = freq * 5.5f;
-	}
-}
-
 
 void solenoid_step(void* me) {
 
@@ -305,11 +315,11 @@ void step(void* me) {
 		uv_output_step(&this->glow, step_ms);
 		uv_output_step(&this->starter, step_ms);
 		uv_output_step(&this->ac, step_ms);
-		uv_output_step(&this->engine_start1, step_ms);
-		uv_output_step(&this->engine_start2,step_ms);
-		uv_output_step(&this->alt_ig, step_ms);
 		uv_output_step(&this->oilcooler, step_ms);
 		uv_output_step(&this->radiator, step_ms);
+		uv_output_step(&this->engine_start, step_ms);
+		uv_output_step(&this->engine_ig, step_ms);
+		uv_output_step(&this->engine_main, step_ms);
 
 
 		// terminal step function
@@ -318,12 +328,12 @@ void step(void* me) {
 		this->total_current = uv_output_get_current(&this->glow) +
 				uv_output_get_current(&this->starter) +
 				uv_output_get_current(&this->ac) +
-				uv_output_get_current(&this->engine_start1) +
-				uv_output_get_current(&this->engine_start2) +
-				uv_output_get_current(&this->alt_ig) +
 				uv_output_get_current(&this->oilcooler) +
 				uv_solenoid_output_get_current(&this->pump) +
-				uv_output_get_current(&this->radiator);
+				uv_output_get_current(&this->radiator) +
+				uv_output_get_current(&this->engine_start) +
+				uv_output_get_current(&this->engine_ig) +
+				uv_output_get_current(&this->engine_main);
 
 		// motor temperature
 		uv_sensor_step(&this->motor_temp, step_ms);
@@ -332,11 +342,6 @@ void step(void* me) {
 		this->oil_temp_value = (int8_t) uv_sensor_get_value(&this->oil_temp);
 		uv_sensor_step(&this->oil_level, step_ms);
 		this->oil_level_value = (uint8_t) uv_sensor_get_value(&this->oil_level);
-
-		// kubota sensors
-		this->motor_water_temp = GET_MOTOR_WATER();
-		this->motor_oil_press = GET_MOTOR_OIL_PRESS();
-		this->alt_l = !uv_gpio_get(ALT_L_I);
 
 		// vdd voltage
 		// note: Multiplier 11 comes from 10k/1k voltage divider resistors
@@ -359,22 +364,14 @@ void step(void* me) {
 		}
 
 
-		// rpm
-		uint32_t val = uv_timer_get_us(RPM_TIMER);
-		// more than second has passed since last pulse
-		if (val > 1000000) {
-			this->alt_p_rpm = 0;
-			uv_timer_clear(RPM_TIMER);
-		}
-
 		// **** power usage ****
-
 		uint16_t pressure = this->hcu.hydr_pressure;
 		if (pressure <= 0) {
 			// prevent dividing with zero
 			pressure = 1;
 		}
-		this->pwr.limit = (int64_t) this->alt_p_rpm * this->alt_p_rpm / pressure;
+		int64_t rpm = this->alt_p_rpm;
+		this->pwr.limit = (int64_t) rpm * rpm / pressure;
 		// scale value to predefined range
 		this->pwr.limit /= PWR_LIMIT_DIVIDER;
 		// add user calibration parameter into calculations
@@ -419,81 +416,20 @@ void step(void* me) {
 //		printf("%i %i\n", this->pwr.pump_angle, this->pwr.limit);
 
 
+
+		this->engine_main_relay_i = !uv_gpio_get(ENGINE_MAIN_RELAY_I);
+		this->starter_relay_i = !uv_gpio_get(STARTER_RELAY_I);
+
+		// *** main relay output ****
+		uv_output_set_state(&this->engine_main, this->engine_main_relay_i ?
+				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
+
 		// **** ignition key states ****
-
-		if (this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) {
-			if (uv_output_get_current(&this->engine_start1) < 200) {
-				uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
-			}
-			// too big solenoid current might indicate a mismatch in solenoids
-			else if (uv_output_get_current(&this->engine_start1) > 2000) {
-				uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
-			}
-			else {
-
-			}
-			if (uv_output_get_current(&this->engine_start2) < 200) {
-				uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
-			}
-			// too big solenoid current might indicate a mismatch in solenoids
-			else if (uv_output_get_current(&this->engine_start2) > 2000) {
-				uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
-			}
-			else {
-
-			}
-		}
-		else if ((this->fsb.ignkey_state == FSB_IGNKEY_STATE_START) ||
-				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_PREHEAT)) {
-			uv_output_set_state(&this->engine_start1, OUTPUT_STATE_ON);
-			uv_output_set_state(&this->engine_start2, OUTPUT_STATE_ON);
-		}
-		else {
-			if (uv_output_get_state(&this->engine_start1) != OUTPUT_STATE_OFF ||
-					uv_output_get_state(&this->engine_start2) != OUTPUT_STATE_OFF) {
-				this->engine_stop_cause = ESB_STOP_IGNKEY;
-			}
-			uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
-			uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
-		}
-		if (uv_output_get_state(&this->engine_start1) == OUTPUT_STATE_OVERLOAD) {
-			this->engine_stop_cause = ESB_STOP_SOLENOID1_OVERCURRENT;
-		}
-		else if (uv_output_get_state(&this->engine_start2) == OUTPUT_STATE_OVERLOAD) {
-			this->engine_stop_cause = ESB_STOP_SOLENOID2_OVERCURRENT;
-		}
-		else {
-
-		}
-
-		// motor sensor shut down
-		if ((this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) &&
-				(this->alt_p_rpm != 0)) {
-			if (this->motor_water_temp ||
-					this->motor_oil_press) {
-				if (uv_delay(&this->motor_delay, step_ms)) {
-					uv_output_set_state(&this->engine_start1, OUTPUT_STATE_OFF);
-					uv_output_set_state(&this->engine_start2, OUTPUT_STATE_OFF);
-					// send EMCY message from motor protection
-					uv_canopen_emcy_send(CANOPEN_EMCY_DEVICE_SPECIFIC,
-							ESB_EMCY_ENGINE_PROTECTION_SHUTDOWN);
-					// store engine stop cause
-					if (this->motor_water_temp) {
-						this->engine_stop_cause = ESB_STOP_WATER_TEMP;
-					}
-					else if (this->motor_oil_press) {
-						this->engine_stop_cause = ESB_STOP_OIL_PRESS;
-					}
-					else {
-
-					}
-				}
-			}
-			else {
-				uv_delay_init(&this->motor_delay, MOTOR_DELAY_MS);
-			}
-		}
-
+		uv_output_set_state(&this->engine_ig,
+				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON ||
+				this->fsb.ignkey_state == FSB_IGNKEY_STATE_PREHEAT ||
+				this->fsb.ignkey_state == FSB_IGNKEY_STATE_START) ?
+						OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
 
 		// glow is active only when ignition key is in PREHEAT position
 		uv_output_set_state(&this->glow,
@@ -502,8 +438,14 @@ void step(void* me) {
 
 		// starter is active only when ignition key is in START position
 		uv_output_set_state(&this->starter,
-				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_START) ?
+				((this->fsb.ignkey_state == FSB_IGNKEY_STATE_START) &&
+						!!this->starter_relay_i == true) ?
 				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
+
+		// engine start is active when they key is turned
+		uv_output_set_state(&this->engine_start,
+				this->fsb.ignkey_state == FSB_IGNKEY_STATE_START ?
+						OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
 
 		// radiator logic
 		// radiator should go on little after the engine has been turned on
@@ -536,11 +478,6 @@ void step(void* me) {
 		}
 		uv_output_set_state(&this->ac, state);
 
-		// alternator ignition is on if engine is running and starter is not running
-		uv_output_set_state(&this->alt_ig,
-				(this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ?
-				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
-
 		// oil cooler control
 		uv_hysteresis_set_trigger_value(&this->oil_temp_hyst, this->oilcooler_trigger_temp);
 		if (uv_sensor_get_state(&this->oil_temp) == SENSOR_STATE_OK &&
@@ -564,6 +501,21 @@ void step(void* me) {
 			uv_output_set_state(&this->oilcooler, OUTPUT_STATE_OFF);
 		}
 
+
+		// *** engine RPM ***
+		uv_can_msg_st msg = {
+				.type = CAN_EXT,
+				.id = 0x0C000027,
+				.data_64bit = 0,
+				.data_length = 8
+		};
+		uint16_t r = this->engine_rpm_req * 8;
+		msg.data_8bit[0] = 1;
+		msg.data_8bit[1] = r & 0xFF;
+		msg.data_8bit[2] = r >> 8;
+		msg.data_8bit[7] = (15 << 4) | 15;
+		uv_can_send(CAN0, &msg);
+
 		// if FSB heartbeat message is not received in a given time,
 		// it indicates that FSB is not in the system. As FSB takes care of the EMCY switch,
 		// the best practice would be to assume that the EMCY switch is turned on.
@@ -584,27 +536,26 @@ void step(void* me) {
 			uv_output_disable(&this->glow);
 			uv_output_disable(&this->starter);
 			uv_output_disable(&this->ac);
-			uv_output_disable(&this->engine_start1);
-			uv_output_disable(&this->engine_start2);
-			uv_output_disable(&this->alt_ig);
 			uv_output_disable(&this->oilcooler);
 			uv_solenoid_output_disable(&this->pump);
 			uv_output_disable(&this->radiator);
+			uv_output_disable(&this->engine_start);
+			uv_output_disable(&this->engine_ig);
+			uv_output_disable(&this->engine_main);
 		}
 		else {
 			uv_output_set_enabled(&this->glow, this->glow_enabled);
 			uv_output_set_enabled(&this->starter, this->starter_enabled);
 			uv_output_set_enabled(&this->ac, this->ac_enabled);
-			uv_output_set_enabled(&this->engine_start1, this->engine_start_enabled);
-			uv_output_set_enabled(&this->engine_start2, this->engine_start_enabled);
-			uv_output_set_enabled(&this->alt_ig, this->alt_ig_enabled);
 			uv_output_set_enabled(&this->oilcooler, this->oilcooler_enabled);
 			uv_output_set_enabled((uv_output_st*) &this->pump, this->pump_enabled);
 			uv_output_enable(&this->radiator);
+			uv_output_enable(&this->engine_start);
+			uv_output_enable(&this->engine_ig);
+			uv_output_enable(&this->engine_main);
 		}
 
 		uv_rtos_task_delay(step_ms);
-
 	}
 }
 

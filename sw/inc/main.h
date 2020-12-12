@@ -75,6 +75,10 @@
 #define RADIATOR_TRIGGER_C					75
 #define RADIATOR_HYSTERESIS					13
 
+#define IDLE_RPM_DEF						500
+#define WORK_RPM_DEF						1700
+#define DRIVE_RPM_DEF						2000
+
 /// @brief: EEPROM address for the hour counter
 #define HOUR_ADDR							0
 
@@ -87,9 +91,9 @@ typedef struct _dev_st {
 	uv_output_st glow;
 	uv_output_st starter;
 	uv_output_st ac;
-	uv_output_st engine_start1;
-	uv_output_st engine_start2;
-	uv_output_st alt_ig;
+	uv_output_st engine_start;
+	uv_output_st engine_ig;
+	uv_output_st engine_main;
 	uv_output_st oilcooler;
 	uv_solenoid_output_st pump;
 	uv_output_st radiator;
@@ -120,6 +124,9 @@ typedef struct _dev_st {
 	uint8_t motor_water_temp;
 	uint8_t motor_oil_press;
 	uv_delay_st motor_delay;
+	uint8_t engine_main_relay_i;
+	uint8_t starter_relay_i;
+	uint16_t engine_rpm_req;
 
 	uv_moving_aver_st vdd_avg;
 	uv_hysteresis_st vdd_warning;
@@ -158,12 +165,13 @@ typedef struct _dev_st {
 	uint8_t starter_enabled;
 	uint8_t glow_enabled;
 	uint8_t ac_enabled;
-	uint8_t engine_start_enabled;
-	uint8_t alt_ig_enabled;
 	uint8_t oilcooler_enabled;
 	uint8_t pump_enabled;
 	uint8_t radiator_enabled;
 
+	uint16_t idle_rpm;
+	uint16_t work_rpm;
+	uint16_t drive_rpm;
 
 	uv_solenoid_output_conf_st pump_conf;
 

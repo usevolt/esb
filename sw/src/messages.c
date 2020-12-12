@@ -75,32 +75,46 @@ canopen_object_st obj_dict[] = {
 				.data_ptr = &this->ac.current
 		},
 		{
-				.main_index = ESB_ENGINE_START1_STATUS_INDEX,
-				.sub_index = ESB_ENGINE_START1_STATUS_SUBINDEX,
-				.type = ESB_ENGINE_START1_STATUS_TYPE,
-				.permissions = ESB_ENGINE_START1_STATUS_PERMISSIONS,
-				.data_ptr = &this->engine_start1.state
+				.main_index = ESB_ENGINE_START_STATUS_INDEX,
+				.sub_index = ESB_ENGINE_START_STATUS_SUBINDEX,
+				.type = ESB_ENGINE_START_STATUS_TYPE,
+				.permissions = ESB_ENGINE_START_STATUS_PERMISSIONS,
+				.data_ptr = &this->engine_start.state
 		},
 		{
-				.main_index = ESB_ENGINE_START1_CURRENT_INDEX,
-				.sub_index = ESB_ENGINE_START1_CURRENT_SUBINDEX,
-				.type = ESB_ENGINE_START1_CURRENT_TYPE,
-				.permissions = ESB_ENGINE_START1_CURRENT_PERMISSIONS,
-				.data_ptr = &this->engine_start1.current
+				.main_index = ESB_ENGINE_START_CURRENT_INDEX,
+				.sub_index = ESB_ENGINE_START_CURRENT_SUBINDEX,
+				.type = ESB_ENGINE_START_CURRENT_TYPE,
+				.permissions = ESB_ENGINE_START_CURRENT_PERMISSIONS,
+				.data_ptr = &this->engine_start.current
 		},
 		{
-				.main_index = ESB_ENGINE_START2_STATUS_INDEX,
-				.sub_index = ESB_ENGINE_START2_STATUS_SUBINDEX,
-				.type = ESB_ENGINE_START2_STATUS_TYPE,
-				.permissions = ESB_ENGINE_START2_STATUS_PERMISSIONS,
-				.data_ptr = &this->engine_start2.state
+				.main_index = ESB_ENGINE_IG_STATUS_INDEX,
+				.sub_index = ESB_ENGINE_IG_STATUS_SUBINDEX,
+				.type = ESB_ENGINE_IG_STATUS_TYPE,
+				.permissions = ESB_ENGINE_IG_STATUS_PERMISSIONS,
+				.data_ptr = &this->engine_ig.state
 		},
 		{
-				.main_index = ESB_ENGINE_START2_CURRENT_INDEX,
-				.sub_index = ESB_ENGINE_START2_CURRENT_SUBINDEX,
-				.type = ESB_ENGINE_START2_CURRENT_TYPE,
-				.permissions = ESB_ENGINE_START2_CURRENT_PERMISSIONS,
-				.data_ptr = &this->engine_start2.current
+				.main_index = ESB_ENGINE_IG_CURRENT_INDEX,
+				.sub_index = ESB_ENGINE_IG_CURRENT_SUBINDEX,
+				.type = ESB_ENGINE_IG_CURRENT_TYPE,
+				.permissions = ESB_ENGINE_IG_CURRENT_PERMISSIONS,
+				.data_ptr = &this->engine_ig.current
+		},
+		{
+				.main_index = ESB_ENGINE_MAIN_STATUS_INDEX,
+				.sub_index = ESB_ENGINE_MAIN_STATUS_SUBINDEX,
+				.type = ESB_ENGINE_MAIN_STATUS_TYPE,
+				.permissions = ESB_ENGINE_MAIN_STATUS_PERMISSIONS,
+				.data_ptr = &this->engine_main.state
+		},
+		{
+				.main_index = ESB_ENGINE_MAIN_CURRENT_INDEX,
+				.sub_index = ESB_ENGINE_MAIN_CURRENT_SUBINDEX,
+				.type = ESB_ENGINE_MAIN_CURRENT_TYPE,
+				.permissions = ESB_ENGINE_MAIN_CURRENT_PERMISSIONS,
+				.data_ptr = &this->engine_main.current
 		},
 		{
 				.main_index = ESB_ENGINE_STOP_CAUSE_INDEX,
@@ -108,6 +122,41 @@ canopen_object_st obj_dict[] = {
 				.type = ESB_ENGINE_STOP_CAUSE_TYPE,
 				.permissions = ESB_ENGINE_STOP_CAUSE_PERMISSIONS,
 				.data_ptr = &this->engine_stop_cause
+		},
+		{
+				.main_index = ESB_ENGINE_MAIN_INPUT_INDEX,
+				.sub_index = ESB_ENGINE_MAIN_INPUT_SUBINDEX,
+				.type = ESB_ENGINE_MAIN_INPUT_TYPE,
+				.permissions = ESB_ENGINE_MAIN_INPUT_PERMISSIONS,
+				.data_ptr = &this->engine_main_relay_i
+		},
+		{
+				.main_index = ESB_ENGINE_START_INPUT_INDEX,
+				.sub_index = ESB_ENGINE_START_INPUT_SUBINDEX,
+				.type = ESB_ENGINE_START_INPUT_TYPE,
+				.permissions = ESB_ENGINE_START_INPUT_PERMISSIONS,
+				.data_ptr = &this->starter_relay_i
+		},
+		{
+				.main_index = ESB_IDLE_RPM_INDEX,
+				.sub_index = ESB_IDLE_RPM_SUBINDEX,
+				.type = ESB_IDLE_RPM_TYPE,
+				.permissions = ESB_IDLE_RPM_PERMISSIONS,
+				.data_ptr = &this->idle_rpm
+		},
+		{
+				.main_index = ESB_WORK_RPM_INDEX,
+				.sub_index = ESB_WORK_RPM_SUBINDEX,
+				.type = ESB_WORK_RPM_TYPE,
+				.permissions = ESB_WORK_RPM_PERMISSIONS,
+				.data_ptr = &this->work_rpm
+		},
+		{
+				.main_index = ESB_DRIVE_RPM_INDEX,
+				.sub_index = ESB_DRIVE_RPM_SUBINDEX,
+				.type = ESB_DRIVE_RPM_TYPE,
+				.permissions = ESB_DRIVE_RPM_PERMISSIONS,
+				.data_ptr = &this->drive_rpm
 		},
 		{
 				.main_index = ESB_PUMP_STATUS_INDEX,
@@ -122,20 +171,6 @@ canopen_object_st obj_dict[] = {
 				.type = ESB_PUMP_CURRENT_TYPE,
 				.permissions = ESB_PUMP_CURRENT_PERMISSIONS,
 				.data_ptr = &this->pump.super.current
-		},
-		{
-				.main_index = ESB_ALT_IG_STATUS_INDEX,
-				.sub_index = ESB_ALT_IG_STATUS_SUBINDEX,
-				.type = ESB_ALT_IG_STATUS_TYPE,
-				.permissions = ESB_ALT_IG_STATUS_PERMISSIONS,
-				.data_ptr = &this->alt_ig.state
-		},
-		{
-				.main_index = ESB_ALT_IG_CURRENT_INDEX,
-				.sub_index = ESB_ALT_IG_CURRENT_SUBINDEX,
-				.type = ESB_ALT_IG_CURRENT_TYPE,
-				.permissions = ESB_ALT_IG_CURRENT_PERMISSIONS,
-				.data_ptr = &this->alt_ig.current
 		},
 		{
 				.main_index = ESB_OILCOOLER_STATUS_INDEX,
@@ -412,11 +447,8 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	stat_output(&this->glow, this->glow_enabled, "Glow Plugs");
 	stat_output(&this->starter, this->starter_enabled, "Starter");
 	stat_output(&this->ac, this->ac_enabled, "AC compressor");
-	stat_output(&this->engine_start1, this->engine_start_enabled, "Engine start 1");
-	stat_output(&this->engine_start2, this->engine_start_enabled, "Engine start 2");
 	stat_output((uv_output_st *) &this->pump, this->pump_enabled, "Hydr Pump");
 	printf("Engine power usage: %u, enabled: %u\n", this->engine_power_usage, this->pump_enabled);
-	stat_output(&this->alt_ig, this->alt_ig_enabled, "Alt IG");
 	stat_output(&this->oilcooler, this->oilcooler_enabled, "OilC");
 	stat_output(&this->radiator, this->radiator_enabled, "Radiator");
 	printf("Vdd: %u mV 0x%x\n", this->vdd, uv_adc_read(VDD_SENSE_AIN));
@@ -507,12 +539,6 @@ void enable_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 		else if (strcmp(str, "ac") == 0) {
 			this->ac_enabled = value;
 		}
-		else if (strcmp(str, "estart") == 0) {
-			this->engine_start_enabled = value;
-		}
-		else if (strcmp(str, "altig") == 0) {
-			this->alt_ig_enabled = value;
-		}
 		else if (strcmp(str, "oilc") == 0) {
 			this->oilcooler_enabled = value;
 		}
@@ -526,8 +552,6 @@ void enable_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 			this->starter_enabled = value;
 			this->glow_enabled = value;
 			this->ac_enabled = value;
-			this->engine_start_enabled = value;
-			this->alt_ig_enabled = value;
 			this->oilcooler_enabled = value;
 			this->pump_enabled = value;
 		}
@@ -539,16 +563,12 @@ void enable_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 			"   Starter: %u\n"
 			"   Glow: %u\n"
 			"   AC: %u\n"
-			"   Engine start: %u\n"
-			"   Alt IG: %u\n"
 			"   Oil Cooler: %u\n"
 			"   Pump: %u\n"
 			"   Radiator: %u\n",
 			this->starter_enabled,
 			this->glow_enabled,
 			this->ac_enabled,
-			this->engine_start_enabled,
-			this->alt_ig_enabled,
 			this->oilcooler_enabled,
 			this->pump_enabled,
 			this->radiator_enabled	);
