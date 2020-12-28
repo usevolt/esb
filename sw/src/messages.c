@@ -33,6 +33,13 @@ canopen_object_st obj_dict[] = {
 				.data_ptr = &this->total_current
 		},
 		{
+				.main_index = ESB_RPM_REQ_INDEX,
+				.sub_index = ESB_RPM_REQ_SUBINDEX,
+				.type = ESB_RPM_REQ_TYPE,
+				.permissions = ESB_RPM_REQ_PERMISSIONS,
+				.data_ptr = &this->engine_rpm_req
+		},
+		{
 				.main_index = ESB_GLOW_STATUS_INDEX,
 				.sub_index = ESB_GLOW_STATUS_SUBINDEX,
 				.type = ESB_GLOW_STATUS_TYPE,
@@ -341,6 +348,27 @@ canopen_object_st obj_dict[] = {
 				.type = HCU_PRESSURE_TYPE,
 				.permissions = HCU_PRESSURE_PERMISSIONS,
 				.data_ptr = &this->hcu.hydr_pressure
+		},
+		{
+				.main_index = ESB_HCU_INDEX_OFFSET + HCU_WORK_ACTIVE_INDEX,
+				.sub_index = HCU_WORK_ACTIVE_SUBINDEX,
+				.type = HCU_WORK_ACTIVE_TYPE,
+				.permissions = CANOPEN_WO,
+				.data_ptr = &this->hcu.work_active
+		},
+		{
+				.main_index = ESB_CCU_INDEX_OFFSET + CCU_WORK_ACTIVE_INDEX,
+				.sub_index = CCU_WORK_ACTIVE_SUBINDEX,
+				.type = CCU_WORK_ACTIVE_TYPE,
+				.permissions = CANOPEN_WO,
+				.data_ptr = &this->ccu.work_active
+		},
+		{
+				.main_index = ESB_CCU_INDEX_OFFSET + CCU_DRIVE_ACTIVE_INDEX,
+				.sub_index = CCU_DRIVE_ACTIVE_SUBINDEX,
+				.type = CCU_DRIVE_ACTIVE_TYPE,
+				.permissions = CANOPEN_WO,
+				.data_ptr = &this->ccu.drive_active
 		}
 };
 
@@ -444,6 +472,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 			this->alt_l,
 			this->motor_water_temp,
 			this->motor_oil_press);
+	printf("engine req: %u rpm\n", this->engine_rpm_req);
 	stat_output(&this->glow, this->glow_enabled, "Glow Plugs");
 	stat_output(&this->starter, this->starter_enabled, "Starter");
 	stat_output(&this->ac, this->ac_enabled, "AC compressor");

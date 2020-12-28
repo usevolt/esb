@@ -152,7 +152,12 @@ typedef struct _dev_st {
 	} fsb;
 	struct {
 		int16_t hydr_pressure;
+		uint8_t work_active;
 	} hcu;
+	struct {
+		uint8_t work_active;
+		int16_t drive_active;
+	} ccu;
 	struct {
 		uint8_t ac_req;
 	} csb;

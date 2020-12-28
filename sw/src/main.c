@@ -183,7 +183,11 @@ void init(dev_st* me) {
 	this->fsb.ignkey_state = FSB_IGNKEY_STATE_OFF;
 	this->fsb.emcy = 0;
 	this->hcu.hydr_pressure = 0;
+	this->hcu.work_active = 0;
 	this->csb.ac_req = 0;
+	this->ccu.work_active = 0;
+	this->ccu.drive_active = 0;
+
 	this->ac_override = false;
 
 	// fetch the display hour counter value from EEPROM
@@ -342,6 +346,24 @@ void step(void* me) {
 		this->oil_temp_value = (int8_t) uv_sensor_get_value(&this->oil_temp);
 		uv_sensor_step(&this->oil_level, step_ms);
 		this->oil_level_value = (uint8_t) uv_sensor_get_value(&this->oil_level);
+
+		// engine rpm handling
+		if (uv_canopen_heartbeat_producer_is_expired(HCU_NODE_ID)) {
+			memset(&this->hcu, 0, sizeof(this->hcu));
+		}
+		if (uv_canopen_heartbeat_producer_is_expired(CCU_NODE_ID)) {
+			memset(&this->ccu, 0, sizeof(this->ccu));
+		}
+		if (this->ccu.drive_active) {
+			this->engine_rpm_req = this->drive_rpm;
+		}
+		else if (this->ccu.work_active ||
+				this->hcu.work_active) {
+			this->engine_rpm_req = this->work_rpm;
+		}
+		else {
+			this->engine_rpm_req = this->idle_rpm;
+		}
 
 		// vdd voltage
 		// note: Multiplier 11 comes from 10k/1k voltage divider resistors
@@ -505,15 +527,14 @@ void step(void* me) {
 		// *** engine RPM ***
 		uv_can_msg_st msg = {
 				.type = CAN_EXT,
-				.id = 0x0C000027,
-				.data_64bit = 0,
-				.data_length = 8
+				.id = 0x18FF5300,
+				.data_length = 8,
+				.data_64bit = 0
 		};
-		uint16_t r = this->engine_rpm_req * 8;
-		msg.data_8bit[0] = 1;
-		msg.data_8bit[1] = r & 0xFF;
-		msg.data_8bit[2] = r >> 8;
-		msg.data_8bit[7] = (15 << 4) | 15;
+		uint16_t r = this->engine_rpm_req;
+		msg.data_8bit[1] = (r & 0xFF);
+		msg.data_8bit[2] = (r >> 8);
+		msg.data_8bit[3] = 1; // ICR mode
 		uv_can_send(CAN0, &msg);
 
 		// if FSB heartbeat message is not received in a given time,
