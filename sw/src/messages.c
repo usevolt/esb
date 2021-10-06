@@ -17,6 +17,7 @@
 #include <string.h>
 #include <uv_timer.h>
 #include <uv_utilities.h>
+#include <uv_eeprom.h>
 
 extern dev_st dev;
 #define this (&dev)
@@ -384,6 +385,7 @@ void oilc_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv
 void ac_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 void enable_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 void rad_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
+void hour_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv);
 
 
 
@@ -434,6 +436,12 @@ const uv_command_st terminal_commands[] = {
 						"Usage: enable <\"pump\"/\"glow\"/\"starter\"/\"altig\""
 						"/\"oilc\"/\"estart\"/\"ac\"/\"radiator\"> <1/0>",
 				.callback = &enable_callb
+		},
+		{
+				.id = CMD_HOUR,
+				.str = "hour",
+				.instructions = "",
+				.callback = &hour_callb
 		}
 };
 
@@ -601,6 +609,21 @@ void enable_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 			this->oilcooler_enabled,
 			this->pump_enabled,
 			this->radiator_enabled	);
+}
+
+
+void hour_callb(void *me, unsigned int cmd, unsigned int args, argument_st *argv) {
+	if (args >= 2 &&
+			argv[0].type == ARG_STRING &&
+			argv[1].type == ARG_INTEGER &&
+			strcmp(argv[0].str, "uw") == 0) {
+		this->hour_counter = argv[1].number;
+		uv_eeprom_write(&this->hour_counter, sizeof(this->hour_counter), HOUR_ADDR);
+		printf("%u written.\n", this->hour_counter);
+	}
+	else {
+		printf("Hours: %u h\n", this->hour_counter);
+	}
 }
 
 
