@@ -145,7 +145,7 @@ typedef struct _dev_st {
 	// non-volatile data start
 	uv_data_start_t data_start;
 
-	int8_t oilcooler_trigger_temp;
+	uint8_t oilcooler_trigger_temp;
 
 	uint8_t engine_power_usage;
 	// Kp factor for increasing the pump angle

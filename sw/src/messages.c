@@ -383,6 +383,7 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 	printf("Engine power usage: %u\n", this->engine_power_usage);
 	stat_output(&this->alt_ig, "Alt IG");
 	stat_output(&this->oilcooler, "OilC");
+	printf("oilC trig temp: %i\n", this->oilcooler_trigger_temp);
 	printf("Vdd: %u mV\n", this->vdd);
 	printf("FSB ignkey state: %u, emcy: %u\n", this->fsb.ignkey_state, this->fsb.emcy);
 	printf("CSB ac req: %u\n", this->csb.ac_req);

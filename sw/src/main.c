@@ -439,7 +439,9 @@ void step(void* me) {
 		// oil cooler control
 		uv_hysteresis_set_trigger_value(&this->oil_temp_hyst, this->oilcooler_trigger_temp);
 		uv_hysteresis_step(&this->oil_temp_hyst, sensor_get_value(&this->oil_temp));
-		uv_output_set_state(&this->oilcooler, (uv_hysteresis_get_output(&this->oil_temp_hyst)) ?
+		uv_output_set_state(&this->oilcooler,
+				(uv_hysteresis_get_output(&this->oil_temp_hyst) &&
+						this->fsb.ignkey_state == FSB_IGNKEY_STATE_ON) ?
 				OUTPUT_STATE_ON : OUTPUT_STATE_OFF);
 
 		// if FSB heartbeat message is not received in a given time,
