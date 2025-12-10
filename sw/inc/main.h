@@ -83,6 +83,18 @@
 #define HOUR_ADDR							0
 
 
+#define PARTFILTER_INHIBIT_STATUS			(1 << 0)
+#define PARTFILTER_INHIBIT_SW				(1 << 1)
+#define PARTFILTER_INHIBIT_ACCPEDAL			(1 << 2)
+#define PARTFILTER_INHIBIT_NEUTRAL			(1 << 3)
+#define PARTFILTER_INHIBIT_PARKINGBRAKE		(1 << 4)
+#define PARTFILTER_INHIBIT_EXHGASTEMP		(1 << 5)
+#define PARTFILTER_INHIBIT_SYSFAULT			(1 << 6)
+#define PARTFILTER_INHIBIT_TIMEOUT			(1 << 7)
+#define PARTFILTER_INHIBIT_LOCKOUT			(1 << 8)
+#define PARTFILTER_INHIBIT_NOTWARM			(1 << 9)
+
+
 /// @brief: main data structure.
 /// This struct can be save to non-volatile flash memory with
 /// a terminal command 'save'.
@@ -127,6 +139,10 @@ typedef struct _dev_st {
 	uint8_t engine_main_relay_i;
 	uint8_t starter_relay_i;
 	uint16_t engine_rpm_req;
+
+	uint8_t partfilter_status;
+	uint8_t partfilter_inhibits;
+	uint8_t regen_force;
 
 	uv_moving_aver_st vdd_avg;
 	uv_hysteresis_st vdd_warning;

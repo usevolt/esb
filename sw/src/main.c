@@ -51,6 +51,47 @@ static bool can_callb(void *user_ptr, uv_can_msg_st *msg) {
 			rpm /= 8;
 			this->alt_p_rpm = rpm;
 		}
+		else if (msg->id == 0x18FD7C00 &&
+				msg->data_length >= 7) {
+			// diesel particulate filter status message
+			this->partfilter_status = (msg->data_8bit[1] >> 4) & 0b11;
+
+			this->partfilter_inhibits = 0;
+			if (msg->data_8bit[2] & (0b11 << 0)) {
+				this->partfilter_inhibits |= PARTFILTER_INHIBIT_STATUS;
+			}
+			if (msg->data_8bit[2] & (0b11 << 2)) {
+				this->partfilter_inhibits |= PARTFILTER_INHIBIT_SW;
+			}
+			if (msg->data_8bit[3] & (0b11 << 2)) {
+				this->partfilter_inhibits |= PARTFILTER_INHIBIT_ACCPEDAL;
+			}
+			if (msg->data_8bit[3] & (0b11 << 4)) {
+				this->partfilter_inhibits |= PARTFILTER_INHIBIT_NEUTRAL;
+			}
+			if (msg->data_8bit[4] & (0b11 << 0)) {
+				this->partfilter_inhibits |= PARTFILTER_INHIBIT_PARKINGBRAKE;
+			}
+			if (msg->data_8bit[4] & (0b11 << 2)) {
+				this->partfilter_inhibits |= PARTFILTER_INHIBIT_EXHGASTEMP;
+			}
+			if (msg->data_8bit[4] & (0b11 << 4)) {
+				this->partfilter_inhibits |= PARTFILTER_INHIBIT_SYSFAULT;
+			}
+			if (msg->data_8bit[4] & (0b11 << 6)) {
+				this->partfilter_inhibits |= PARTFILTER_INHIBIT_TIMEOUT;
+			}
+			if (msg->data_8bit[5] & (0b11 << 2)) {
+				this->partfilter_inhibits |= PARTFILTER_INHIBIT_LOCKOUT;
+			}
+			if (msg->data_8bit[5] & (0b11 << 4)) {
+				this->partfilter_inhibits |= PARTFILTER_INHIBIT_NOTWARM;
+			}
+
+		}
+		else {
+
+		}
 	}
 
 	return ret;
@@ -163,6 +204,9 @@ void init(dev_st* me) {
 	this->starter_relay_i = 0;
 	this->alt_p_rpm = 0;
 	this->engine_rpm_req = this->idle_rpm;
+	this->partfilter_status = 0;
+	this->partfilter_inhibits = 0;
+	this->regen_force = 0;
 
 	uv_delay_init(&this->radiator_delay, RADIATOR_DELAY_MS);
 
@@ -197,6 +241,7 @@ void init(dev_st* me) {
 	uv_canopen_set_sdo_write_callback(&sdo_callback);
 
 	uv_can_config_rx_message(CAN0, 0x0CF00400, CAN_ID_MASK_DEFAULT, CAN_EXT);
+	uv_can_config_rx_message(CAN0, 0x18FD7C00, CAN_ID_MASK_DEFAULT, CAN_EXT);
 	uv_can_add_rx_callback(CAN0, &can_callb);
 
 	initialized = true;
@@ -535,6 +580,37 @@ void step(void* me) {
 		msg.data_8bit[1] = (r & 0xFF);
 		msg.data_8bit[2] = (r >> 8);
 		msg.data_8bit[3] = 1; // ICR mode
+		uv_can_send(CAN0, &msg);
+
+		uint8_t engine_addr = 0xE4;
+		// parking switch
+		msg.id = 0x18FEF100 + engine_addr;
+		memset(msg.data_8bit, 0, sizeof(msg.data_8bit));
+		msg.data_8bit[0] = (1 << 2);
+		uv_can_send(CAN0, &msg);
+
+		// neutral switch
+		msg.id = 0x1CFEC300 + engine_addr;
+		memset(msg.data_8bit, 0, sizeof(msg.data_8bit));
+		msg.data_8bit[1] = (1 << 2);
+		uv_can_send(CAN0, &msg);
+
+		// engine speed
+		msg.id = 0x18FEF100 + engine_addr;
+		memset(msg.data_8bit, 0, sizeof(msg.data_8bit));
+		msg.data_8bit[1] = 0;
+		msg.data_8bit[2] = 0;
+		uv_can_send(CAN0, &msg);
+
+		if (this->partfilter_status == 0) {
+			this->regen_force = 0;
+		}
+		memset(msg.data_8bit, 0, sizeof(msg.data_8bit));
+		msg.id = 0x18E00000 + engine_addr;
+		msg.data_length = 8;
+		if (this->regen_force) {
+			msg.data_8bit[5] = (1 << 2); // regen inhibit off, regen force active
+		}
 		uv_can_send(CAN0, &msg);
 
 		// if FSB heartbeat message is not received in a given time,

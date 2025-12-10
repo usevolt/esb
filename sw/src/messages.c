@@ -320,6 +320,20 @@ canopen_object_st obj_dict[] = {
 				.permissions = ESB_ENGINE_POWER_ENABLE_PERMISSIONS,
 				.data_ptr = &this->pump_enabled
 		},
+		{
+				.main_index = ESB_PARTICULATEFILTER_STATUS_INDEX,
+				.sub_index = ESB_PARTICULATEFILTER_STATUS_SUBINDEX,
+				.type = ESB_PARTICULATEFILTER_STATUS_TYPE,
+				.permissions = ESB_PARTICULATEFILTER_PERMISSIONS,
+				.data_ptr = &this->partfilter_status
+		},
+		{
+				.main_index = ESB_REGEN_FORCE_INDEX,
+				.sub_index = ESB_REGEN_FORCE_SUBINDEX,
+				.type = ESB_REGEN_FORCE_TYPE,
+				.permissions = ESB_REGEN_FORCE_PERMISSIONS,
+				.data_ptr = &this->regen_force
+		},
 
 		// other node's parameters
 		{
@@ -370,7 +384,7 @@ canopen_object_st obj_dict[] = {
 				.type = CCU_DRIVE_ACTIVE_TYPE,
 				.permissions = CANOPEN_WO,
 				.data_ptr = &this->ccu.drive_active
-		}
+		},
 };
 
 int obj_dict_len() {
@@ -480,7 +494,12 @@ void stat_callb(void* me, unsigned int cmd, unsigned int args, argument_st *argv
 			this->alt_l,
 			this->motor_water_temp,
 			this->motor_oil_press);
-	printf("engine req: %u rpm\n", this->engine_rpm_req);
+	printf("engine req: %u rpm\n"
+			"    particulate filter status: 0x%x\n"
+			"    particulate filter inhibit: 0x%x\n",
+			this->engine_rpm_req,
+			this->partfilter_status,
+			this->partfilter_inhibits);
 	stat_output(&this->glow, this->glow_enabled, "Glow Plugs");
 	stat_output(&this->starter, this->starter_enabled, "Starter");
 	stat_output(&this->ac, this->ac_enabled, "AC compressor");
@@ -608,7 +627,7 @@ void enable_callb(void *me, unsigned int cmd, unsigned int args, argument_st *ar
 			this->ac_enabled,
 			this->oilcooler_enabled,
 			this->pump_enabled,
-			this->radiator_enabled	);
+			this->radiator_enabled);
 }
 
 
